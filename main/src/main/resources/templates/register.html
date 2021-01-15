@@ -3,8 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <title>注册</title>
-</head>
-<body>
+    <!--    <script src="/js/vue.js"></script>-->
+    <script src="vue.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <link rel="stylesheet" href="register.css">
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios@0.12.0/dist/axios.min.js"></script>
 
+</head>
+<body style="margin: 0">
+<div id="app">
+    <el-container direction="vertical">
+        <el-header>
+            <span class="logo">快 取</span>
+            <span style="float: right; margin-right: 15px">
+                <el-link type="primary" disabled><i class="el-icon-user-solid"></i></el-link>
+            </span>
+        </el-header>
+        <el-main>
+            <div class="wrap">
+                <div class="wrap_inner">
+                    <el-form ref="form">
+                        <el-input placeholder="帐号" class="input_name" v-model="form.username"
+                                  prefix-icon="el-icon-message"></el-input>
+                        <el-input placeholder="密码" class="input_pwd" v-model="form.password" prefix-icon="el-icon-key"
+                                  show-password></el-input>
+                        <el-button type="primary" class="login_button" @click="login" round plain>登录</el-button>
+                        <el-row :glutter="20">
+                            <el-col :span="6" :offset="3">
+                                <el-link href="#" :underline="false">注册</el-link>
+                            </el-col>
+                            <el-col :span="6" :offset="7">
+                                <el-link href="#" :underline="false">忘记密码</el-link>
+                            </el-col>
+                        </el-row>
+                    </el-form>
+                </div>
+            </div>
+        </el-main>
+    </el-container>
+</div>
+
+<script src="register.js"></script>
 </body>
 </html>

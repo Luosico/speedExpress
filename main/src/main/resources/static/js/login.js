@@ -1,7 +1,6 @@
 let app = new Vue({
     el: "#app",
     data: {
-        message: "Hello Vue",
         form: {
             username: "",
             password: "",
@@ -10,7 +9,10 @@ let app = new Vue({
 
     //在method对象中定义方法
     methods: {
-        login: function () {
+        /**
+         * 登录
+         */
+        login() {
             let data = new FormData();
             data.append("username", this.form.username);
             data.append("password", this.form.password);
@@ -19,21 +21,27 @@ let app = new Vue({
                 url: "/login",
                 method: "POST",
                 headers: {
-                    'Content-type':'application/x-www-form-urlencoded',
+                    'Content-type': 'application/x-www-form-urlencoded',
                 },
                 //发送数据会使用 json 格式
                 //注意，后台使用getParameter()获取不到参数，而Spring Security是使用这种方式的
-                data:data,
+                data: data,
                 //responseType: "json", //默认为json
             }).then(function (response) {
-                console.log(response)
+                console.log(response.data);
+                window.location = "http://localhost:8080/main.html";
             }).catch(function (err) {
-                console.log(err)
+                console.log(err.data);
             });
         },
 
-        loginSuccess: function () {
-
+        /**
+         * 页面消息提示
+         *
+         * @param message 提示内容
+         */
+        notice_message(message) {
+            this.$message(message)
         }
     },
     //计算属性
