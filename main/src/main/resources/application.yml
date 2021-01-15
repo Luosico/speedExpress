@@ -1,0 +1,31 @@
+server:
+  port: 8080
+
+spring:
+
+  # Thymeleaf 配置
+  thymeleaf:
+    enabled: true
+    encoding: UTF-8
+    mode: HTML
+    #servlet:
+      #content-type: text/html
+    cache: false
+    prefix: classpath:/templates/
+    suffix: .html
+
+  # 数据库配置
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/speed_express?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai
+    username: root
+    password: 123456
+
+# MyBatis 可以在 MybatisProperties 查看
+mybatis:
+  mapper-locations: classpath:mybatis/mapper/*.xml
+  type-aliases-package: com.luosico.domain
+  configuration:
+    map-underscore-to-camel-case: true
+    # 将 MyBatis 日志输出到控制台
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
