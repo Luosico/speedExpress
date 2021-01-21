@@ -1,0 +1,22 @@
+spring:
+  application:
+    name:smsCodeApplication
+
+  #Nacos
+  cloud:
+    nacos:
+      discovery:
+        enabled: true
+        server-addr: 127.0.0.1:8848
+        namespace: public
+
+#Dubbo
+dubbo:
+  registry:
+    address: spring-cloud://127.0.0.1
+  protocol:
+    name: dubbo
+    id: dubbo
+    port: -1
+  scan:
+    base-packages: com.luosico
