@@ -16,6 +16,13 @@ public class SmsService {
     @DubboReference
     Sms smsUtil;
 
+    /**
+     * 发送短信验证码
+     * @param phoneNumber 手机号码
+     */
+    public void SmsCode(String phoneNumber){
+        smsUtil.sendSmsCode(phoneNumber);
+    }
 
     /**
      * 获取短信验证码，默认我6位

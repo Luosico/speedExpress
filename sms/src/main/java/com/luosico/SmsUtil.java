@@ -17,7 +17,7 @@ import org.springframework.stereotype.Component;
 public class SmsUtil implements Sms {
     @Override
     public void sendSmsCode(String phoneNumber) {
-
+        System.out.println("手机号码: " + phoneNumber + " 收到的验证码为: " + getSmsCode());
     }
 
     @Override
