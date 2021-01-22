@@ -9,7 +9,8 @@
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <!-- Element UI 引入样式 -->
     <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
-    <link rel="stylesheet" href="login.css">
+<!--    <link rel="stylesheet" href="login.css">-->
+    <link rel="stylesheet" href="/js/login.css">
     <!-- Element UI 引入组件库 -->
     <script src="https://unpkg.com/element-ui/lib/index.js"></script>
     <!-- 引入 axios -->
@@ -29,22 +30,35 @@
         <el-main>
             <div class="wrap">
                 <div class="wrap_inner">
-                    <el-form ref="form">
-                        <el-input placeholder="帐号" class="input_name" v-model="form.username" prefix-icon="el-icon-message"></el-input>
-                        <el-input placeholder="密码" class="input_pwd" v-model="form.password" prefix-icon="el-icon-key" show-password></el-input>
+                    <el-form>
+                        <div v-if="!phoneLogin">
+                            <el-input placeholder="帐号" class="input_name" v-model="form.username" prefix-icon="el-icon-message" clearable></el-input>
+                            <el-input placeholder="密码" class="input_pwd" v-model="form.password" prefix-icon="el-icon-lock" show-password clearable></el-input>
+                        </div>
+                        <div v-if="phoneLogin">
+                            <el-input placeholder="手机号码" class="input_phone" v-model="form.phoneNumber" prefix-icon="el-icon-mobile-phone" clearable></el-input>
+                            <el-row class="input_sms_code" :glutter="20">
+                                <el-col :span="14" :offset="0"><el-input placeholder="验证码" v-model="form.smsCode" prefix-icon="el-icon-chat-round" clearable></el-input></el-col>
+                                <el-col :span="6" :offset="2">
+                                    <el-button type="text" v-if="form.canGetSmsCode" @click="getSmsCode">获取验证码</el-button>
+                                    <el-button type="text" v-if="!form.canGetSmsCode" disabled>{{timeRemaining}} 秒后重试</el-button>
+                                </el-col>
+                            </el-row>
+                        </div>
                         <el-button type="primary" class="login_button" @click="login" round plain>登录</el-button>
                         <el-row :glutter="20">
-                            <el-col :span="6" :offset="3"><el-link href="#" :underline="false">注册</el-link></el-col>
-                            <el-col :span="6" :offset="7"><el-link href="#" :underline="false">忘记密码</el-link></el-col>
+                            <el-col :span="5" :offset="1"><el-button @click="changeLoginWay" type="text">{{loginWay}}</el-button></el-col>
+                            <el-col :span="5" :offset="4"><el-button @click="registerUser" type="text">注册</el-button></el-col>
+                            <el-col :span="5" :offset="2"><el-button @click="forgetPwd" type="text">忘记密码</el-button></el-col>
                         </el-row>
                     </el-form>
                 </div>
             </div>
         </el-main>
-        <el-link href="https://beian.miit.gov.cn/" :underline="false"> 湘ICP备19011992号-1 </el-link>
     </el-container>
 </div>
-<script src="login.js"></script>
+<!--<script src="login.js"></script>-->
+<script src="/js/login.js"></script>
 
 </body>
 </html>

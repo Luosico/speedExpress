@@ -4,15 +4,36 @@ let app = new Vue({
         form: {
             username: "",
             password: "",
+            phoneNumber: "",
+            smsCode: "",
+            canGetSmsCode: true,
         },
+        phoneLogin: true,
+        loginWay: "密码登录",
+        timeRemaining:  60,
+        timeRemain: "",
     },
 
     //在method对象中定义方法
     methods: {
+
         /**
          * 登录
          */
         login() {
+            if(this.phoneLogin){
+                //手机号码登录
+                this.phoneLoginWay();
+            }else{
+                //帐号密码登录
+                this.namePwdLoginWay();
+            }
+        },
+
+        /**
+         * 帐号密码登录
+         */
+        namePwdLoginWay() {
             let data = new FormData();
             data.append("username", this.form.username);
             data.append("password", this.form.password);
@@ -36,17 +57,82 @@ let app = new Vue({
         },
 
         /**
+         * 手机号码登录
+         */
+        phoneLoginWay(){
+
+        },
+
+        /**
+         * 改变登录方式
+         */
+        changeLoginWay(){
+            let temp = this.phoneLogin;
+            this.phoneLogin = !temp;
+        },
+
+        /**
+         * 获取手机验证码
+         */
+        getSmsCode(){
+            this.form.canGetSmsCode=false;
+            this.timeRemain = setInterval(this.smsCodeCount,1000);
+        },
+
+        /**
+         * 获取短信验证码计时
+         */
+        smsCodeCount(){
+            this.timeRemaining = this.timeRemaining -1;
+        },
+
+        /**
          * 页面消息提示
          *
          * @param message 提示内容
          */
         notice_message(message) {
             this.$message(message)
+        },
+
+        /**
+         * 忘记密码
+         */
+        forgetPwd(){
+
+        },
+
+        /**
+         * 注册
+         */
+        registerUser(){
+
         }
+
+
     },
     //计算属性
     computed: {},
 
     //侦听属性
-    watch: {}
-})
+    watch: {
+        phoneLogin: function (val) {
+            if(val===true){
+                this.loginWay="密码登录";
+            }else{
+                this.loginWay="手机登录";
+            }
+        },
+        timeRemaining: function (val) {
+            console.log(val)
+            //计时时间到
+            if (val===0){
+                this.timeRemaining = 60;
+                this.form.canGetSmsCode=true;
+                //重置计时
+                clearInterval(this.timeRemain);
+            }
+        }
+    }
+});
+

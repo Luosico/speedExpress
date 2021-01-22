@@ -56,6 +56,16 @@
     margin: 5px;
 }
 
+.input_phone{
+    width: 90%;
+    margin: 5px;
+}
+
+.input_sms_code{
+    width: 90%;
+    margin: 5px;
+}
+
 .login_button{
     width: 90%;
     margin: 5px;
