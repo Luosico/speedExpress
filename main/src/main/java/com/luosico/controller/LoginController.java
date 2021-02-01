@@ -1,6 +1,8 @@
 package com.luosico.controller;
 
 import com.luosico.exception.RestDemoException;
+import com.luosico.service.SmsService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -16,21 +18,32 @@ import org.springframework.web.util.UriComponentsBuilder;
 @Controller
 public class LoginController {
 
-    @GetMapping("/login.html")
+    @Autowired
+    SmsService smsService;
+
+    @GetMapping("/login")
     public String login() {
         return "login";
     }
 
-    @GetMapping("/error.html")
-    @ResponseBody
+    @GetMapping("/error")
     public String loginFailure(){
-        String message = "帐号或密码错误";
-        return message;
+        return "error";
     }
 
-    @GetMapping("/main.html")
+    @GetMapping("/main")
     public String main(){
         return "main";
+    }
+
+    /**
+     * 获取短信验证码
+     * @param phoneNumber 手机号码
+     */
+    @GetMapping("/smsCode")
+    @ResponseBody
+    public void getSmsCode(@RequestParam String phoneNumber){
+        smsService.sendSmsCode(phoneNumber);
     }
 
 

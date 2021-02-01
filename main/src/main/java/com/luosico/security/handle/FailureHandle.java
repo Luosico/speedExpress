@@ -18,7 +18,7 @@ import java.io.PrintWriter;
 public class FailureHandle implements AuthenticationFailureHandler {
     @Override
     public void onAuthenticationFailure(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AuthenticationException e) throws IOException, ServletException {
-        String message = "账户或密码错误";
+        String message = "fail";
         //httpServletResponse.sendRedirect("/error.html");
         httpServletResponse.setStatus(200);
         httpServletResponse.setCharacterEncoding("UTF-8");

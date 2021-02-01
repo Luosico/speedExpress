@@ -1,8 +1,7 @@
-package com.luosico.security.authenticationProvider;
+package com.luosico.security.classic;
 
 
 import com.luosico.domain.User;
-import com.luosico.security.UserServiceSecurity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,7 +63,7 @@ public class UserAuthenticationProvider implements AuthenticationProvider {
      */
     @Override
     public boolean supports(Class<?> aClass) {
-
-        return true;
+        //参数必须为 UsernamePasswordAuthenticationToken 类或者其子类的字节码，此参数又是由UsernamePasswordAuthenticationFilter 里传过来的
+        return UsernamePasswordAuthenticationToken.class.isAssignableFrom(aClass);
     }
 }

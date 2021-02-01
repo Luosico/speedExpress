@@ -9,11 +9,18 @@ package com.luosico.sms;
 public interface Sms {
 
     /**
-     * 向指定手机号码发送短信验证码
+     * 向指定手机号码发送短信验证码，默认为6位
      *
      * @param phoneNumber 短信接收人手机号码
      */
     public void sendSmsCode(String phoneNumber);
+
+    /**
+     * 向指定手机号码发送短信验证码
+     * @param phoneNumber 短信接收人手机号码
+     * @param length 验证码长度
+     */
+    public void sendSmsCode(String phoneNumber,int length);
 
     /**
      * 向指定手机号码发送短信消息

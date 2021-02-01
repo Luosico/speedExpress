@@ -18,4 +18,18 @@
         where username = #{username}
     </select>
 
+    <select id="findUserByPhoneNumber" resultType="com.luosico.domain.User">
+        select username,
+               password,
+               phone_number,
+               create_time,
+               authorities,
+               credentials_non_expired,
+               account_non_expired,
+               account_non_locked,
+               enabled
+        from user
+        where phone_number = #{phoneNumber}
+    </select>
+
 </mapper>

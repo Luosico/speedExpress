@@ -50,7 +50,11 @@ let app = new Vue({
                 //responseType: "json", //默认为json
             }).then(function (response) {
                 console.log(response.data);
-                window.location = "http://localhost:8080/main.html";
+                if(response.data==="ok"){
+                    window.location = "http://localhost:8080/main";
+                }else{
+                    this.$message.error('账号或密码错误，请重试！');
+                }
             }).catch(function (err) {
                 console.log(err.data);
             });
@@ -60,6 +64,27 @@ let app = new Vue({
          * 手机号码登录
          */
         phoneLoginWay(){
+            let data = new FormData();
+            data.append("phoneNumber", this.form.phoneNumber);
+            data.append("smsCode", this.form.smsCode);
+
+            axios({
+                url: "/loginSmsCode",
+                method: "POST",
+                headers: {
+                    'Content-type': 'application/x-www-form-urlencoded',
+                },
+            }).then(function (response) {
+                console.log(response.data);
+                //验证成功
+                if(response.data==="ok"){
+                    window.location = "http://localhost:8080/main";
+                }else{
+                    this.$message.error('验证码错误或用户未注册！');
+                }
+            }).catch(function (err) {
+                console.log(err.data);
+            });
 
         },
 
@@ -77,6 +102,15 @@ let app = new Vue({
         getSmsCode(){
             this.form.canGetSmsCode=false;
             this.timeRemain = setInterval(this.smsCodeCount,1000);
+            let phoneNumber = this.form.phoneNumber;
+
+            axios({
+                url: "/smsCode",
+                method: "GET",
+                params:{
+                    phoneNumber: phoneNumber,
+                }
+            })
         },
 
         /**
@@ -124,7 +158,7 @@ let app = new Vue({
             }
         },
         timeRemaining: function (val) {
-            console.log(val)
+            //console.log(val)
             //计时时间到
             if (val===0){
                 this.timeRemaining = 60;

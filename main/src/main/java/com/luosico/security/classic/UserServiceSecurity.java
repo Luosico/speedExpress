@@ -1,4 +1,4 @@
-package com.luosico.security;
+package com.luosico.security.classic;
 
 import com.luosico.domain.User;
 import com.luosico.service.UserService;

@@ -27,7 +27,7 @@ spring:
   cloud:
     nacos:
       discovery:
-        server-addr: 127.0.0.1:8848
+        server-addr: 127.0.0.1:18848
         enabled: true
         namespace: public
 
@@ -50,3 +50,8 @@ dubbo:
     port: -1
   scan:
     base-packages: com.luosico
+
+#日志
+#logging:
+#  config: classpath:logback.xml
+#  level: debug

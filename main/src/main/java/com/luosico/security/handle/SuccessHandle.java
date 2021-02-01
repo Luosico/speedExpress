@@ -20,7 +20,7 @@ public class SuccessHandle implements AuthenticationSuccessHandler {
     @Override
     public void onAuthenticationSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) throws IOException, ServletException {
         //httpServletResponse.sendRedirect("/main.html");
-        String message = "认证成功";
+        String message = "ok";
         httpServletResponse.setStatus(200);
         httpServletResponse.setCharacterEncoding("UTF-8");
         httpServletResponse.setContentType("text/plain");

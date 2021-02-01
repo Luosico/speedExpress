@@ -14,9 +14,9 @@
         <module>order</module>
         <module>comment</module>
         <module>feedback</module>
-        <module>demo</module>
         <module>sms</module>
         <module>commom-interface</module>
+        <module>redis</module>
     </modules>
 
     <properties>

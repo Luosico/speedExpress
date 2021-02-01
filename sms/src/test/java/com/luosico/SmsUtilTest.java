@@ -21,7 +21,7 @@ class SmsUtilTest {
 
     @Test
     void getSmsCode() {
-        System.out.println(smsUtil.getSmsCode());
+        smsUtil.sendSmsCode("17369231826");
     }
 
     @ParameterizedTest

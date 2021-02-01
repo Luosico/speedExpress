@@ -1,13 +1,13 @@
 spring:
   application:
-    name:smsCodeApplication
+    name: smsCodeApplication
 
   #Nacos
   cloud:
     nacos:
       discovery:
         enabled: true
-        server-addr: 127.0.0.1:8848
+        server-addr: 127.0.0.1:18848
         namespace: public
 
 #Dubbo
