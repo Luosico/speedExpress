@@ -10,7 +10,7 @@ let app = new Vue({
         },
         phoneLogin: true,
         loginWay: "密码登录",
-        timeRemaining:  60,
+        timeRemaining: 60,
         timeRemain: "",
     },
 
@@ -21,12 +21,16 @@ let app = new Vue({
          * 登录
          */
         login() {
-            if(this.phoneLogin){
+            if (this.phoneLogin) {
                 //手机号码登录
-                this.phoneLoginWay();
-            }else{
+                if (this.checkForm()) {
+                    this.phoneLoginWay();
+                }
+            } else {
                 //帐号密码登录
-                this.namePwdLoginWay();
+                if (this.checkForm()) {
+                    this.namePwdLoginWay();
+                }
             }
         },
 
@@ -50,9 +54,9 @@ let app = new Vue({
                 //responseType: "json", //默认为json
             }).then(function (response) {
                 console.log(response.data);
-                if(response.data==="ok"){
+                if (response.data === "ok") {
                     window.location = "http://localhost:8080/main";
-                }else{
+                } else {
                     app.$message.error("账号或密码错误，请重试!");
                 }
             }).catch(function (err) {
@@ -63,7 +67,7 @@ let app = new Vue({
         /**
          * 手机号码登录
          */
-        phoneLoginWay(){
+        phoneLoginWay() {
             let data = new FormData();
             data.append("phoneNumber", this.form.phoneNumber);
             data.append("smsCode", this.form.smsCode);
@@ -77,9 +81,9 @@ let app = new Vue({
             }).then(function (response) {
                 console.log(response.data);
                 //验证成功
-                if(response.data==="ok"){
+                if (response.data === "ok") {
                     window.location = "http://localhost:8080/main";
-                }else{
+                } else {
                     app.$message.error('验证码错误或用户未注册！');
                 }
             }).catch(function (err) {
@@ -91,7 +95,7 @@ let app = new Vue({
         /**
          * 改变登录方式
          */
-        changeLoginWay(){
+        changeLoginWay() {
             let temp = this.phoneLogin;
             this.phoneLogin = !temp;
         },
@@ -99,15 +103,18 @@ let app = new Vue({
         /**
          * 获取手机验证码
          */
-        getSmsCode(){
-            this.form.canGetSmsCode=false;
-            this.timeRemain = setInterval(this.smsCodeCount,1000);
+        getSmsCode() {
             let phoneNumber = this.form.phoneNumber;
+            if(!this.validatePhoneNumber(phoneNumber)){
+                return;
+            }
+            this.form.canGetSmsCode = false;
+            this.timeRemain = setInterval(this.smsCodeCount, 1000);
 
             axios({
                 url: "/smsCode",
                 method: "GET",
-                params:{
+                params: {
                     phoneNumber: phoneNumber,
                 }
             })
@@ -116,23 +123,74 @@ let app = new Vue({
         /**
          * 获取短信验证码计时
          */
-        smsCodeCount(){
-            this.timeRemaining = this.timeRemaining -1;
+        smsCodeCount() {
+            this.timeRemaining = this.timeRemaining - 1;
+        },
+
+        /**
+         * 检查表单
+         */
+        checkForm() {
+            //手机验证码登录
+            if (this.phoneLogin) {
+                if (this.validatePhoneNumber(this.form.phoneNumber)) {
+                    if (/^\d{6}$/.test(this.form.smsCode)){
+                        return true
+                    }else {
+                        this.noticeMessage("验证码格式错误！");
+                    }
+                }
+            } else {
+                //账号密码登录
+                let username = this.form.username.trim();
+                let password = this.form.password.trim();
+                if(username.length<3 || password.length <3){
+                    this.noticeMessage("账号或密码格式错误！")
+                }else{
+                    return true;
+                }
+            }
+
+            return false;
         },
 
         /**
          * 忘记密码
          */
-        forgetPwd(){
+        forgetPwd() {
 
         },
 
         /**
          * 注册
          */
-        registerUser(){
+        registerUser() {
 
-        }
+        },
+
+        /**
+         * 消息提示
+         */
+        noticeMessage(message) {
+            app.$message({
+                showClose: true,
+                message: message,
+                type: 'warning',
+                duration: 1500,
+            });
+        },
+
+        /**
+         * 校验手机号码
+         */
+        validatePhoneNumber(phoneNumber) {
+            if(/^\d{11}$/.test(this.form.phoneNumber)){
+                return true;
+            }else{
+                this.noticeMessage("手机号码格式不正确，请确认再输入！");
+                return false;
+            }
+        },
 
 
     },
@@ -142,18 +200,18 @@ let app = new Vue({
     //侦听属性
     watch: {
         phoneLogin: function (val) {
-            if(val===true){
-                this.loginWay="密码登录";
-            }else{
-                this.loginWay="手机登录";
+            if (val === true) {
+                this.loginWay = "密码登录";
+            } else {
+                this.loginWay = "手机登录";
             }
         },
         timeRemaining: function (val) {
             //console.log(val)
             //计时时间到
-            if (val===0){
+            if (val === 0) {
                 this.timeRemaining = 60;
-                this.form.canGetSmsCode=true;
+                this.form.canGetSmsCode = true;
                 //重置计时
                 clearInterval(this.timeRemain);
             }
