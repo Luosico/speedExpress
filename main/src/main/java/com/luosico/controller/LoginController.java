@@ -21,14 +21,14 @@ public class LoginController {
     @Autowired
     SmsService smsService;
 
+    @GetMapping("/")
+    public String toLogin(){
+        return "redirect:/login";
+    }
+
     @GetMapping("/login")
     public String login() {
         return "login";
-    }
-
-    @GetMapping("/error")
-    public String loginFailure(){
-        return "error";
     }
 
     @GetMapping("/main")
@@ -48,9 +48,10 @@ public class LoginController {
 
 
 
-    @RequestMapping(value = "/tryLogin",method = RequestMethod.POST,produces = "application/json")
-    public void tryLogin(){
-
+    @RequestMapping(value = "/tryLogin")
+    @ResponseBody
+    public String tryLogin(){
+        return "Hello world";
     }
 
 

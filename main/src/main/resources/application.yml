@@ -43,7 +43,7 @@ mybatis:
 #dubbo
 dubbo:
   registry:
-    address:spring-cloud:127.0.0.1
+    address: spring-cloud://127.0.0.1
   protocol:
     name: dubbo
     id: dubbo

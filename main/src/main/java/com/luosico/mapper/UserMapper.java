@@ -3,6 +3,7 @@ package com.luosico.mapper;
 import com.luosico.domain.User;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.mybatis.spring.annotation.MapperScan;
 
 /**
  * @Author: luo kai fa

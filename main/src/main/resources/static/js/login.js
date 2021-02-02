@@ -53,7 +53,7 @@ let app = new Vue({
                 if(response.data==="ok"){
                     window.location = "http://localhost:8080/main";
                 }else{
-                    this.$message.error('账号或密码错误，请重试！');
+                    app.$message.error("账号或密码错误，请重试!");
                 }
             }).catch(function (err) {
                 console.log(err.data);
@@ -80,7 +80,7 @@ let app = new Vue({
                 if(response.data==="ok"){
                     window.location = "http://localhost:8080/main";
                 }else{
-                    this.$message.error('验证码错误或用户未注册！');
+                    app.$message.error('验证码错误或用户未注册！');
                 }
             }).catch(function (err) {
                 console.log(err.data);
@@ -118,15 +118,6 @@ let app = new Vue({
          */
         smsCodeCount(){
             this.timeRemaining = this.timeRemaining -1;
-        },
-
-        /**
-         * 页面消息提示
-         *
-         * @param message 提示内容
-         */
-        notice_message(message) {
-            this.$message(message)
         },
 
         /**

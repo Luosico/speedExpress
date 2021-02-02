@@ -1,5 +1,6 @@
 package com.luosico.controller;
 
+
 import com.luosico.exception.RestDemoException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +20,6 @@ public class ExceptionController {
         String data = exception.getData();
 
         String message = null;
-        return new ResponseEntity(message,HttpStatus.NOT_FOUND);
+        return new ResponseEntity(message, HttpStatus.NOT_FOUND);
     }
 }
