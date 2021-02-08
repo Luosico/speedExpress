@@ -27,7 +27,7 @@ let app = new Vue({
                     this.phoneLoginWay();
                 }
             } else {
-                //帐号密码登录
+                //账号密码登录
                 if (this.checkForm()) {
                     this.namePwdLoginWay();
                 }
@@ -35,7 +35,7 @@ let app = new Vue({
         },
 
         /**
-         * 帐号密码登录
+         * 账号密码登录
          */
         namePwdLoginWay() {
             let data = new FormData();
@@ -78,6 +78,7 @@ let app = new Vue({
                 headers: {
                     'Content-type': 'application/x-www-form-urlencoded',
                 },
+                data: data,
             }).then(function (response) {
                 console.log(response.data);
                 //验证成功
@@ -116,12 +117,13 @@ let app = new Vue({
                 method: "GET",
                 params: {
                     phoneNumber: phoneNumber,
+                    type: "login",
                 }
-            })
+            });
         },
 
         /**
-         * 获取短信验证码计时
+         * 短信验证码计时动作
          */
         smsCodeCount() {
             this.timeRemaining = this.timeRemaining - 1;
@@ -158,14 +160,14 @@ let app = new Vue({
          * 忘记密码
          */
         forgetPwd() {
-
+            window.location.href = "forgetPassword";
         },
 
         /**
          * 注册
          */
         registerUser() {
-
+            window.location.href = "register";
         },
 
         /**
@@ -184,12 +186,16 @@ let app = new Vue({
          * 校验手机号码
          */
         validatePhoneNumber(phoneNumber) {
-            if(/^\d{11}$/.test(this.form.phoneNumber)){
-                return true;
+            if(/^\d*$/.test(this.form.phoneNumber)){
+                if(phoneNumber.length <6 ){
+                    this.noticeMessage("手机号码不少于6位！");
+                }else{
+                    return true;
+                }
             }else{
                 this.noticeMessage("手机号码格式不正确，请确认再输入！");
-                return false;
             }
+            return false;
         },
 
 

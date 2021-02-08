@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.util.Map;
+
 /**
  * @Author: luo kai fa
  * @Date: 2021/1/11
@@ -17,9 +19,6 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 @Controller
 public class LoginController {
-
-    @Autowired
-    SmsService smsService;
 
     @GetMapping("/")
     public String toLogin(){
@@ -37,23 +36,20 @@ public class LoginController {
     }
 
     /**
-     * 获取短信验证码
-     * @param phoneNumber 手机号码
+     * 注册页面
      */
-    @GetMapping("/smsCode")
-    @ResponseBody
-    public void getSmsCode(@RequestParam String phoneNumber){
-        smsService.sendSmsCode(phoneNumber);
+    @GetMapping("/register")
+    public String register(){
+        return "register";
     }
 
-
-
-    @RequestMapping(value = "/tryLogin")
-    @ResponseBody
-    public String tryLogin(){
-        return "Hello world";
+    /**
+     * 忘记密码
+     */
+    @GetMapping("/forgetPassword")
+    public String forgetPassword(){
+        return "forgetPassword";
     }
-
 
     @RequestMapping(value = "/rest", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody

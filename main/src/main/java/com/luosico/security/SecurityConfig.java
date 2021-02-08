@@ -62,7 +62,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) throws Exception {
         //允许静态资源访问，一定要写完整路径
-        //web.ignoring().antMatchers("/css/**", "/js/**");
+        web.ignoring().antMatchers("/css/**", "/js/**");
     }
 
     @Override
@@ -73,7 +73,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests() //授权配置
                 //这些路径不需要身份认证
-                .antMatchers("/login", "/loginSmsCode","/smsCode","/css/**","/js/**")
+                .antMatchers("/login", "/loginSmsCode","/smsCode","/register","/forgetPassword")
                 .permitAll()
                 //其他路径需要身份认证
                 .anyRequest().authenticated()

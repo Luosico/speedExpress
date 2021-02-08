@@ -1,10 +1,14 @@
 package com.luosico.domain;
 
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.sql.Time;
+import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Collection;
 
 /**
@@ -13,17 +17,32 @@ import java.util.Collection;
  */
 public class User implements UserDetails {
 
+    private long id;
     private String username;
     private String password;
     private String phoneNumber;
-    private LocalDateTime createTime;
+    private Timestamp createTime;
     private Collection<? extends GrantedAuthority> authorities;
     private boolean accountNonExpired;
     private boolean accountNonLocked;
     private boolean credentialsNonExpired; //凭证是否过期
     private boolean enabled;
 
+    public User(String username, String password, String phoneNumber) {
+        this.username = username;
+        this.password = password;
+        this.phoneNumber = phoneNumber;
+        this.createTime = Timestamp.valueOf(LocalDateTime.now());
+        ArrayList<SimpleGrantedAuthority> authorities = new ArrayList<>();
+        //用户身份
+        authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
+        this.authorities = authorities;
+        this.accountNonExpired = true;
+        this.accountNonLocked = true;
+        this.credentialsNonExpired = true;
+        this.enabled = true;
 
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -64,7 +83,7 @@ public class User implements UserDetails {
         return phoneNumber;
     }
 
-    public LocalDateTime getCreateTime() {
+    public Timestamp getCreateTime() {
         return createTime;
     }
 
@@ -80,7 +99,7 @@ public class User implements UserDetails {
         this.phoneNumber = phoneNumber;
     }
 
-    public void setCreateTime(LocalDateTime createTime) {
+    public void setCreateTime(Timestamp createTime) {
         this.createTime = createTime;
     }
 
@@ -102,5 +121,13 @@ public class User implements UserDetails {
 
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 }

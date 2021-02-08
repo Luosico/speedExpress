@@ -3,15 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>登录</title>
-    <!-- 引入 Vue  -->
-    <script src="/js/vue.js"></script>
-    <!-- Element UI 引入样式 -->
     <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
     <link rel="stylesheet" href="/css/login.css">
-    <!-- Element UI 引入组件库 -->
-    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
-    <!-- 引入 axios -->
-    <script src="https://cdn.jsdelivr.net/npm/axios@0.12.0/dist/axios.min.js"></script>
 
 </head>
 <body style="margin: 0">
@@ -29,7 +22,7 @@
                 <div class="wrap_inner">
                     <el-form>
                         <div v-if="!phoneLogin">
-                            <el-input placeholder="帐号" class="input_name" v-model="form.username" prefix-icon="el-icon-message" clearable></el-input>
+                            <el-input placeholder="账号" class="input_name" v-model="form.username" prefix-icon="el-icon-message" clearable></el-input>
                             <el-input placeholder="密码" class="input_pwd" v-model="form.password" prefix-icon="el-icon-lock" show-password clearable></el-input>
                         </div>
                         <div v-if="phoneLogin">
@@ -54,6 +47,9 @@
         </el-main>
     </el-container>
 </div>
+<script src="/js/tool/vue.js"></script>
+<script src="/js/tool/element-ui.js"></script>
+<script src="/js/tool/axios.min.js"></script>
 <script src="/js/login.js"></script>
 </body>
 </html>

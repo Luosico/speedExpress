@@ -1,0 +1,27 @@
+@import "common.css";
+
+.wrap{
+    position: relative;
+    margin-top: 30px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 450px;
+    height: 500px;
+    background-color: #FFFFFF;
+}
+
+.wrap_inner{
+    padding: 15px;
+}
+
+.fontInformation{
+    margin: 0;
+    text-align: center;
+    font-family: "Microsoft YaHei UI";
+    font-size: 30px;
+}
+
+.formFont{
+    font-weight: bolder;
+    font-size: 20px;
+}

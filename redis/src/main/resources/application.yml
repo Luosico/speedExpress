@@ -2,9 +2,9 @@
 spring:
   redis:
     database: 0
-    host: 127.0.0.1
-    port: 6379
-    password: 5bCfivwHwgQA
+    host: luosico.xyz
+    port:
+    password:
     timeout: 3000
     lettuce:
       pool:
@@ -25,7 +25,7 @@ spring:
     nacos:
       discovery:
         enabled: true
-        server-addr: 127.0.0.1:18848
+        server-addr: 127.0.0.1:8848
         namespace: public
 
 # dubbo
