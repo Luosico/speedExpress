@@ -19,8 +19,8 @@ spring:
   # 数据库配置
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url:
-    username:
+    url: jdbc:mysql://luosico.xyz:50002/speed_express?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai
+    username: root
     password:
 
   #nacos

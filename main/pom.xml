@@ -19,7 +19,7 @@
     <dependencies>
         <dependency>
             <groupId>com.luosico</groupId>
-            <artifactId>commom-interface</artifactId>
+            <artifactId>common-interface</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
 
@@ -95,16 +95,16 @@
 
     </dependencies>
 
-    <!--<build>
+    <build>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <fork>true</fork>&lt;!&ndash; 如果没有该配置，devtools不会生效 &ndash;&gt;
+                    <fork>true</fork><!-- 如果没有该配置，devtools不会生效 -->
                 </configuration>
             </plugin>
         </plugins>
-    </build>-->
+    </build>
 
 </project>

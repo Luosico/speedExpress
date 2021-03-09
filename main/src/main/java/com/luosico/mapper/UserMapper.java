@@ -31,4 +31,11 @@ public interface UserMapper {
      * @return
      */
     public int addUser(@Param("user") User user, @Param("authorities") String authorities);
+
+    /**
+     * 查找用户名是否存在
+     * @param username 用户名
+     * @return 存在：1 ; 不存在：0
+     */
+    int selectProperty(@Param("name") String username, @Param("val") String val);
 }

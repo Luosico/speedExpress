@@ -15,7 +15,7 @@
         <module>comment</module>
         <module>feedback</module>
         <module>sms</module>
-        <module>commom-interface</module>
+        <module>common-interface</module>
         <module>redis</module>
     </modules>
 
@@ -63,6 +63,7 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>${spring-boot.version}</version>
                 <configuration>
                     <fork>true</fork>
                 </configuration>

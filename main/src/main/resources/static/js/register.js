@@ -7,6 +7,8 @@ let Main = {
                 callback(new Error("不能少于3位"))
             } else if (!/^[0-9a-zA-Z_]*$/.test(value)) {
                 callback(new Error("只能由数字、字母、_(下划线) 组成"))
+            } else if (this.isExit("username", value)) {
+                callback(new Error("已被注册，换一个试试"))
             }
             callback();
         };
@@ -39,6 +41,8 @@ let Main = {
                 callback(new Error('手机号码格式不正确'))
             } else if (value.length < 6) {
                 callback(new Error('不少于 6 位'))
+            } else if(this.isExit("phoneNumber", value)){
+                callback(new Error("该手机号码已被使用 "))
             }
             callback();
         };
@@ -89,6 +93,36 @@ let Main = {
         toLogin() {
             window.location.href = "login";
         },
+
+        /**
+         * 检查属性是否存在
+         * @param name 属性名
+         * @param val 属性值
+         */
+        isExit(name, val) {
+            let result = "";
+            $.ajax({
+                method: 'GET',
+                url: '/isExit',
+                data: {
+                    name: name,
+                    val: val,
+                },
+                async: false, //同步请求
+                success: function (response) {
+                    if (response === 'false') {
+                        result = false;
+                    } else {
+                        result = true;
+                    }
+                },
+                error: function (error) {
+                    console.log(error)
+                }
+            })
+            return result;
+        },
+
         /**
          * 获取手机短信验证码
          */
@@ -140,7 +174,7 @@ let Main = {
                         },
                         data: data,
                     }).then(function (response) {
-                        console.log(response.data);
+                        //console.log(response.data);
                         if (response.data === "ok") {
                             //注册成功进行登录
                             let data = new FormData();
@@ -154,7 +188,7 @@ let Main = {
                                 },
                                 data: data,
                             }).then(function (response) {
-                                console.log(response.data);
+                                //console.log(response.data);
                                 if (response.data === "ok") {
                                     window.location = "http://localhost:8080/main";
                                 }

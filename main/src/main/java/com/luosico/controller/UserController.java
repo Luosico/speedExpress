@@ -3,9 +3,7 @@ package com.luosico.controller;
 import com.luosico.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
@@ -22,7 +20,6 @@ public class UserController {
 
     /**
      * 用户注册
-     *
      * @param map
      * @return
      */
@@ -34,5 +31,29 @@ public class UserController {
         } else {
             return "fail";
         }
+    }
+
+    /**
+     * 用户名是否存在
+     * @return true 存在；false 不存在
+     */
+    @GetMapping("/isExit")
+    @ResponseBody
+    public String usernameIsExit(@RequestParam("name")String name, @RequestParam("val") String val){
+        if(userService.isExit(name,val)){
+            return "true";
+        }
+        return "false";
+    }
+
+
+    /**
+     * 更改密码
+     */
+    @ResponseBody
+    @PutMapping("/changePassword")
+    public String changePassword(@RequestParam("phoneNumber") String phoneNumber, @RequestParam("smsCode") String smsCode,@RequestParam("password") String password){
+
+        return null;
     }
 }

@@ -46,7 +46,11 @@ public class UserService {
         return userMapper.findUserByPhoneNumber(phoneNumber);
     }
 
-
+    /**
+     * 添加用户
+     * @param map 用户信息
+     * @return 成功返回true，失败返回false
+     */
     public boolean addUser(Map map) {
         String smsCode = (String) map.get("smsCode");
         String phoneNumber = (String) map.get("phoneNumber");
@@ -59,12 +63,19 @@ public class UserService {
             String encodePassword = new BCryptPasswordEncoder().encode(password);
             User user = new User(username, encodePassword, phoneNumber);
             String authority = authoritiesToString((ArrayList<SimpleGrantedAuthority>) user.getAuthorities());
-            int row = userMapper.addUser(user,authority);
-            if (row == 1){
+            int row = userMapper.addUser(user, authority);
+            if (row == 1) {
                 return true;
             }
         }
         return false;
+    }
+
+    /**
+     * 查找是否唯一
+     */
+    public boolean isExit(String name, String val) {
+        return userMapper.selectProperty(name,val) == 1;
     }
 
     public boolean addUses() {
@@ -81,11 +92,12 @@ public class UserService {
 
     /**
      * 将权限集合转换成字符串
+     *
      * @param list 权限集合
      */
-    private String authoritiesToString(ArrayList<SimpleGrantedAuthority> list){
+    private String authoritiesToString(ArrayList<SimpleGrantedAuthority> list) {
         StringBuilder authority = new StringBuilder();
-        for(SimpleGrantedAuthority temp : list){
+        for (SimpleGrantedAuthority temp : list) {
             authority.append(temp.getAuthority());
         }
         return authority.toString();
