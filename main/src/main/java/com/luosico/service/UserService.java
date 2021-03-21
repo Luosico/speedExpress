@@ -48,6 +48,7 @@ public class UserService {
 
     /**
      * 添加用户
+     *
      * @param map 用户信息
      * @return 成功返回true，失败返回false
      */
@@ -75,17 +76,32 @@ public class UserService {
      * 查找是否唯一
      */
     public boolean isExit(String name, String val) {
-        return userMapper.selectProperty(name,val) == 1;
+        return userMapper.selectProperty(name, val) == 1;
     }
 
-    public boolean addUses() {
-
-        return true;
+    public String changePassword(String phoneNumber, String smsCode, String password) {
+        String message = "";
+        if (!isEmpty(phoneNumber, smsCode, password)) {
+            //验证码正确
+            if (smsService.isCorrect(phoneNumber, smsCode)) {
+                User user = new User(password, phoneNumber);
+                if(userMapper.updateUser(user)!=0){
+                    message ="ok";
+                }
+            }else{
+                message = "验证码或手机号码错误";
+            }
+        }else{
+            message = "不能为空";
+        }
+        return message;
     }
 
-    private boolean isEmpty(String str) {
-        if (str == null || "".equals(str)) {
-            return true;
+    private boolean isEmpty(String... strs) {
+        for (String str : strs) {
+            if (str == null || "".equals(str)) {
+                return true;
+            }
         }
         return false;
     }

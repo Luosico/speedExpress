@@ -66,4 +66,44 @@
         </if>
     </select>
 
+    <update id="updateUser">
+        update
+            user
+        <set>
+            <if test="user.username != null and user.name != '' ">
+                username = #{user.username}
+            </if>
+            <if test="user.phoneNumber != null and user.phoneNumber != '' ">
+                phone_number = #{user.phoneNumber}
+            </if>
+            <if test="user.password != null and user.password != '' ">
+                ,password = #{user.password}
+            </if>
+            <if test="user.accountNonExpired != null and user.accountNonExpired != '' ">
+                ,credentials_non_expired = #{user.accountNonExpired}
+            </if>
+            <if test="user.accountNonLocked != null and user.accountNonLocked != '' ">
+                ,account_non_locked = #{user.accountNonLocked}
+            </if>
+            <if test="user.credentialsNonExpired != null and user.credentialsNonExpired != '' ">
+                ,account_non_expired = #{user.credentialsNonExpired}
+            </if>
+            <if test="user.enabled != null and user.enabled != '' ">
+                ,enabled = #{user.enabled}
+            </if>
+        </set>
+        where
+            1=1
+        <choose>
+            <when test="user.username != null and user.username != ''">
+                and username = #{user.username}
+            </when>
+            <when test="user.phoneNumber != null and user.phoneNumber != ''">
+                and phone_number = #{user.phoneNumber}
+            </when>
+            <otherwise>
+                and 1=2
+            </otherwise>
+        </choose>
+    </update>
 </mapper>

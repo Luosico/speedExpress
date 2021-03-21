@@ -5,7 +5,7 @@ spring:
     host: luosico.xyz
     port: 50001
     password:
-    timeout: 3000
+    timeout: 60000
     lettuce:
       pool:
         # 连接池最大连接数，默认为8（若为负值，则表示不限制）

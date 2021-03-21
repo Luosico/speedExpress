@@ -4,6 +4,8 @@ import com.luosico.domain.User;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.HashMap;
+
 /**
  * @Author: luo kai fa
  * @Date: 2021/1/13
@@ -38,4 +40,6 @@ public interface UserMapper {
      * @return 存在：1 ; 不存在：0
      */
     int selectProperty(@Param("name") String username, @Param("val") String val);
+
+    int updateUser(@Param("user") User user);
 }

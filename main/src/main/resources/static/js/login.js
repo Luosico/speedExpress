@@ -53,14 +53,14 @@ let app = new Vue({
                 data: data,
                 //responseType: "json", //默认为json
             }).then(function (response) {
-                console.log(response.data);
+                //console.log(response.data);
                 if (response.data === "ok") {
                     window.location = "http://localhost:8080/main";
                 } else {
                     app.$message.error("账号或密码错误，请重试!");
                 }
             }).catch(function (err) {
-                console.log(err.data);
+                //console.log(err.data);
             });
         },
 
@@ -80,7 +80,7 @@ let app = new Vue({
                 },
                 data: data,
             }).then(function (response) {
-                console.log(response.data);
+                //console.log(response.data);
                 //验证成功
                 if (response.data === "ok") {
                     window.location = "http://localhost:8080/main";
@@ -88,7 +88,7 @@ let app = new Vue({
                     app.$message.error('验证码错误或用户未注册！');
                 }
             }).catch(function (err) {
-                console.log(err.data);
+                //console.log(err.data);
             });
 
         },

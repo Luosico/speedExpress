@@ -3,6 +3,7 @@ package com.luosico.domain;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.sql.Time;
 import java.sql.Timestamp;
@@ -23,24 +24,34 @@ public class User implements UserDetails {
     private String phoneNumber;
     private Timestamp createTime;
     private Collection<? extends GrantedAuthority> authorities;
-    private boolean accountNonExpired;
-    private boolean accountNonLocked;
-    private boolean credentialsNonExpired; //凭证是否过期
-    private boolean enabled;
+    private byte accountNonExpired;
+    private byte accountNonLocked;
+    private byte credentialsNonExpired; //凭证是否过期
+    private byte enabled;
+
+    public User(){
+
+    }
+
+    public User(String password, String phoneNumber) {
+        this.password = new BCryptPasswordEncoder().encode(password);
+        this.phoneNumber = phoneNumber;
+    }
 
     public User(String username, String password, String phoneNumber) {
         this.username = username;
-        this.password = password;
+        //密码加密
+        this.password = new BCryptPasswordEncoder().encode(password);
         this.phoneNumber = phoneNumber;
         this.createTime = Timestamp.valueOf(LocalDateTime.now());
         ArrayList<SimpleGrantedAuthority> authorities = new ArrayList<>();
         //用户身份
         authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
         this.authorities = authorities;
-        this.accountNonExpired = true;
-        this.accountNonLocked = true;
-        this.credentialsNonExpired = true;
-        this.enabled = true;
+        this.accountNonExpired = 1;
+        this.accountNonLocked = 1;
+        this.credentialsNonExpired = 1;
+        this.enabled = 1;
 
     }
 
@@ -61,22 +72,22 @@ public class User implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        return accountNonExpired;
+        return accountNonExpired != 0;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return accountNonLocked;
+        return accountNonLocked != 0;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return credentialsNonExpired;
+        return credentialsNonExpired != 0;
     }
 
     @Override
     public boolean isEnabled() {
-        return enabled;
+        return enabled != 0;
     }
 
     public String getPhoneNumber() {
@@ -107,19 +118,19 @@ public class User implements UserDetails {
         this.authorities = authorities;
     }
 
-    public void setAccountNonExpired(boolean accountNonExpired) {
+    public void setAccountNonExpired(byte accountNonExpired) {
         this.accountNonExpired = accountNonExpired;
     }
 
-    public void setAccountNonLocked(boolean accountNonLocked) {
+    public void setAccountNonLocked(byte accountNonLocked) {
         this.accountNonLocked = accountNonLocked;
     }
 
-    public void setCredentialsNonExpired(boolean credentialsNonExpired) {
+    public void setCredentialsNonExpired(byte credentialsNonExpired) {
         this.credentialsNonExpired = credentialsNonExpired;
     }
 
-    public void setEnabled(boolean enabled) {
+    public void setEnabled(byte enabled) {
         this.enabled = enabled;
     }
 

@@ -73,7 +73,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests() //授权配置
                 //这些路径不需要身份认证
-                .antMatchers("/login", "/loginSmsCode","/smsCode","/register","/forgetPassword","/isExit")
+                .antMatchers("/login", "/loginSmsCode","/smsCode","/register","/forgetPassword","/isExit","/changePassword")
                 .permitAll()
                 //其他路径需要身份认证
                 .anyRequest().authenticated()

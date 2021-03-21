@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
 /**
@@ -51,9 +52,8 @@ public class UserController {
      * 更改密码
      */
     @ResponseBody
-    @PutMapping("/changePassword")
-    public String changePassword(@RequestParam("phoneNumber") String phoneNumber, @RequestParam("smsCode") String smsCode,@RequestParam("password") String password){
-
-        return null;
+    @PostMapping(value = "/changePassword", consumes = "application/json")
+    public String changePassword(@RequestBody Map<String,String> map){
+        return userService.changePassword(map.get("phoneNumber"),map.get("smsCode"),map.get("password"));
     }
 }

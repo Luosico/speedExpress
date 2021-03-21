@@ -33,7 +33,7 @@ spring:
 
 # MyBatis 可以在 MybatisProperties 查看
 mybatis:
-  mapper-locations: classpath:mybatis/mapper/*.xml
+  mapper-locations: classpath*:mybatis/mapper/*.xml
   type-aliases-package: com.luosico.domain
   configuration:
     map-underscore-to-camel-case: true

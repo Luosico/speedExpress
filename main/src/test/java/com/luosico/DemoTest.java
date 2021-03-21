@@ -1,6 +1,7 @@
 package com.luosico;
 
 import org.junit.jupiter.api.Test;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 /**
  * @Author: luo kai fa
@@ -11,6 +12,10 @@ import org.junit.jupiter.api.Test;
 public class DemoTest {
     @Test
     public void test(){
-        System.out.println("The Test is running! ");
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        String str = "123456";
+        String s = encoder.encode(str);
+        System.out.println(s);
+        System.out.println(encoder.matches(str,s));
     }
 }
