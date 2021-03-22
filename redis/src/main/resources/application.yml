@@ -4,7 +4,7 @@ spring:
     database: 0
     host: luosico.xyz
     port: 50001
-    password:
+    password: Dmgx0kJLcJer
     timeout: 60000
     lettuce:
       pool:

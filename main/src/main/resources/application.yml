@@ -21,7 +21,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://luosico.xyz:50002/speed_express?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai
     username: root
-    password:
+    password: 2iIGlx6BDJd2
 
   #nacos
   cloud:
