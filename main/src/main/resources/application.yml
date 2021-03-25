@@ -1,57 +1,57 @@
-server:
-  port: 8080
-
-spring:
-  application:
-    name: mainApllication
-
-  # Thymeleaf 配置
-  thymeleaf:
-    enabled: true
-    encoding: UTF-8
-    mode: HTML
-    #servlet:
-      #content-type: text/html
-    cache: false
-    prefix: classpath:/templates/
-    suffix: .html
-
-  # 数据库配置
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://luosico.xyz:50002/speed_express?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai
-    username: root
-    password: 2iIGlx6BDJd2
-
-  #nacos
-  cloud:
-    nacos:
-      discovery:
-        server-addr: 127.0.0.1:8848
-        enabled: true
-        namespace: public
-
-# MyBatis 可以在 MybatisProperties 查看
-mybatis:
-  mapper-locations: classpath*:mybatis/mapper/*.xml
-  type-aliases-package: com.luosico.domain
-  configuration:
-    map-underscore-to-camel-case: true
-    # 将 MyBatis 日志输出到控制台
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
-
-#dubbo
-dubbo:
-  registry:
-    address: spring-cloud://127.0.0.1
-  protocol:
-    name: dubbo
-    id: dubbo
-    port: -1
-  scan:
-    base-packages: com.luosico
-
-#日志
-#logging:
-#  config: classpath:logback.xml
-#  level: debug
+#server:
+#  port: 8080
+#
+#spring:
+#  application:
+#    name: mainApllication
+#
+#  # Thymeleaf 配置
+#  thymeleaf:
+#    enabled: true
+#    encoding: UTF-8
+#    mode: HTML
+#    #servlet:
+#      #content-type: text/html
+#    cache: false
+#    prefix: classpath:/templates/
+#    suffix: .html
+#
+#  # 数据库配置
+#  datasource:
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#    url: jdbc:mysql://luosico.xyz:50002/speed_express?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai
+#    username: root
+#    password:
+#
+#  #nacos
+#  cloud:
+#    nacos:
+#      discovery:
+#        server-addr: 127.0.0.1:8848
+#        enabled: true
+#        namespace: public
+#
+## MyBatis 可以在 MybatisProperties 查看
+#mybatis:
+#  mapper-locations: classpath*:mybatis/mapper/*.xml
+#  type-aliases-package: com.luosico.domain
+#  configuration:
+#    map-underscore-to-camel-case: true
+#    # 将 MyBatis 日志输出到控制台
+#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+#
+##dubbo
+#dubbo:
+#  registry:
+#    address: spring-cloud://127.0.0.1
+#  protocol:
+#    name: dubbo
+#    id: dubbo
+#    port: -1
+#  scan:
+#    base-packages: com.luosico
+#
+##日志
+##logging:
+##  config: classpath:logback.xml
+##  level: debug

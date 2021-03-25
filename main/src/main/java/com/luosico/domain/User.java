@@ -4,10 +4,10 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Component;
 
-import java.sql.Time;
 import java.sql.Timestamp;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -16,6 +16,7 @@ import java.util.Collection;
  * @Author: luo kai fa
  * @Date: 2021/1/13
  */
+@Component
 public class User implements UserDetails {
 
     private long id;
@@ -29,19 +30,22 @@ public class User implements UserDetails {
     private byte credentialsNonExpired; //凭证是否过期
     private byte enabled;
 
+
+    PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
     public User(){
 
     }
 
     public User(String password, String phoneNumber) {
-        this.password = new BCryptPasswordEncoder().encode(password);
+        this.password = passwordEncoder.encode(password);
         this.phoneNumber = phoneNumber;
     }
 
     public User(String username, String password, String phoneNumber) {
         this.username = username;
         //密码加密
-        this.password = new BCryptPasswordEncoder().encode(password);
+        this.password = passwordEncoder.encode(password);
         this.phoneNumber = phoneNumber;
         this.createTime = Timestamp.valueOf(LocalDateTime.now());
         ArrayList<SimpleGrantedAuthority> authorities = new ArrayList<>();

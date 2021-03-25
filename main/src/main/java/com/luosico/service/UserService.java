@@ -4,12 +4,9 @@ import com.luosico.domain.User;
 import com.luosico.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.Map;
 
 /**
@@ -61,8 +58,7 @@ public class UserService {
             return false;
         }
         if (smsService.isCorrect(phoneNumber, smsCode)) {
-            String encodePassword = new BCryptPasswordEncoder().encode(password);
-            User user = new User(username, encodePassword, phoneNumber);
+            User user = new User(username, password, phoneNumber);
             String authority = authoritiesToString((ArrayList<SimpleGrantedAuthority>) user.getAuthorities());
             int row = userMapper.addUser(user, authority);
             if (row == 1) {

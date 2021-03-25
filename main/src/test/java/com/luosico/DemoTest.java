@@ -16,6 +16,6 @@ public class DemoTest {
         String str = "123456";
         String s = encoder.encode(str);
         System.out.println(s);
-        System.out.println(encoder.matches(str,s));
+        System.out.println(encoder.matches(str,"$2a$10$7ebE8NO4xJo/EyOhpXJJmOEpMOdOkqreVelkaa04QTz/ByI/iB9km"));
     }
 }

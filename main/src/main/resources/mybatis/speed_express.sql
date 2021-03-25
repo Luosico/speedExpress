@@ -33,7 +33,7 @@ values ('admin',
         '$2a$10$2uj0zAhH7wK9vJhXZJV7cewxUA0JHZN9vrKNabDV/0gLd0mlYDBsS',
         '1234567890',
         'ROLE_ADMIN',
-        true,
-        true,
-        true,
-        true);
+        1,
+        1,
+        1,
+        1);

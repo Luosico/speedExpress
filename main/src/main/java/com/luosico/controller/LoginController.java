@@ -1,16 +1,15 @@
 package com.luosico.controller;
 
+import com.luosico.domain.User;
 import com.luosico.exception.RestDemoException;
-import com.luosico.service.SmsService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import java.util.Map;
+import javax.servlet.http.HttpServletRequest;
+
 
 /**
  * @Author: luo kai fa
@@ -21,7 +20,7 @@ import java.util.Map;
 public class LoginController {
 
     @GetMapping("/")
-    public String toLogin(){
+    public String toLogin() {
         return "redirect:/login";
     }
 
@@ -31,15 +30,21 @@ public class LoginController {
     }
 
     @GetMapping("/main")
-    public String main(){
-        return "main";
+    public String main(HttpServletRequest request) {
+        /*Cookie[] cookies = request.getCookies();
+        for (Cookie cookie : cookies){
+            if ("JSESSIONID".equals(cookie.getName())){
+
+            }
+        }*/
+        return "/user/main";
     }
 
     /**
      * 注册页面
      */
     @GetMapping("/register")
-    public String register(){
+    public String register() {
         return "register";
     }
 
@@ -47,7 +52,7 @@ public class LoginController {
      * 忘记密码
      */
     @GetMapping("/forgetPassword")
-    public String forgetPassword(){
+    public String forgetPassword() {
         return "forgetPassword";
     }
 
@@ -58,20 +63,20 @@ public class LoginController {
         return null;
     }
 
-    @RequestMapping(value = "/dfdf", method = RequestMethod.POST,consumes = "application/json")
+    @RequestMapping(value = "/dfdf", method = RequestMethod.POST, consumes = "application/json")
     @ResponseBody
-    public String rest_post(@RequestBody User user){
+    public String rest_post(@RequestBody User user) {
 
         return null;
     }
 
     @RequestMapping(value = "/dsfsdfa")
     //ResponseEntity可以包含相应的元数据（如头部信息和状态码）以及要转换成资源表述的对象,不需要再加 @ResponseBody
-    public ResponseEntity<?> rest_entity(User user, UriComponentsBuilder builder){
+    public ResponseEntity<?> rest_entity(User user, UriComponentsBuilder builder) {
         //UriComponentsBuilder会预先配置已知的信息，如host、端口以及Servlet内容
 
         //抛出指定异常，并交给异常处理器处理
-        if(user == null){
+        if (user == null) {
             String data = null;
             throw new RestDemoException(data);
         }
@@ -81,9 +86,9 @@ public class LoginController {
 
     @RequestMapping(value = "/sdfsdf")
     @ResponseBody
-    public String  rest_entity_simple(User user){
+    public String rest_entity_simple(User user) {
 
-        if(user == null){
+        if (user == null) {
             String data = null;
             throw new RestDemoException(data);
         }

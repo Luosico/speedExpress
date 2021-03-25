@@ -11,6 +11,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -29,8 +30,7 @@ public class UserAuthenticationProvider implements AuthenticationProvider {
 
     public static final Logger logger = LoggerFactory.getLogger(UserAuthenticationProvider.class);
 
-    @Autowired
-    PasswordEncoder passwordEncoder;
+    PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     @Autowired
     UserServiceSecurity userServiceSecurity;
