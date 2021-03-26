@@ -65,6 +65,7 @@ public class SmsService {
         if (phoneNumber != null && !"".equals(phoneNumber)) {
             return redisUtil.hasKey(phoneNumber);
         }
+        System.out.println(1);
         return false;
     }
 

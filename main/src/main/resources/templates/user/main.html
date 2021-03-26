@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>快取 - 用户</title>
+    <link rel="stylesheet" href="/css/user/main.css">
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+</head>
+<body>
+    <div id="main">
+        <el-container>
+            <el-header>
+                <span class="logo">快 取</span>
+                <span style="float: right; margin-right: 15px">
+                <el-link type="primary" disabled><i class="el-icon-user-solid"></i></el-link>
+            </span>
+            </el-header>
+            <el-container>
+                <el-aside width="180px">
+                    <el-menu>
+                        <el-menu-item index="1">
+                            <i class="el-icon-menu"></i>
+                            <span slot="title">导航一</span>
+                        </el-menu-item>
+                        <el-menu-item index="2">
+                            <i class="el-icon-menu"></i>
+                            <span slot="title">导航二</span>
+                        </el-menu-item>
+                        <el-menu-item index="3">
+                            <i class="el-icon-document"></i>
+                            <span slot="title">导航三</span>
+                        </el-menu-item>
+                        <el-menu-item index="4">
+                            <i class="el-icon-setting"></i>
+                            <span slot="title">导航四</span>
+                        </el-menu-item>
+                    </el-menu>
+                </el-aside>
+                <el-main>
+                    Main
+                </el-main>
+            </el-container>
+        </el-container>
+    </div>
+</body>
+<script src="/js/tool/vue.js"></script>
+<script src="/js/tool/element-ui.js"></script>
+<script src="/js/tool/axios.min.js"></script>
+<script src="/js/user/main.js"></script>
+</html>
