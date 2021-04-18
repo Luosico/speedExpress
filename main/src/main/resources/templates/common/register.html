@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>快取</title>
-    <link rel="stylesheet" href="/css/register.css">
-    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <link rel="stylesheet" href="/css/common/register.css">
+    <link rel="stylesheet" href="https://unpkg.com/element-plus/lib/theme-chalk/index.css">
 </head>
 <body style="margin: 0">
 <div id="app">
@@ -17,12 +17,15 @@
         </el-header>
         <el-main>
             <div class="fontInformation">
-                <p>忘 记 密 码</p>
+                <p>用 户 注 册</p>
             </div>
             <div class="wrap">
                 <div class="wrap_inner">
                     <el-form :model="form" ref="form" :rules="rules" label-width="80px">
-                        <el-form-item label="新的密码" prop="password">
+                        <el-form-item label="用户名" prop="username">
+                            <el-input v-model="form.username" autofocus="true" maxlength="20" show-word-limit></el-input>
+                        </el-form-item>
+                        <el-form-item label="密码" prop="password">
                             <el-input v-model="form.password" show-password maxlength="20" show-word-limit></el-input>
                         </el-form-item>
                         <el-form-item label="确认密码" prop="passwordRepeat">
@@ -32,17 +35,19 @@
                             <el-input v-model="form.phoneNumber"></el-input>
                         </el-form-item>
                         <el-form-item label="验证码" prop="smsCode">
-                            <el-col :span="10">
-                                <el-input v-model="form.smsCode"></el-input>
-                            </el-col>
-                            <el-col :span="14">
-                                <el-button v-if="canGetSmsCode" @click="getSmsCode" style="float: right">获取验证码</el-button>
-                                <el-button v-if="!canGetSmsCode" disabled style="float: right">{{timeRemaining}} 秒后重试</el-button>
-                            </el-col>
+                            <el-row>
+                                <el-col :span="10">
+                                    <el-input v-model="form.smsCode"></el-input>
+                                </el-col>
+                                <el-col :span="14">
+                                    <el-button v-if="canGetSmsCode" @click="getSmsCode" style="float: right">获取验证码</el-button>
+                                    <el-button v-if="!canGetSmsCode" disabled style="float: right">{{timeRemaining}} 秒后重试</el-button>
+                                </el-col>
+                            </el-row>
                         </el-form-item>
                         <el-form-item>
                             <el-button  type="primary" @click="submitForm">提交</el-button>
-                            <el-button  @click="toLogin" style="margin-left: 160px">返回</el-button>
+                            <el-button  @click="toLogin" style="margin-left: 180px">返回</el-button>
                         </el-form-item>
                     </el-form>
                 </div>
@@ -51,9 +56,9 @@
     </el-container>
 </div>
 </body>
-<script src="/js/tool/vue.js"></script>
-<script src="/js/tool/element-ui.js"></script>
+<script src="/js/tool/vue3.js"></script>
+<script src="/js/tool/elementPlus.js"></script>
 <script src="/js/tool/axios.min.js"></script>
 <script src="/js/tool/jquery.js"></script>
-<script src="/js/forgetPassword.js"></script>
+<script src="/js/common/register.js"></script>
 </html>

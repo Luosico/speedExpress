@@ -2,13 +2,13 @@ let app = new Vue({
     el: "#app",
     data: {
         form: {
-            username: "",
-            password: "",
+            username: "user",
+            password: "123456",
             phoneNumber: "",
             smsCode: "",
             canGetSmsCode: true,
         },
-        phoneLogin: true,
+        phoneLogin: false,
         loginWay: "密码登录",
         timeRemaining: 60,
         timeRemain: "",
@@ -106,7 +106,7 @@ let app = new Vue({
          */
         getSmsCode() {
             let phoneNumber = this.form.phoneNumber;
-            if(!this.validatePhoneNumber(phoneNumber)){
+            if (!this.validatePhoneNumber(phoneNumber)) {
                 return;
             }
             this.form.canGetSmsCode = false;
@@ -136,9 +136,9 @@ let app = new Vue({
             //手机验证码登录
             if (this.phoneLogin) {
                 if (this.validatePhoneNumber(this.form.phoneNumber)) {
-                    if (/^\d{6}$/.test(this.form.smsCode)){
+                    if (/^\d{6}$/.test(this.form.smsCode)) {
                         return true
-                    }else {
+                    } else {
                         this.noticeMessage("验证码格式错误！");
                     }
                 }
@@ -146,9 +146,9 @@ let app = new Vue({
                 //账号密码登录
                 let username = this.form.username.trim();
                 let password = this.form.password.trim();
-                if(username.length<3 || password.length <3){
+                if (username.length < 3 || password.length < 3) {
                     this.noticeMessage("账号或密码格式错误！")
-                }else{
+                } else {
                     return true;
                 }
             }
@@ -186,19 +186,28 @@ let app = new Vue({
          * 校验手机号码
          */
         validatePhoneNumber(phoneNumber) {
-            if(/^\d*$/.test(this.form.phoneNumber)){
-                if(phoneNumber.length <6 ){
+            if (/^\d*$/.test(this.form.phoneNumber)) {
+                if (phoneNumber.length < 6) {
                     this.noticeMessage("手机号码不少于6位！");
-                }else{
+                } else {
                     return true;
                 }
-            }else{
+            } else {
                 this.noticeMessage("手机号码格式不正确，请确认再输入！");
             }
             return false;
         },
 
+        /**
+         * 响应回车键
+         */
+        keyboardEvent(event) {
+            //回车键
+            if (event.key == 'Enter') {
+                this.login();
+            }
 
+        }
     },
     //计算属性
     computed: {},

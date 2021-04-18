@@ -31,13 +31,14 @@ public class LoginController {
 
     @GetMapping("/main")
     public String main(HttpServletRequest request) {
+        //识别身份来确定去哪个页面
         /*Cookie[] cookies = request.getCookies();
         for (Cookie cookie : cookies){
             if ("JSESSIONID".equals(cookie.getName())){
 
             }
         }*/
-        return "/user/main";
+        return "redirect:/user/main";
     }
 
     /**
@@ -45,7 +46,7 @@ public class LoginController {
      */
     @GetMapping("/register")
     public String register() {
-        return "register";
+        return "common/register";
     }
 
     /**
@@ -53,7 +54,7 @@ public class LoginController {
      */
     @GetMapping("/forgetPassword")
     public String forgetPassword() {
-        return "forgetPassword";
+        return "common/forgetPassword";
     }
 
     @RequestMapping(value = "/rest", method = RequestMethod.GET, produces = "application/json")

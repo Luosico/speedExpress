@@ -188,5 +188,6 @@ let forgetPassword = {
         }
     }
 };
-let app = Vue.extend(forgetPassword);
-new app().$mount("#app");
+let app = Vue.createApp(forgetPassword);
+app.use(ElementPlus);
+app.mount("#app");

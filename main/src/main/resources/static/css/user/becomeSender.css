@@ -1,0 +1,30 @@
+@import "../main.css";
+
+.wrap_outer{
+    width: 500px;
+    height: 710px;
+    margin: 0 auto;
+    background-color: #FFFFFF;
+    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1)
+}
+
+.wrap{
+    margin-top: 10px;
+}
+
+.title{
+    font-family: Microsoft YaHei;
+    text-align: center;
+    line-height: 2.5;
+    font-size: 20px;
+    font-weight: bolder;
+    background-color: #ffa39e;
+}
+
+.wrap > div > p{
+    font-family: Helvetica;
+    line-height: 1.5;
+    font-weight: bold;
+    padding-left: 10px;
+    padding-right: 10px;
+}

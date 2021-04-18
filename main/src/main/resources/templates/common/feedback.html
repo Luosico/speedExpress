@@ -2,18 +2,17 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>快取 - 用户</title>
-    <link rel="stylesheet" href="/css/user/main.css">
+    <title>快取 - 反馈与建议</title>
+    <link rel="stylesheet" href="/css/common/feedback.css">
     <link rel="stylesheet" href="https://unpkg.com/element-plus/lib/theme-chalk/index.css">
 </head>
 <body>
-<div id="main">
+<div id="feedback">
     <el-container>
         <el-header>
             <span class="logo">快 取</span>
             <span style="float: right; margin-right: 30px">
                 <el-dropdown>
-                    <!--<el-avatar :size="35" :src="headPhotoUrl"></el-avatar>-->
                     <el-button icon="el-icon-user-solid">{{username}}
                         <i class="el-icon-arrow-down el-icon--right"></i>
                     </el-button>
@@ -61,48 +60,6 @@
                 </el-menu>
             </el-aside>
             <el-main>
-                <div class="main_info">
-                    <!--滚动栏-->
-                    <div>
-                        <el-carousel :interval="3000" arrow="hover">
-                            <el-carousel-item style="background-color: #D3DCE6">
-                                <h3>1</h3>
-                            </el-carousel-item>
-                            <el-carousel-item style="background-color: #D3EDE6">
-                                <h3>2</h3>
-                            </el-carousel-item>
-                        </el-carousel>
-                    </div>
-                    <!--信息总览-->
-                    <div class="main_warp">
-                        <el-row :gutter="30" type="flex" justify="space-around" style="height: 100%; width: 100%">
-                            <el-col :span="6">
-                                <div class="main_warp_inner">
-                                    <el-link href="/user/order" :underline="false" class="inner_link">
-                                        <p class="inner_number" style="color: #E6A23C">{{unfinishedOrder}}</p>
-                                        <p class="inner_font">未完成订单</p>
-                                    </el-link>
-                                </div>
-                            </el-col>
-                            <el-col :span="6">
-                                <div class="main_warp_inner">
-                                    <el-link href="/user/order" :underline="false" class="inner_link">
-                                        <p class="inner_number" style="color: #67C23A">{{finishedOrder}}</p>
-                                        <p class="inner_font">已完成订单</p>
-                                    </el-link>
-                                </div>
-                            </el-col>
-                            <el-col :span="6">
-                                <div class="main_warp_inner">
-                                    <el-link href="/feedback" :underline="false" class="inner_link">
-                                        <p class="inner_number" style="color: #F56C6C">{{feedback}}</p>
-                                        <p class="inner_font">反馈建议</p>
-                                    </el-link>
-                                </div>
-                            </el-col>
-                        </el-row>
-                    </div>
-                </div>
 
             </el-main>
         </el-container>
@@ -112,5 +69,5 @@
 <script src="/js/tool/vue3.js"></script>
 <script src="/js/tool/elementPlus.js"></script>
 <script src="/js/tool/axios.min.js"></script>
-<script src="/js/user/main.js"></script>
+<script src="/js/common/feedback.js"></script>
 </html>

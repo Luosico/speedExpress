@@ -1,0 +1,8 @@
+@import "../main.css";
+
+.el-main{
+    background-color: #FFFFFF;
+}
+.el-form-item__label{
+    font-weight: bold;
+}

@@ -2,18 +2,17 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>快取 - 用户</title>
-    <link rel="stylesheet" href="/css/user/main.css">
+    <title>快取 - 下单</title>
+    <link rel="stylesheet" href="/css/user/address.css">
     <link rel="stylesheet" href="https://unpkg.com/element-plus/lib/theme-chalk/index.css">
 </head>
 <body>
-<div id="main">
+<div id="address">
     <el-container>
         <el-header>
             <span class="logo">快 取</span>
             <span style="float: right; margin-right: 30px">
                 <el-dropdown>
-                    <!--<el-avatar :size="35" :src="headPhotoUrl"></el-avatar>-->
                     <el-button icon="el-icon-user-solid">{{username}}
                         <i class="el-icon-arrow-down el-icon--right"></i>
                     </el-button>
@@ -61,49 +60,45 @@
                 </el-menu>
             </el-aside>
             <el-main>
-                <div class="main_info">
-                    <!--滚动栏-->
-                    <div>
-                        <el-carousel :interval="3000" arrow="hover">
-                            <el-carousel-item style="background-color: #D3DCE6">
-                                <h3>1</h3>
-                            </el-carousel-item>
-                            <el-carousel-item style="background-color: #D3EDE6">
-                                <h3>2</h3>
-                            </el-carousel-item>
-                        </el-carousel>
-                    </div>
-                    <!--信息总览-->
-                    <div class="main_warp">
-                        <el-row :gutter="30" type="flex" justify="space-around" style="height: 100%; width: 100%">
-                            <el-col :span="6">
-                                <div class="main_warp_inner">
-                                    <el-link href="/user/order" :underline="false" class="inner_link">
-                                        <p class="inner_number" style="color: #E6A23C">{{unfinishedOrder}}</p>
-                                        <p class="inner_font">未完成订单</p>
-                                    </el-link>
-                                </div>
-                            </el-col>
-                            <el-col :span="6">
-                                <div class="main_warp_inner">
-                                    <el-link href="/user/order" :underline="false" class="inner_link">
-                                        <p class="inner_number" style="color: #67C23A">{{finishedOrder}}</p>
-                                        <p class="inner_font">已完成订单</p>
-                                    </el-link>
-                                </div>
-                            </el-col>
-                            <el-col :span="6">
-                                <div class="main_warp_inner">
-                                    <el-link href="/feedback" :underline="false" class="inner_link">
-                                        <p class="inner_number" style="color: #F56C6C">{{feedback}}</p>
-                                        <p class="inner_font">反馈建议</p>
-                                    </el-link>
-                                </div>
-                            </el-col>
-                        </el-row>
-                    </div>
-                </div>
+                <div class="wrap">
+                    <el-table :data="tableData" border style="width: 100%">
+                        <el-table-column type="index" width="50"></el-table-column>
+                        <el-table-column prop="region" label="区域" width="200"></el-table-column>
+                        <el-table-column prop="detailAddress" label="详细地址"></el-table-column>
+                        <el-table-column label="操作" width="200">
+                            <template #default="scope">
+                                <el-button size="mini" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+                                <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除
+                                </el-button>
+                            </template>
+                        </el-table-column>
+                    </el-table>
 
+                    <el-dialog title="修改地址" :visible.sync="dialogVisible" :append-to-body="true">
+                        <el-form :model="form" label-width="80px">
+                            <el-form-item label="区域">
+                                <el-select v-model="form.regionValue" placeholder="仅支持以下区域">
+                                    <el-option
+                                            v-for="region in form.regions"
+                                            :key="region.value"
+                                            :label="region.label"
+                                            :value="region.value">
+                                    </el-option>
+                                </el-select>
+                            </el-form-item>
+                            <el-form-item label="详细地址">
+                                <el-input v-model="form.detailAddress"></el-input>
+                            </el-form-item>
+                        </el-form>
+                        <template #footer>
+                        <span class="dialog-footer">
+                            <el-button @click="dialogVisible = false">取 消</el-button>
+                            <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+                        </span>
+                        </template>
+                    </el-dialog>
+
+                </div>
             </el-main>
         </el-container>
     </el-container>
@@ -112,5 +107,5 @@
 <script src="/js/tool/vue3.js"></script>
 <script src="/js/tool/elementPlus.js"></script>
 <script src="/js/tool/axios.min.js"></script>
-<script src="/js/user/main.js"></script>
+<script src="/js/user/address.js"></script>
 </html>

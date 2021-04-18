@@ -1,59 +1,52 @@
 package com.luosico.controller;
 
-import com.luosico.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.HttpServletRequest;
-import java.util.Map;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
+ * 用户功能控制器
+ *
  * @Author: luo kai fa
- * @Date: 2021/2/8
+ * @Date: 2021/3/26
  */
 
 @Controller
+@RequestMapping("/user")
 public class UserController {
 
-    @Autowired
-    UserService userService;
-
-    /**
-     * 用户注册
-     * @param map
-     * @return
-     */
-    @PostMapping(value = "/register", consumes = "application/json", produces = "application/json")
-    @ResponseBody
-    public String registerUser(@RequestBody Map map) {
-        if (map != null && map.size() == 4 && userService.addUser(map)) {
-            return "ok";
-        } else {
-            return "fail";
-        }
+    @GetMapping("main")
+    public String toMain(){
+        return "user/main";
     }
 
-    /**
-     * 用户名是否存在
-     * @return true 存在；false 不存在
-     */
-    @GetMapping("/isExit")
-    @ResponseBody
-    public String usernameIsExit(@RequestParam("name")String name, @RequestParam("val") String val){
-        if(userService.isExit(name,val)){
-            return "true";
-        }
-        return "false";
+    @GetMapping("userInfo")
+    public String toUserInfo(){
+        return "user/userInfo";
     }
 
+    @GetMapping("addOrder")
+    public String toAddOrder(){
+        return "user/addOrder";
+    }
 
-    /**
-     * 更改密码
-     */
-    @ResponseBody
-    @PostMapping(value = "/changePassword", consumes = "application/json")
-    public String changePassword(@RequestBody Map<String,String> map){
-        return userService.changePassword(map.get("phoneNumber"),map.get("smsCode"),map.get("password"));
+    @GetMapping("order")
+    public String toOrder(){
+        return "user/order";
+    }
+
+    @GetMapping("address")
+    public String toAddress(){
+        return "user/address";
+    }
+
+    @GetMapping("feedback")
+    public String toFeedback(){
+        return "user/feedback";
+    }
+
+    @GetMapping("becomeSender")
+    public String toBecomeSender(){
+        return "user/becomeSender";
     }
 }

@@ -215,5 +215,6 @@ let Main = {
         }
     }
 };
-let app = Vue.extend(Main);
-new app().$mount("#app");
+let app = Vue.createApp(Main);
+app.use(ElementPlus);
+app.mount("#app");

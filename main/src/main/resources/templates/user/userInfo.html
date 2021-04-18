@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>快取 - 个人中心</title>
+    <link rel="stylesheet" href="/css/user/userInfo.css">
+    <link rel="stylesheet" href="https://unpkg.com/element-plus/lib/theme-chalk/index.css">
+</head>
+<body>
+<div id="userInfo">
+    <el-container>
+        <el-header>
+            <span class="logo">快 取</span>
+            <span style="float: right; margin-right: 30px">
+                <el-dropdown>
+                    <el-button icon="el-icon-user-solid">{{username}}
+                        <i class="el-icon-arrow-down el-icon--right"></i>
+                    </el-button>
+                    <template #dropdown>
+                        <el-dropdown-menu>
+                          <el-dropdown-item><el-link href="userInfo" :underline="false">个人中心</el-link></el-dropdown-item>
+                          <el-dropdown-item><el-link href="/logout" :underline="false">登出</el-link></el-dropdown-item>
+                        </el-dropdown-menu>
+                    </template>
+                </el-dropdown>
+            </span>
+        </el-header>
+        <el-container>
+            <el-aside width="180px">
+                <el-menu>
+                    <el-menu-item index="1" style="margin-top: 10px">
+                        <i class="el-icon-pie-chart"></i>
+                        <span slot="title"><el-link href="/user/main" :underline="false">总览</el-link></span>
+                    </el-menu-item>
+                    <el-menu-item index="2">
+                        <i class="el-icon-s-custom"></i>
+                        <span slot="title"><el-link href="/user/userInfo" :underline="false">个人中心</el-link></span>
+                    </el-menu-item>
+                    <el-menu-item index="3">
+                        <i class="el-icon-edit"></i>
+                        <span slot="title"><el-link href="/user/addOrder" :underline="false">立即下单</el-link> </span>
+                    </el-menu-item>
+                    <el-menu-item index="4">
+                        <i class="el-icon-s-order"></i>
+                        <span slot="title"><el-link href="/user/order" :underline="false">我的订单</el-link></span>
+                    </el-menu-item>
+                    <el-menu-item index="5">
+                        <i class="el-icon-map-location"></i>
+                        <span slot="title"><el-link href="/user/address" :underline="false">地址管理</el-link></span>
+                    </el-menu-item>
+                    <el-menu-item index="6">
+                        <i class="el-icon-collection-tag"></i>
+                        <span slot="title"><el-link href="/feedback" :underline="false">反馈建议</el-link></span>
+                    </el-menu-item>
+                    <el-menu-item index="7">
+                        <i class="el-icon-service"></i>
+                        <span slot="title"><el-link href="/user/becomeSender" :underline="false">成为快取员</el-link></span>
+                    </el-menu-item>
+                </el-menu>
+            </el-aside>
+            <el-main>
+               <div class="main_outer">
+                    <div class="main_wrap wrap_user">
+                        <div class="wrap_header">
+                            <el-row type="flex" justify="space-between">
+                                <el-col :span="6"><p class="wrap_header_p">个人信息</p></el-col>
+                                <el-col :span="6"><el-button type="primary" round style="float: right;margin-right: 15px; margin-top: 4px">保存</el-button></el-col>
+                            </el-row>
+                        </div>
+                        <div class="wrap_user_inner">
+                            <el-form label-width="80px" class="wrap_form">
+                                <el-form-item label="用户名">
+                                    <el-input v-model="username"></el-input>
+                                </el-form-item>
+                                <el-form-item label="姓名">
+                                    <el-input v-model="name"></el-input>
+                                </el-form-item>
+                            </el-form>
+                        </div>
+                    </div>
+                   <div class="main_wrap wrap_pwd">
+                        <div class="wrap_header">
+                            <el-row type="flex" justify="space-between">
+                                <el-col :span="6"><p class="wrap_header_p">修改密码</p></el-col>
+                                <el-col :span="6"><el-button type="primary" round style="float: right;margin-right: 15px; margin-top: 4px">修改</el-button></el-col>
+                            </el-row>
+                        </div>
+                       <div class="wrap_pwd_inner">
+                           <el-form label-width="80px" class="wrap_form">
+                               <el-form-item label="新的密码">
+                                   <el-input v-model="newPassword"></el-input>
+                               </el-form-item>
+                               <el-form-item label="确认密码">
+                                   <el-input v-model="repeatPassword"></el-input>
+                               </el-form-item>
+                               <el-form-item label="验证码">
+                                   <el-row :gutter="50" style="margin-left: 0">
+                                       <el-col :span="5" style="padding-left: 0;"><el-input v-model="smsCodePassword"></el-input></el-col>
+                                       <el-col :span="5"><el-button>获取验证码</el-button></el-col>
+                                   </el-row>
+                               </el-form-item>
+                           </el-form>
+                       </div>
+                   </div>
+                   <div class="main_wrap wrap_phoneNumber">
+                       <div class="wrap_header">
+                           <el-row type="flex" justify="space-between">
+                               <el-col :span="6"><p class="wrap_header_p">修改手机号码</p></el-col>
+                               <el-col :span="6"><el-button type="primary" round style="float: right;margin-right: 15px; margin-top: 4px">提交</el-button></el-col>
+                           </el-row>
+                       </div>
+                       <div class="wrap_phoneNumber_inner">
+                           <el-form label-width="80px" class="wrap_form">
+                               <el-form-item label="当前号码">
+                                   <el-input v-model="phoneNumber"></el-input>
+                               </el-form-item>
+                               <el-form-item label="验证码">
+                                   <el-row :gutter="50" style="margin-left: 0">
+                                       <el-col :span="5" style="padding-left: 0;"><el-input v-model="smsCodePhoneNumber"></el-input></el-col>
+                                       <el-col :span="5"><el-button>获取验证码</el-button></el-col>
+                                   </el-row>
+                               </el-form-item>
+                           </el-form>
+                       </div>
+                   </div>
+               </div>
+            </el-main>
+        </el-container>
+    </el-container>
+</div>
+</body>
+<script src="/js/tool/vue3.js"></script>
+<script src="/js/tool/elementPlus.js"></script>
+<script src="/js/tool/axios.min.js"></script>
+<script src="/js/user/userInfo.js"></script>
+</html>

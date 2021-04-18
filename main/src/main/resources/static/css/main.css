@@ -1,0 +1,50 @@
+.el-header{
+    background-color: #24292E;
+    color: #333;
+    line-height: 60px;
+}
+
+.el-aside {
+    background-color: #D3DCE6;
+    color: #333;
+    text-align: left;
+    line-height: 200px;
+    height: 100%;
+}
+
+.el-main {
+    background-color: #F4F4F5;
+    color: #333;
+}
+
+.el-menu{
+    height: 100%;
+}
+
+.el-carousel__item{
+    color: #475669;
+    font-size: 18px;
+    opacity: 0.75;
+    line-height: 300px;
+    margin: 0;
+}
+
+.el-container{
+    padding: 0;
+    margin: 0;
+    height: 100%;
+    width: 100%;
+}
+
+body > div > .el-container{
+    position: absolute;
+}
+
+.logo{
+    font-size: 30px;
+    color: white;
+}
+
+body{
+    margin: 0;
+}

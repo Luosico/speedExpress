@@ -1,2 +1,36 @@
 @import "../main.css";
 
+#main_info{
+    padding-left: 100px;
+    padding-right: 100px;
+}
+
+.main_warp{
+    margin-top: 80px;
+    height: 200px;
+    width: 100%;
+}
+
+.main_warp_inner{
+    background-color: #FFFFFF;
+    height: 180px;
+}
+
+.inner_number{
+    margin: 0;
+    text-align: center;
+    font-size: 30px;
+    font-weight: bolder;
+    padding-top: 35px;
+}
+
+.inner_font{
+    text-align: center;
+    font-weight: bolder;
+    font-size: 18px;
+    padding-top: 10px;
+}
+
+.inner_link{
+    width: 100%;
+}

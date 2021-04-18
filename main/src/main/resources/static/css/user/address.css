@@ -1,0 +1,14 @@
+@import "../main.css";
+
+/*.wrap_outer{
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center; !*使子项目水平居中*!
+    align-items: center; !*使子项目垂直居中*!
+}*/
+
+
+.wrap{
+    width: 100%;
+}
