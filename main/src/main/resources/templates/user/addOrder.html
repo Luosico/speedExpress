@@ -50,7 +50,7 @@
                     </el-menu-item>
                     <el-menu-item index="6">
                         <i class="el-icon-collection-tag"></i>
-                        <span slot="title"><el-link href="/feedback" :underline="false">反馈建议</el-link></span>
+                        <span slot="title"><el-link href="feedback" :underline="false">反馈建议</el-link></span>
                     </el-menu-item>
                     <el-menu-item index="7">
                         <i class="el-icon-service"></i>
@@ -76,7 +76,7 @@
                     <el-form-item label="取件姓名">
                         <el-input v-model="form.name"></el-input>
                     </el-form-item>
-                    <el-form-item label="联系电话">
+                    <el-form-item label="取件电话">
                         <el-input v-model="form.phoneNumber"></el-input>
                     </el-form-item>
                     <el-form-item label="快递单号">
@@ -93,6 +93,9 @@
                     </el-form-item>
                     <el-form-item label="收件地址">
                         <el-input v-model="form.sendAddress"></el-input>
+                    </el-form-item>
+                    <el-form-item label="备注">
+                        <el-input v-model="form.remark"></el-input>
                     </el-form-item>
                     <el-form-item>
                         <el-button type="primary" @click="">提交</el-button>

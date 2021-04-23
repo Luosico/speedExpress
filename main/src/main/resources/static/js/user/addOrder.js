@@ -20,6 +20,7 @@ const AddOrder = {
                 courierCode:'',
                 courierType:'',
                 sendAddress:'',
+                remark: '',
             },
         }
     },

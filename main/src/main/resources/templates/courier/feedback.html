@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>快取 - 反馈与建议</title>
+  <link rel="stylesheet" href="/css/common/feedback.css">
+  <link rel="stylesheet" href="https://unpkg.com/element-plus/lib/theme-chalk/index.css">
+</head>
+<body>
+<div id="feedback">
+  <el-container>
+    <el-header>
+      <span class="logo">快 取</span>
+      <span style="float: right; margin-right: 30px">
+                <el-dropdown>
+                    <el-button icon="el-icon-user-solid">{{username}}
+                        <i class="el-icon-arrow-down el-icon--right"></i>
+                    </el-button>
+                    <template #dropdown>
+                        <el-dropdown-menu>
+                          <el-dropdown-item><el-link href="userInfo"
+                                                     :underline="false">个人中心</el-link></el-dropdown-item>
+                          <el-dropdown-item><el-link href="/logout" :underline="false">登出</el-link></el-dropdown-item>
+                        </el-dropdown-menu>
+                    </template>
+                </el-dropdown>
+            </span>
+    </el-header>
+    <el-container>
+      <el-aside width="180px">
+        <el-menu>
+          <el-menu-item index="1" style="margin-top: 10px">
+            <i class="el-icon-pie-chart"></i>
+            <span slot="title"><el-link href="/courier/main" :underline="false">总览</el-link></span>
+          </el-menu-item>
+          <el-menu-item index="2">
+            <i class="el-icon-s-custom"></i>
+            <span slot="title"><el-link href="/courier/userInfo" :underline="false">个人中心</el-link></span>
+          </el-menu-item>
+          <el-menu-item index="3">
+            <i class="el-icon-service"></i>
+            <span slot="title"><el-link href="/courier/publishedOrder" :underline="false">接单大厅</el-link></span>
+          </el-menu-item>
+          <el-menu-item index="4">
+            <i class="el-icon-edit"></i>
+            <span slot="title"><el-link href="/courier/addOrder" :underline="false">立即下单</el-link> </span>
+          </el-menu-item>
+          <el-menu-item index="5">
+            <i class="el-icon-s-order"></i>
+            <span slot="title"><el-link href="/courier/order" :underline="false">我的订单</el-link></span>
+          </el-menu-item>
+          <el-menu-item index="6">
+            <i class="el-icon-wallet"></i>
+            <span slot="title"><el-link href="/courier/wallet" :underline="false">我的钱包</el-link></span>
+          </el-menu-item>
+          <el-menu-item index="7">
+            <i class="el-icon-map-location"></i>
+            <span slot="title"><el-link href="/courier/address" :underline="false">地址管理</el-link></span>
+          </el-menu-item>
+          <el-menu-item index="8">
+            <i class="el-icon-collection-tag"></i>
+            <span slot="title"><el-link href="feedback" :underline="false">反馈建议</el-link></span>
+          </el-menu-item>
+        </el-menu>
+      </el-aside>
+      <el-main>
+
+      </el-main>
+    </el-container>
+  </el-container>
+</div>
+</body>
+<script src="/js/tool/vue3.js"></script>
+<script src="/js/tool/elementPlus.js"></script>
+<script src="/js/tool/axios.min.js"></script>
+<script src="/js/common/feedback.js"></script>
+</html>

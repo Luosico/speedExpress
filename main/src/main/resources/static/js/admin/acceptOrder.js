@@ -1,7 +1,7 @@
-const Order = {
+const App = {
     data() {
         return {
-            username: 'lootalker',
+            username: 'admin',
             tableData: [{
                 orderId: '202104171417531',
                 regionName: '湖南科技大学',
@@ -37,37 +37,17 @@ const Order = {
                 payId: '202104171417531',
                 money: 1,
                 status: '已确认收货',
-            }],
+            }]
         }
     },
     methods: {
-        getStatus(status) {
-            switch (status) {
-                case '等待接单':
-                    return 'danger';
-                case '已接单' :
-                    return 'warning';
-                case '配送中' :
-                    return '';
-                case '配送完成' :
-                    return 'success';
-                default:
-                    return 'info';
-            }
-        },
-        /**
-         * 确认收货
-         */
-        getExpressStatus(status) {
-            if (status === "已确认收货") {
-                return false
-            }
-            return true;
+        handleEdit(index, row){
+
         }
     },
     computed: {}
 }
 
-let order = Vue.createApp(Order);
-order.use(ElementPlus);
-order.mount('#order');
+let app = Vue.createApp(App);
+app.use(ElementPlus);
+app.mount('#app');

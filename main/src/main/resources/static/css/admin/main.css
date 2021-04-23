@@ -1,0 +1,21 @@
+@import "../main.css";
+@import "../user/main.css";
+
+.cumulativeAmount{
+    width: 100%;
+    height: 250px;
+    background: linear-gradient(to bottom, #2b5876, #4e4376);
+}
+.balance{
+    padding-top: 70px;
+    padding-left: 40px;
+    color: #FFFFFF;
+    font-size: 45px;
+    font-weight: bold;
+    letter-spacing: 2px;
+}
+.balance p{
+    margin-top: 0;
+    font-size: 20px;
+    padding-left: 10px;
+}

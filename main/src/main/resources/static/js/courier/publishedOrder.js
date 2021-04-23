@@ -1,14 +1,14 @@
-const Order = {
+const App = {
     data() {
         return {
-            username: 'lootalker',
+            username: 'luosico',
             tableData: [{
                 orderId: '202104171417531',
                 regionName: '湖南科技大学',
                 detailedAddress: '南校图书馆旁小堕落街口京东派',
                 destination: '7区10栋101',
                 courierNumber: '162758631105',
-                name:'张三',
+                name: '张三',
                 courierCompany: '京东',
                 courierType: '一类',
                 courierCode: '41-103',
@@ -18,15 +18,14 @@ const Order = {
                 createTime: '2021-04-17 14:21',
                 payId: '202104171417531',
                 money: 2,
-                status: '等待接单',
-
+                status: '配送完成',
             }, {
                 orderId: '202104171417532',
                 regionName: '湖南科技大学',
                 detailedAddress: '南校图书馆旁小堕落街口京东派',
                 destination: '7区10栋101',
                 courierNumber: '162758631105',
-                name:'张三',
+                name: '张三',
                 courierCompany: '京东',
                 courierType: '一类',
                 courierCode: '41-103',
@@ -41,33 +40,10 @@ const Order = {
         }
     },
     methods: {
-        getStatus(status) {
-            switch (status) {
-                case '等待接单':
-                    return 'danger';
-                case '已接单' :
-                    return 'warning';
-                case '配送中' :
-                    return '';
-                case '配送完成' :
-                    return 'success';
-                default:
-                    return 'info';
-            }
-        },
-        /**
-         * 确认收货
-         */
-        getExpressStatus(status) {
-            if (status === "已确认收货") {
-                return false
-            }
-            return true;
-        }
-    },
-    computed: {}
+
+    }
 }
 
-let order = Vue.createApp(Order);
-order.use(ElementPlus);
-order.mount('#order');
+let app = Vue.createApp(App);
+app.use(ElementPlus);
+app.mount('#app');

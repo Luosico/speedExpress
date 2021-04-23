@@ -2,12 +2,12 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>快取 - 我的订单</title>
+    <title>快取 - 等待接单</title>
+    <link rel="stylesheet" href="/css/admin/common.css">
     <link rel="stylesheet" href="https://unpkg.com/element-plus/lib/theme-chalk/index.css">
-    <link rel="stylesheet" href="/css/user/addOrder.css">
 </head>
 <body>
-<div id="order">
+<div id="app">
     <el-container>
         <el-header>
             <span class="logo">快 取</span>
@@ -18,8 +18,7 @@
                     </el-button>
                     <template #dropdown>
                         <el-dropdown-menu>
-                          <el-dropdown-item><el-link href="userInfo"
-                                                     :underline="false">个人中心</el-link></el-dropdown-item>
+                          <el-dropdown-item><el-link href="userInfo" :underline="false">个人中心</el-link></el-dropdown-item>
                           <el-dropdown-item><el-link href="/logout" :underline="false">登出</el-link></el-dropdown-item>
                         </el-dropdown-menu>
                     </template>
@@ -31,35 +30,35 @@
                 <el-menu>
                     <el-menu-item index="1" style="margin-top: 10px">
                         <i class="el-icon-pie-chart"></i>
-                        <span slot="title"><el-link href="/user/main" :underline="false">总览</el-link></span>
+                        <span slot="title"><el-link href="/admin/main" :underline="false">总览</el-link></span>
                     </el-menu-item>
                     <el-menu-item index="2">
                         <i class="el-icon-s-custom"></i>
-                        <span slot="title"><el-link href="/user/userInfo" :underline="false">个人中心</el-link></span>
+                        <span slot="title"><el-link href="/admin/userInfo" :underline="false">个人中心</el-link></span>
                     </el-menu-item>
-                    <el-menu-item index="3">
-                        <i class="el-icon-edit"></i>
-                        <span slot="title"><el-link href="/user/addOrder" :underline="false">立即下单</el-link> </span>
-                    </el-menu-item>
+                    <el-submenu index="3">
+                        <template #title>
+                            <i class="el-icon-s-order"></i>
+                            <span>订单管理</span>
+                        </template>
+                        <el-menu-item-group>
+                            <el-menu-item index="3-1"><el-link href="/admin/unAcceptOrder" :underline="false">等待接单</el-link></el-menu-item>
+                            <el-menu-item index="3-2"><el-link href="/admin/acceptOrder" :underline="false">已接单</el-link></el-menu-item>
+                            <el-menu-item index="3-3"><el-link href="/admin/deliveryOrder" :underline="false">派送中</el-link></el-menu-item>
+                            <el-menu-item index="3-4"><el-link href="/admin/waitConfirmOrder" :underline="false">待确认收货</el-link></el-menu-item>
+                            <el-menu-item index="3-5"><el-link href="/admin/finishedOrder" :underline="false">配送完成</el-link></el-menu-item>
+                        </el-menu-item-group>
+                    </el-submenu>
                     <el-menu-item index="4">
-                        <i class="el-icon-s-order"></i>
-                        <span slot="title"><el-link href="/user/order" :underline="false">我的订单</el-link></span>
-                    </el-menu-item>
-                    <el-menu-item index="5">
-                        <i class="el-icon-map-location"></i>
-                        <span slot="title"><el-link href="/user/address" :underline="false">地址管理</el-link></span>
-                    </el-menu-item>
-                    <el-menu-item index="6">
                         <i class="el-icon-collection-tag"></i>
                         <span slot="title"><el-link href="feedback" :underline="false">反馈建议</el-link></span>
-                    </el-menu-item>
-                    <el-menu-item index="7">
-                        <i class="el-icon-service"></i>
-                        <span slot="title"><el-link href="/user/becomeSender" :underline="false">成为快取员</el-link></span>
                     </el-menu-item>
                 </el-menu>
             </el-aside>
             <el-main>
+                <div class="wrap_title">
+                    <p>等待接单</p>
+                </div>
                 <el-table :data="tableData" :default-sort="{prop: 'createTime', order: 'descending'}"
                           highlight-current-row border style="width: 100%">
                     <!-- 展开 -->
@@ -125,16 +124,9 @@
                     <el-table-column prop="courierPhoneNumber" width="110" label="快取员电话"></el-table-column>
                     <el-table-column prop="createTime" sortable width="140" label="下单时间"></el-table-column>
                     <el-table-column prop="money" width="70" label="费用/元"></el-table-column>
-                    <el-table-column prop="status" width="110" sortable label="状态">
-                        <template #default="scope">
-                            <el-tag style="width: 80px" effect="dark" :type="this.getStatus(scope.row.status)">
-                                {{ scope.row.status }}
-                            </el-tag>
-                        </template>
-                    </el-table-column>
                     <el-table-column label="操作">
                         <template #default="scope">
-                            <el-button size="small" v-if="this.getExpressStatus(scope.row.status)" @click="handleEdit(scope.$index, scope.row)" type="danger">确认收货</el-button>
+                            <el-button size="small" @click="handleEdit(scope.$index, scope.row)" type="danger">删除</el-button>
                         </template>
                     </el-table-column>
                 </el-table>
@@ -146,5 +138,5 @@
 <script src="/js/tool/vue3.js"></script>
 <script src="/js/tool/elementPlus.js"></script>
 <script src="/js/tool/axios.min.js"></script>
-<script src="/js/user/order.js"></script>
+<script src="/js/admin/unAcceptOrder.js"></script>
 </html>

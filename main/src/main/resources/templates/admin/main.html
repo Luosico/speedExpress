@@ -2,18 +2,17 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>快取 - 用户</title>
-    <link rel="stylesheet" href="/css/user/main.css">
+    <title>快取 - 管理员</title>
+    <link rel="stylesheet" href="/css/admin/main.css">
     <link rel="stylesheet" href="https://unpkg.com/element-plus/lib/theme-chalk/index.css">
 </head>
 <body>
-<div id="main">
+<div id="app">
     <el-container>
         <el-header>
             <span class="logo">快 取</span>
             <span style="float: right; margin-right: 30px">
                 <el-dropdown>
-                    <!--<el-avatar :size="35" :src="headPhotoUrl"></el-avatar>-->
                     <el-button icon="el-icon-user-solid">{{username}}
                         <i class="el-icon-arrow-down el-icon--right"></i>
                     </el-button>
@@ -32,78 +31,75 @@
                 <el-menu>
                     <el-menu-item index="1" style="margin-top: 10px">
                         <i class="el-icon-pie-chart"></i>
-                        <span slot="title"><el-link href="/user/main" :underline="false">总览</el-link></span>
+                        <span slot="title"><el-link href="/admin/main" :underline="false">总览</el-link></span>
                     </el-menu-item>
                     <el-menu-item index="2">
                         <i class="el-icon-s-custom"></i>
-                        <span slot="title"><el-link href="/user/userInfo" :underline="false">个人中心</el-link></span>
+                        <span slot="title"><el-link href="/admin/userInfo" :underline="false">个人中心</el-link></span>
                     </el-menu-item>
-                    <el-menu-item index="3">
-                        <i class="el-icon-edit"></i>
-                        <span slot="title"><el-link href="/user/addOrder" :underline="false">立即下单</el-link> </span>
-                    </el-menu-item>
+                    <el-submenu index="3">
+                        <template #title>
+                            <i class="el-icon-s-order"></i>
+                            <span>订单管理</span>
+                        </template>
+                        <el-menu-item-group>
+                            <el-menu-item index="3-1"><el-link href="/admin/unAcceptOrder" :underline="false">等待接单</el-link></el-menu-item>
+                            <el-menu-item index="3-2"><el-link href="/admin/acceptOrder" :underline="false">派送中</el-link></el-menu-item>
+                            <el-menu-item index="3-3"><el-link href="/admin/deliveryOrder" :underline="false">待确认收货</el-link></el-menu-item>
+                            <el-menu-item index="3-4"><el-link href="/admin/finishedOrder" :underline="false">配送完成</el-link></el-menu-item>
+                        </el-menu-item-group>
+                    </el-submenu>
                     <el-menu-item index="4">
-                        <i class="el-icon-s-order"></i>
-                        <span slot="title"><el-link href="/user/order" :underline="false">我的订单</el-link></span>
-                    </el-menu-item>
-                    <el-menu-item index="5">
-                        <i class="el-icon-map-location"></i>
-                        <span slot="title"><el-link href="/user/address" :underline="false">地址管理</el-link></span>
-                    </el-menu-item>
-                    <el-menu-item index="6">
                         <i class="el-icon-collection-tag"></i>
                         <span slot="title"><el-link href="feedback" :underline="false">反馈建议</el-link></span>
-                    </el-menu-item>
-                    <el-menu-item index="7">
-                        <i class="el-icon-service"></i>
-                        <span slot="title"><el-link href="/user/becomeSender" :underline="false">成为快取员</el-link></span>
                     </el-menu-item>
                 </el-menu>
             </el-aside>
             <el-main>
                 <div class="main_info">
-                    <!--滚动栏-->
-                    <div>
-                        <el-carousel :interval="3000" arrow="hover">
-                            <el-carousel-item style="background-color: #D3DCE6">
-                                <h3>1</h3>
-                            </el-carousel-item>
-                            <el-carousel-item style="background-color: #D3EDE6">
-                                <h3>2</h3>
-                            </el-carousel-item>
-                        </el-carousel>
+                    <div class="cumulativeAmount">
+                        <div class="balance">
+                            <span>￥{{cumulativeAmount}}</span>
+                            <p>累计交易金额</p>
+                        </div>
                     </div>
-                    <!--信息总览-->
                     <div class="main_warp">
                         <el-row :gutter="30" type="flex" justify="space-around" style="height: 100%; width: 100%">
                             <el-col :span="6">
                                 <div class="main_warp_inner">
-                                    <el-link href="/user/order" :underline="false" class="inner_link">
-                                        <p class="inner_number" style="color: #E6A23C">{{unfinishedOrder}}</p>
-                                        <p class="inner_font">未完成订单</p>
+                                    <el-link href="/admin/order" :underline="false" class="inner_link">
+                                        <p class="inner_number" style="color: #E6A23C">{{unAcceptOrder}}</p>
+                                        <p class="inner_font">等待接单</p>
                                     </el-link>
                                 </div>
                             </el-col>
                             <el-col :span="6">
                                 <div class="main_warp_inner">
-                                    <el-link href="/user/order" :underline="false" class="inner_link">
-                                        <p class="inner_number" style="color: #67C23A">{{finishedOrder}}</p>
-                                        <p class="inner_font">已完成订单</p>
+                                    <el-link href="/admin/order" :underline="false" class="inner_link">
+                                        <p class="inner_number" style="color: #67C23A">{{acceptOrder}}</p>
+                                        <p class="inner_font">已接单</p>
                                     </el-link>
                                 </div>
                             </el-col>
                             <el-col :span="6">
                                 <div class="main_warp_inner">
-                                    <el-link href="/feedback" :underline="false" class="inner_link">
-                                        <p class="inner_number" style="color: #F56C6C">{{feedback}}</p>
-                                        <p class="inner_font">反馈建议</p>
+                                    <el-link href="/admin/order" :underline="false" class="inner_link">
+                                        <p class="inner_number" style="color: #67C23A">{{deliveryOrder}}</p>
+                                        <p class="inner_font">派送中</p>
+                                    </el-link>
+                                </div>
+                            </el-col>
+                            <el-col :span="6">
+                                <div class="main_warp_inner">
+                                    <el-link href="/admin/order" :underline="false" class="inner_link">
+                                        <p class="inner_number" style="color: #F56C6C">{{finishedOrder}}</p>
+                                        <p class="inner_font">派送完成</p>
                                     </el-link>
                                 </div>
                             </el-col>
                         </el-row>
                     </div>
                 </div>
-
             </el-main>
         </el-container>
     </el-container>
@@ -112,5 +108,5 @@
 <script src="/js/tool/vue3.js"></script>
 <script src="/js/tool/elementPlus.js"></script>
 <script src="/js/tool/axios.min.js"></script>
-<script src="/js/user/main.js"></script>
+<script src="/js/admin/main.js"></script>
 </html>

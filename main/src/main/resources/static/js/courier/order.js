@@ -8,7 +8,7 @@ const Order = {
                 detailedAddress: '南校图书馆旁小堕落街口京东派',
                 destination: '7区10栋101',
                 courierNumber: '162758631105',
-                name:'张三',
+                name: '张三',
                 courierCompany: '京东',
                 courierType: '一类',
                 courierCode: '41-103',
@@ -18,15 +18,14 @@ const Order = {
                 createTime: '2021-04-17 14:21',
                 payId: '202104171417531',
                 money: 2,
-                status: '等待接单',
-
+                status: '配送完成',
             }, {
                 orderId: '202104171417532',
                 regionName: '湖南科技大学',
                 detailedAddress: '南校图书馆旁小堕落街口京东派',
                 destination: '7区10栋101',
                 courierNumber: '162758631105',
-                name:'张三',
+                name: '张三',
                 courierCompany: '京东',
                 courierType: '一类',
                 courierCode: '41-103',
@@ -50,9 +49,9 @@ const Order = {
                 case '配送中' :
                     return '';
                 case '配送完成' :
-                    return 'success';
-                default:
                     return 'info';
+                default:
+                    return 'success';
             }
         },
         /**
@@ -63,6 +62,9 @@ const Order = {
                 return false
             }
             return true;
+        },
+        handleEdit(index, row) {
+
         }
     },
     computed: {}

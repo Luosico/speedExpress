@@ -1,0 +1,22 @@
+@import "../main.css";
+
+.wrap{
+    box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);
+}
+
+.wrap_header{
+
+}
+
+.wrap_header > p{
+    background-color: #f1f2f6;
+    letter-spacing: 2px;
+    padding-left: 5px;
+    font-weight: bolder;
+    font-size: 23px;
+    margin: 0;
+}
+
+.wrap_body{
+    padding-top: 5px;
+}
