@@ -46,7 +46,7 @@ public class SmsCodeAuthenticationProvider implements AuthenticationProvider {
             if (user == null){
                 return null;
             }
-            SmsCodeAuthenticationToken token = new SmsCodeAuthenticationToken(authentication.getAuthorities(),authentication.getPrincipal(),authentication.getCredentials());
+            SmsCodeAuthenticationToken token = new SmsCodeAuthenticationToken(user.getAuthorities(),authentication.getPrincipal(),authentication.getCredentials());
             return token;
         }
         return null;

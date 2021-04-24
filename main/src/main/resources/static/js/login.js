@@ -2,13 +2,13 @@ let app = new Vue({
     el: "#app",
     data: {
         form: {
-            username: "user",
-            password: "123456",
+            username: "",
+            password: "",
             phoneNumber: "",
             smsCode: "",
             canGetSmsCode: true,
         },
-        phoneLogin: false,
+        phoneLogin: true,
         loginWay: "密码登录",
         timeRemaining: 60,
         timeRemain: "",
@@ -53,12 +53,7 @@ let app = new Vue({
                 data: data,
                 //responseType: "json", //默认为json
             }).then(function (response) {
-                //console.log(response.data);
-                if (response.data === "ok") {
-                    window.location = "http://localhost:8080/main";
-                } else {
-                    app.$message.error("账号或密码错误，请重试!");
-                }
+                app.toMain(response.data, 'usernamePwd');
             }).catch(function (err) {
                 //console.log(err.data);
             });
@@ -80,13 +75,7 @@ let app = new Vue({
                 },
                 data: data,
             }).then(function (response) {
-                //console.log(response.data);
-                //验证成功
-                if (response.data === "ok") {
-                    window.location = "http://localhost:8080/main";
-                } else {
-                    app.$message.error('验证码错误或用户未注册！');
-                }
+                app.toMain(response.data, 'phone');
             }).catch(function (err) {
                 //console.log(err.data);
             });
@@ -207,6 +196,30 @@ let app = new Vue({
                 this.login();
             }
 
+        },
+
+        /**
+         * 首页导航路径
+         * @param data
+         * @param way
+         */
+        toMain(data, way){
+            if (data.status === "ok"){
+                let role = data.role;
+                if(role === "user"){
+                    window.location = "http://localhost:8080/user/main";
+                }else if (role === "courier"){
+                    window.location = "http://localhost:8080/courier/main";
+                }else if(role === "admin"){
+                    window.location = "http://localhost:8080/admin/main";
+                }else{
+                    if (way==='usernamePwd'){
+                        app.$message.error('账号或密码错误，请重试! ');
+                    }else{
+                        app.$message.error('验证码错误或用户未注册！');
+                    }
+                }
+            }
         }
     },
     //计算属性

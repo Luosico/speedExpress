@@ -53,7 +53,7 @@ public class UserAuthenticationProvider implements AuthenticationProvider {
         } else {
             //验证成功
             logger.info("username[ " + username + " ] authenticate success!");
-            UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(authentication.getPrincipal(), authentication.getCredentials(), authentication.getAuthorities());
+            UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(authentication.getPrincipal(), authentication.getCredentials(), user.getAuthorities());
             return token;
         }
     }

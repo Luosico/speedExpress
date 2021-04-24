@@ -12,3 +12,32 @@
 .wrap{
     width: 100%;
 }
+
+.add-address{
+    margin-top: 50px;
+    height: 300px;
+    background-color: #FFFFFF;
+}
+
+.inner-header{
+    width: 100%;
+    height: 50px;
+    background-color: #F8F9FC;
+}
+
+.inner-header p{
+    padding-left: 15px;
+    font-weight: bolder;
+    font-size: 20px;
+    margin-top: 13px;
+    margin-left: 8px;
+}
+
+.inner-body{
+    height:200px;
+}
+
+.wrap_form{
+    padding-top: 15px;
+    margin-right: 15px;
+}

@@ -8,8 +8,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import javax.servlet.http.HttpServletRequest;
-
 
 /**
  * @Author: luo kai fa
@@ -27,18 +25,6 @@ public class LoginController {
     @GetMapping("/login")
     public String login() {
         return "login";
-    }
-
-    @GetMapping("/main")
-    public String main(HttpServletRequest request) {
-        //识别身份来确定去哪个页面
-        /*Cookie[] cookies = request.getCookies();
-        for (Cookie cookie : cookies){
-            if ("JSESSIONID".equals(cookie.getName())){
-
-            }
-        }*/
-        return "redirect:/user/main";
     }
 
     /**

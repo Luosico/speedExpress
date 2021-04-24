@@ -1,5 +1,7 @@
 package com.luosico.controller;
 
+import com.luosico.service.RequestService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,38 +17,42 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/user")
 public class UserController {
 
+    @Autowired
+    RequestService requestService;
+
     @GetMapping("main")
-    public String toMain(){
+    public String toMain() {
         return "user/main";
     }
 
     @GetMapping("userInfo")
-    public String toUserInfo(){
+    public String toUserInfo() {
         return "user/userInfo";
     }
 
     @GetMapping("addOrder")
-    public String toAddOrder(){
+    public String toAddOrder() {
         return "user/addOrder";
     }
 
     @GetMapping("order")
-    public String toOrder(){
+    public String toOrder() {
         return "user/order";
     }
 
     @GetMapping("address")
-    public String toAddress(){
+    public String toAddress() {
         return "user/address";
     }
 
     @GetMapping("feedback")
-    public String toFeedback(){
+    public String toFeedback() {
         return "user/feedback";
     }
 
     @GetMapping("becomeSender")
-    public String toBecomeSender(){
+    public String toBecomeSender() {
         return "user/becomeSender";
     }
+
 }

@@ -1,8 +1,7 @@
-let Main = {
+const Main = {
     data(){
-
         return {
-            username:'luosico',
+            username:'',
             unfinishedOrder: '1',
             finishedOrder:'1',
             feedback:'1',
@@ -18,4 +17,9 @@ let Main = {
 
 let main = Vue.createApp(Main);
 main.use(ElementPlus);
-main.mount('#main');
+const app = main.mount('#main');
+
+//页面加载完成
+window.onload = function (){
+    setUsername(app);
+}

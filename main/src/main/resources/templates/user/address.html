@@ -63,26 +63,57 @@
                 <div class="wrap">
                     <el-table :data="tableData" border style="width: 100%">
                         <el-table-column type="index" width="50"></el-table-column>
+                        <el-table-column prop="addressId" v-if="false"></el-table-column>
                         <el-table-column prop="region" label="区域" width="200"></el-table-column>
-                        <el-table-column prop="detailAddress" label="详细地址"></el-table-column>
+                        <el-table-column prop="pickUpAddress" label="取件地址"></el-table-column>
+                        <el-table-column prop="receiveAddress" label="收件地址"></el-table-column>
                         <el-table-column label="操作" width="200">
                             <template #default="scope">
-                                <el-button size="mini" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+                                <el-button size="mini" type="primary" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
                                 <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除
                                 </el-button>
                             </template>
                         </el-table-column>
                     </el-table>
 
+                    <div class="add-address">
+                        <div class="inner-header">
+                            <el-row type="flex" justify="space-between">
+                                <el-col :span="6"><p>个人信息</p></el-col>
+                                <el-col :span="6"><el-button type="primary" round style="float: right;margin-right: 30px; margin-top: 4px">保存</el-button></el-col>
+                            </el-row>
+                        </div>
+                        <div class="inner-body">
+                            <el-form label-width="110px" class="wrap_form">
+                                <el-form-item label="配送区域">
+                                <el-select v-model="form.regionValue" placeholder="仅支持以下区域">
+                                    <el-option
+                                            v-for="region in regions"
+                                            :key="region.regionId"
+                                            :label="region.regionName"
+                                            :value="region.regionId">
+                                    </el-option>
+                                </el-select>
+                                </el-form-item>
+                                <el-form-item  label="取件地址">
+                                    <el-input v-model="form.pickUpAddress"></el-input>
+                                </el-form-item>
+                                <el-form-item label="收件地址">
+                                    <el-input v-model="form.receiveAddress"></el-input>
+                                </el-form-item>
+                            </el-form>
+                        </div>
+                    </div>
+
                     <el-dialog title="修改地址" v-model="dialogVisible" :append-to-body="true">
                         <el-form :model="form" label-width="80px">
                             <el-form-item label="区域">
                                 <el-select v-model="form.regionValue" placeholder="仅支持以下区域">
                                     <el-option
-                                            v-for="region in form.regions"
-                                            :key="region.value"
-                                            :label="region.label"
-                                            :value="region.value">
+                                            v-for="region in regions"
+                                            :key="region.regionId"
+                                            :label="region.regionName"
+                                            :value="region.regionId">
                                     </el-option>
                                 </el-select>
                             </el-form-item>
@@ -107,5 +138,6 @@
 <script src="/js/tool/vue3.js"></script>
 <script src="/js/tool/elementPlus.js"></script>
 <script src="/js/tool/axios.min.js"></script>
+<script src="/js/common/request.js"></script>
 <script src="/js/user/address.js"></script>
 </html>

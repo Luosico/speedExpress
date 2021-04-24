@@ -1,26 +1,24 @@
 let Address = {
     data() {
-
         return {
-            username: 'luosico',
+            username: '',
             tableData: [{
+                addressId: '123',
                 region: '湖南科技大学',
-                detailAddress: 'abc'
+                pickUpAddress: '北门步步高右侧菜鸟驿站',
+                receiveAddress: '7区10栋101',
             }, {
-                    region: '湘潭大学',
-                    detailAddress: 'abc'
-                }],
+                addressId: '123',
+                region: '湘潭大学',
+                pickUpAddress: '北门步步高右侧菜鸟驿站',
+                receiveAddress: '7区10栋101',
+            }],
             dialogVisible: false,
+            regions: '',
             form: {
-                regions: [{
-                    label: '湖南科技大学',
-                    value: '001'
-                }, {
-                    label: '湘潭大学',
-                    value: '002'
-                }],
                 regionValue: '',
-                detailAddress: '雨湖区',
+                pickUpAddress: '北门步步高右侧菜鸟驿站',
+                receiveAddress: '7区10栋101',
             }
 
         }
@@ -29,7 +27,7 @@ let Address = {
         //编辑
         handleEdit(index, row) {
             this.dialogVisible = true;
-            console.log('index: ' + index, row);
+            console.log(row.addressId)
         },
 
         //删除
@@ -46,9 +44,18 @@ let Address = {
             })
         }
     },
-    watch: {}
+    //生命期钩子
+    created() {
+        setUsername(this);
+        getRegions(this);
+    },
 }
 
 let address = Vue.createApp(Address);
 address.use(ElementPlus);
-address.mount('#address');
+const app = address.mount('#address');
+
+window.onload = function () {
+    /*setUsername(app);
+    getRegions(app);*/
+}

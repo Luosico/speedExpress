@@ -1,8 +1,8 @@
 drop
-database if exists speed_express;
+    database if exists speed_express;
 
 create
-database speed_express;
+    database speed_express;
 
 create table user
 (
@@ -17,8 +17,15 @@ create table user
     account_non_locked      tinyint,
     enabled                 tinyint,
     primary key (id),
-    key (username,phone_number,id),
-    key (phone_number,id)
+    key (username, phone_number, id),
+    key (phone_number, id)
+);
+
+create table region
+(
+    region_id   int auto_increment not null,
+    region_name varchar(50)        not null,
+    primary key (region_id)
 );
 
 insert into user(username,
@@ -37,3 +44,7 @@ values ('admin',
         1,
         1,
         1);
+
+insert into region(region_name)
+values ('湖南科技大学'),
+       ('湘潭大学');

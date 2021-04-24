@@ -25,6 +25,7 @@ public class User implements UserDetails {
     private String phoneNumber;
     private Timestamp createTime;
     private Collection<? extends GrantedAuthority> authorities;
+    private String authority;
     private byte accountNonExpired;
     private byte accountNonLocked;
     private byte credentialsNonExpired; //凭证是否过期
@@ -144,5 +145,18 @@ public class User implements UserDetails {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public String getAuthority() {
+        return authority;
+    }
+
+    public void setAuthority(String authority) {
+        this.authority = authority;
+        SimpleGrantedAuthority auth = new SimpleGrantedAuthority(authority);
+        ArrayList<SimpleGrantedAuthority> list = new ArrayList<>();
+        list.add(auth);
+        Collection<SimpleGrantedAuthority> authorities = list;
+        this.setAuthorities(authorities);
     }
 }
