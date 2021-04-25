@@ -55,28 +55,6 @@ public class UtilService {
     }
 
     /**
-     * 通过 uid 获取 username
-     *
-     * @param uid
-     * @return username
-     */
-    public String getUsernameByUid(String uid) {
-        return (String) redisUtil.get(uid);
-    }
-
-    /**
-     * 设置  uid string 类型
-     * username hash 类型
-     *
-     * @param uid
-     * @param username
-     */
-    public void setUidAndUsername(String uid, String username) {
-        redisUtil.set(uid, username, 60 * 30);
-        redisUtil.hset(username, "uid", uid, 60 * 30);
-    }
-
-    /**
      * 查询所有区域
      *
      * @return
@@ -102,7 +80,7 @@ public class UtilService {
      *
      * @param strs String数组
      */
-    private boolean isEmpty(String... strs) {
+    public boolean isEmpty(String... strs) {
         for (String str : strs) {
             if (str == null || "".equals(str)) {
                 return true;

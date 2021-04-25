@@ -13,8 +13,7 @@
                          account_non_expired,
                          account_non_locked,
                          enabled)
-        values (
-                #{user.username},
+        values (#{user.username},
                 #{user.password},
                 #{user.phoneNumber},
                 #{user.createTime, jdbcType=TIMESTAMP},
@@ -22,8 +21,7 @@
                 #{user.credentialsNonExpired},
                 #{user.accountNonExpired},
                 #{user.accountNonLocked},
-                #{user.enabled}
-               )
+                #{user.enabled})
     </insert>
 
     <select id="findUserByUsername" resultType="com.luosico.domain.User">
@@ -65,10 +63,23 @@
             and phone_number = #{val}
         </if>
     </select>
+    <select id="selectUserIdByUsername" resultType="java.lang.String">
+        select id
+        from user
+        where
+        <choose>
+            <when test="username !=null and username != ''">
+                username = #{username}
+            </when>
+            <otherwise>
+                1 = 2
+            </otherwise>
+        </choose>
+    </select>
 
     <update id="updateUser">
         update
-            user
+        user
         <set>
             <if test="user.username != null and user.name != '' ">
                 username = #{user.username}
@@ -93,7 +104,7 @@
             </if>
         </set>
         where
-            1=1
+        1=1
         <choose>
             <when test="user.username != null and user.username != ''">
                 and username = #{user.username}

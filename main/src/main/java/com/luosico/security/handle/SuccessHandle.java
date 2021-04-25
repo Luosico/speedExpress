@@ -1,7 +1,7 @@
 package com.luosico.security.handle;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.luosico.service.RequestService;
+import com.luosico.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +28,7 @@ public class SuccessHandle implements AuthenticationSuccessHandler {
     public static final Logger logger = LoggerFactory.getLogger(SuccessHandle.class);
 
     @Autowired
-    RequestService requestService;
+    UserService userService;
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) throws IOException, ServletException {
@@ -46,7 +46,7 @@ public class SuccessHandle implements AuthenticationSuccessHandler {
         httpServletResponse.setContentType("text/plain");
 
         //添加cookie
-        requestService.loginSuccessAddCookie(httpServletResponse, (String) authentication.getPrincipal());
+        userService.loginSuccessAddCookie(httpServletResponse, (String) authentication.getPrincipal());
         PrintWriter out = httpServletResponse.getWriter();
         out.write(json);
         out.flush();

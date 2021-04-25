@@ -28,6 +28,13 @@ public interface UserMapper {
     User findUserByPhoneNumber(@Param("phoneNumber") String phoneNumber);
 
     /**
+     * 通过 username查找 userId
+     * @param username 用户名
+     * @return
+     */
+    String selectUserIdByUsername(@Param("username") String username);
+
+    /**
      * 新增用户
      *
      * @param user 用户信息

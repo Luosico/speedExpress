@@ -2,6 +2,8 @@ package com.luosico.domain;
 
 import org.springframework.stereotype.Component;
 
+import java.io.Serializable;
+
 /**
  * 区域
  *
@@ -10,7 +12,7 @@ import org.springframework.stereotype.Component;
  */
 
 @Component
-public class Region {
+public class Region implements Serializable {
     private Integer regionId;
     private String regionName;
 

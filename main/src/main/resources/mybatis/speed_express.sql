@@ -28,6 +28,20 @@ create table region
     primary key (region_id)
 );
 
+create table address
+(
+    address_id      int auto_increment not null,
+    user_id         int                not null,
+    region_id       int                not null,
+    pick_up_address varchar(50),
+    receive_address varchar(50),
+    primary key (address_id),
+    index (address_id, user_id),
+    index (user_id, region_id),
+    foreign key (user_id) references user (id),
+    foreign key (region_id) references region (region_id)
+);
+
 insert into user(username,
                  password,
                  phone_number,
