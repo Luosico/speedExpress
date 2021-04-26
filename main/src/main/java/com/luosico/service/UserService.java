@@ -163,6 +163,25 @@ public class UserService {
     }
 
     /**
+     * 判断 uid cookie 是否正确
+     *
+     * @return
+     */
+    public boolean UidIsCorrect(Cookie[] cookies) {
+        if (cookies != null && cookies.length > 0) {
+            for (Cookie cookie : cookies) {
+                //存在 cookie: uid
+                if ("uid".equals(cookie.getName())) {
+                    String cookieUid = cookie.getValue();
+                    //redis中是否存在
+                    return redisUtil.hasKey(cookieUid);
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
      * 获取 userId
      *
      * @param cookies
