@@ -1,30 +1,23 @@
 package com.luosico.domain;
 
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Component;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collection;
 
 /**
  * @Author: luo kai fa
- * @Date: 2021/1/13
+ * @Date: 2021/4/26
  */
-@Component
-public class User implements UserDetails {
+public class User implements Serializable {
 
     private long id;
     private String username;
     private String password;
     private String phoneNumber;
     private Timestamp createTime;
-    private Collection<? extends GrantedAuthority> authorities;
     private String authority;
     private byte accountNonExpired;
     private byte accountNonLocked;
@@ -32,7 +25,7 @@ public class User implements UserDetails {
     private byte enabled;
 
 
-    PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    transient PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     public User(){
 
@@ -49,10 +42,7 @@ public class User implements UserDetails {
         this.password = passwordEncoder.encode(password);
         this.phoneNumber = phoneNumber;
         this.createTime = Timestamp.valueOf(LocalDateTime.now());
-        ArrayList<SimpleGrantedAuthority> authorities = new ArrayList<>();
-        //用户身份
-        authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
-        this.authorities = authorities;
+        this.authority = "ROLE_USER";
         this.accountNonExpired = 1;
         this.accountNonLocked = 1;
         this.credentialsNonExpired = 1;
@@ -60,39 +50,32 @@ public class User implements UserDetails {
 
     }
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return authorities;
-    }
-
-    @Override
     public String getPassword() {
         return password;
     }
 
-    @Override
     public String getUsername() {
         return username;
     }
 
-    @Override
     public boolean isAccountNonExpired() {
         return accountNonExpired != 0;
     }
 
-    @Override
     public boolean isAccountNonLocked() {
         return accountNonLocked != 0;
     }
 
-    @Override
     public boolean isCredentialsNonExpired() {
         return credentialsNonExpired != 0;
     }
 
-    @Override
     public boolean isEnabled() {
         return enabled != 0;
+    }
+
+    public byte getEnabled() {
+        return enabled;
     }
 
     public String getPhoneNumber() {
@@ -119,20 +102,28 @@ public class User implements UserDetails {
         this.createTime = createTime;
     }
 
-    public void setAuthorities(Collection<? extends GrantedAuthority> authorities) {
-        this.authorities = authorities;
-    }
-
     public void setAccountNonExpired(byte accountNonExpired) {
         this.accountNonExpired = accountNonExpired;
+    }
+
+    public byte getAccountNonExpired() {
+        return accountNonExpired;
     }
 
     public void setAccountNonLocked(byte accountNonLocked) {
         this.accountNonLocked = accountNonLocked;
     }
 
+    public byte getAccountNonLocked() {
+        return accountNonLocked;
+    }
+
     public void setCredentialsNonExpired(byte credentialsNonExpired) {
         this.credentialsNonExpired = credentialsNonExpired;
+    }
+
+    public byte getCredentialsNonExpired() {
+        return credentialsNonExpired;
     }
 
     public void setEnabled(byte enabled) {
@@ -153,10 +144,5 @@ public class User implements UserDetails {
 
     public void setAuthority(String authority) {
         this.authority = authority;
-        SimpleGrantedAuthority auth = new SimpleGrantedAuthority(authority);
-        ArrayList<SimpleGrantedAuthority> list = new ArrayList<>();
-        list.add(auth);
-        Collection<SimpleGrantedAuthority> authorities = list;
-        this.setAuthorities(authorities);
     }
 }

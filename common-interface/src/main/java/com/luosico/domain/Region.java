@@ -1,17 +1,11 @@
 package com.luosico.domain;
 
-import org.springframework.stereotype.Component;
-
 import java.io.Serializable;
 
 /**
- * 区域
- *
  * @Author: luo kai fa
- * @Date: 2021/4/24
+ * @Date: 2021/4/26
  */
-
-@Component
 public class Region implements Serializable {
     private Integer regionId;
     private String regionName;

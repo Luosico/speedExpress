@@ -1,7 +1,7 @@
 package com.luosico.security.classic;
 
 
-import com.luosico.domain.User;
+import com.luosico.domain.UserAuthority;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,18 +42,18 @@ public class UserAuthenticationProvider implements AuthenticationProvider {
         String username = authentication.getName();
         logger.info("username[ " + username + " ] try authenticate");
 
-        User user = (User) userServiceSecurity.loadUserByUsername(username);
+        UserAuthority userAuthority = (UserAuthority) userServiceSecurity.loadUserByUsername(username);
 
-        if (user == null) {
+        if (userAuthority == null) {
             logger.info("用户不存在");
             throw new UsernameNotFoundException("[" + username + "]不存在");
-        } else if (!passwordEncoder.matches((String) authentication.getCredentials(), user.getPassword())) {
+        } else if (!passwordEncoder.matches((String) authentication.getCredentials(), userAuthority.getPassword())) {
             logger.info("[" + username + "]密码不正确");
             throw new BadCredentialsException("[" + username + "]密码不正确");
         } else {
             //验证成功
             logger.info("username[ " + username + " ] authenticate success!");
-            UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(authentication.getPrincipal(), authentication.getCredentials(), user.getAuthorities());
+            UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(authentication.getPrincipal(), authentication.getCredentials(), userAuthority.getAuthorities());
             return token;
         }
     }

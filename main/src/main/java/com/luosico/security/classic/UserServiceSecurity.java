@@ -1,6 +1,8 @@
 package com.luosico.security.classic;
 
+
 import com.luosico.domain.User;
+import com.luosico.domain.UserAuthority;
 import com.luosico.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -22,6 +24,6 @@ public class UserServiceSecurity implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
         User user = userService.findUserByUsername(s);
-        return user;
+        return new UserAuthority(user);
     }
 }

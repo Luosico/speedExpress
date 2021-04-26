@@ -2,17 +2,14 @@ package com.luosico.service;
 
 import com.luosico.domain.Address;
 import com.luosico.domain.User;
-import com.luosico.mapper.AddressMapper;
-import com.luosico.mapper.UserMapper;
+import com.luosico.user.UserUtil;
 import com.luosico.util.RedisUtils;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -28,12 +25,6 @@ import java.util.Map;
 public class UserService {
 
     @Autowired
-    UserMapper userMapper;
-
-    @Autowired
-    AddressMapper addressMapper;
-
-    @Autowired
     SmsService smsService;
 
     @Autowired
@@ -42,14 +33,16 @@ public class UserService {
     @DubboReference
     RedisUtils redisUtil;
 
+    @DubboReference
+    UserUtil userUtil;
+
     /**
      * 根据帐号查找用户
      *
      * @param username 帐号
      */
     public User findUserByUsername(String username) {
-        User user = userMapper.findUserByUsername(username);
-        return user;
+        return userUtil.selectUserByUsername(username);
     }
 
     /**
@@ -59,7 +52,7 @@ public class UserService {
      * @return 用户信息
      */
     public User findUserByPhoneNumber(String phoneNumber) {
-        return userMapper.findUserByPhoneNumber(phoneNumber);
+        return userUtil.selectUserByPhoneNumber(phoneNumber);
     }
 
     /**
@@ -78,11 +71,7 @@ public class UserService {
         }
         if (smsService.isCorrect(phoneNumber, smsCode)) {
             User user = new User(username, password, phoneNumber);
-            String authority = authoritiesToString((ArrayList<SimpleGrantedAuthority>) user.getAuthorities());
-            int row = userMapper.addUser(user, authority);
-            if (row == 1) {
-                return true;
-            }
+            return 1 == userUtil.addUser(user);
         }
         return false;
     }
@@ -91,7 +80,7 @@ public class UserService {
      * 查找是否唯一
      */
     public boolean isExit(String name, String val) {
-        return userMapper.selectProperty(name, val) == 1;
+        return userUtil.selectProperty(name, val) == 1;
     }
 
     public String changePassword(String phoneNumber, String smsCode, String password) {
@@ -100,7 +89,7 @@ public class UserService {
             //验证码正确
             if (smsService.isCorrect(phoneNumber, smsCode)) {
                 User user = new User(password, phoneNumber);
-                if (userMapper.updateUser(user) != 0) {
+                if (userUtil.updateUser(user) != 0) {
                     message = "ok";
                 }
             } else {
@@ -110,19 +99,6 @@ public class UserService {
             message = "不能为空";
         }
         return message;
-    }
-
-    /**
-     * 将权限集合转换成字符串
-     *
-     * @param list 权限集合
-     */
-    private String authoritiesToString(ArrayList<SimpleGrantedAuthority> list) {
-        StringBuilder authority = new StringBuilder();
-        for (SimpleGrantedAuthority temp : list) {
-            authority.append(temp.getAuthority());
-        }
-        return authority.toString();
     }
 
     /**
@@ -221,7 +197,7 @@ public class UserService {
      * @return userId
      */
     public String getUserIdByUsername(String username) {
-        return userMapper.selectUserIdByUsername(username);
+        return userUtil.selectUserIdByUsername(username);
     }
 
     /**
@@ -243,7 +219,7 @@ public class UserService {
      * @return
      */
     public boolean addAddress(Address address) {
-        return addressMapper.addAddress(address) == 1;
+        return userUtil.addAddress(address) == 1;
     }
 
     /**
@@ -253,7 +229,7 @@ public class UserService {
      * @return
      */
     public boolean updateAddress(Address address) {
-        return addressMapper.updateAddress(address) == 1;
+        return userUtil.updateAddress(address) == 1;
     }
 
     /**
@@ -263,7 +239,7 @@ public class UserService {
      * @return
      */
     public List<Address> selectAddressesByUserId(Integer userId) {
-        return addressMapper.selectAddressesByUserId(userId);
+        return userUtil.selectAddressesByUserId(userId);
     }
 
     /**
@@ -273,6 +249,11 @@ public class UserService {
      * @return
      */
     public boolean deleteAddress(Integer addressId) {
-        return addressMapper.deleteAddress(addressId) == 1;
+        return userUtil.deleteAddress(addressId) == 1;
+    }
+
+
+    public String test() {
+        return userUtil.selectUserIdByUsername("user");
     }
 }

@@ -9,7 +9,7 @@ import java.util.List;
 
 /**
  * @Author: luo kai fa
- * @Date: 2021/4/24
+ * @Date: 2021/4/26
  */
 @Mapper
 public interface AddressMapper {
@@ -32,12 +32,12 @@ public interface AddressMapper {
      * @param address
      * @return
      */
-    int addAddress(Address address);
+    int addAddress(@Param("address") Address address);
 
     /**
      * 更新地址
      */
-    int updateAddress(Address address);
+    int updateAddress(@Param("address") Address address);
 
     /**
      * 获取用户所有地址
@@ -51,5 +51,5 @@ public interface AddressMapper {
      * @param addressId
      * @return
      */
-    int deleteAddress(Integer addressId);
+    int deleteAddress(@Param("addressId") Integer addressId);
 }

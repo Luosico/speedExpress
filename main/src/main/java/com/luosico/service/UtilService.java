@@ -1,10 +1,9 @@
 package com.luosico.service;
 
 import com.luosico.domain.Region;
-import com.luosico.mapper.AddressMapper;
+import com.luosico.user.UserUtil;
 import com.luosico.util.RedisUtils;
 import org.apache.dubbo.config.annotation.DubboReference;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,10 +20,10 @@ import java.util.Random;
 public class UtilService {
 
     @DubboReference
-    RedisUtils redisUtil;
+    UserUtil userUtil;
 
-    @Autowired
-    AddressMapper addressMapper;
+    @DubboReference
+    RedisUtils redisUtil;
 
     /**
      * 生成随机字母数字组合
@@ -60,7 +59,7 @@ public class UtilService {
      * @return
      */
     public List<Region> getAllRegion() {
-        return addressMapper.selectAllRegion();
+        return userUtil.selectAllRegion();
     }
 
     /**
@@ -70,7 +69,7 @@ public class UtilService {
      */
     public boolean addRegion(String regionName) {
         if (!isEmpty(regionName)) {
-            return addressMapper.addRegion(regionName) == 1;
+            return userUtil.addRegion(regionName) == 1;
         }
         return false;
     }

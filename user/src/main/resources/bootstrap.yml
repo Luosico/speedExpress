@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: userApplication
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+        enabled: true
+        namespace: public
+      config:
+        server-addr: localhost:8848
+        file-extension: yml
+        group: DEFAULT_GROUP

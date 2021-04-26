@@ -1,5 +1,6 @@
 package com.luosico.mapper;
 
+
 import com.luosico.domain.User;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -40,7 +41,7 @@ public interface UserMapper {
      * @param user 用户信息
      * @return
      */
-    int addUser(@Param("user") User user, @Param("authorities") String authorities);
+    int addUser(@Param("user") User user);
 
     /**
      * 查找用户名是否存在

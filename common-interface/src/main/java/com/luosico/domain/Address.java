@@ -1,17 +1,11 @@
 package com.luosico.domain;
 
-import org.springframework.stereotype.Component;
-
 import java.io.Serializable;
 
 /**
- * 地址
- *
  * @Author: luo kai fa
- * @Date: 2021/4/25
+ * @Date: 2021/4/26
  */
-
-@Component
 public class Address implements Serializable {
     private Integer addressId;
     private Integer userId;

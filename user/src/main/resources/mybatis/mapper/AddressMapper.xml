@@ -58,20 +58,20 @@
         update
         address
         <set>
-            <if test="regionId !=null">
-                region_id = #{regionId},
+            <if test="address.regionId !=null">
+                region_id = #{address.regionId},
             </if>
-            <if test="pickUpAddress!=null and pickUpAddress!=''">
-                pick_up_address = #{pickUpAddress},
+            <if test="address.pickUpAddress!=null and address.pickUpAddress!=''">
+                pick_up_address = #{address.pickUpAddress},
             </if>
-            <if test="receiveAddress!=null and receiveAddress!=''">
-                receive_address = #{receiveAddress},
+            <if test="address.receiveAddress!=null and address.receiveAddress!=''">
+                receive_address = #{address.receiveAddress},
             </if>
         </set>
         <where>
             <choose>
-                <when test="addressId != null and addressId != ''">
-                    address_id = #{addressId}
+                <when test="address.addressId != null and address.addressId != ''">
+                    address_id = #{address.addressId}
                 </when>
                 <otherwise>
                     1 = 2
