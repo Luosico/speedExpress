@@ -1,10 +1,13 @@
 package com.luosico.controller;
 
+import com.luosico.domain.JsonStructure;
 import com.luosico.service.UserService;
+import com.luosico.service.UtilService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
 /**
@@ -20,8 +23,12 @@ public class BasicUserController {
     @Autowired
     UserService userService;
 
+    @Autowired
+    UtilService utilService;
+
     /**
      * 用户注册
+     *
      * @param map
      * @return
      */
@@ -37,15 +44,25 @@ public class BasicUserController {
 
     /**
      * 用户名是否存在
+     *
      * @return true 存在；false 不存在
      */
     @GetMapping("/isExit")
     @ResponseBody
-    public String usernameIsExit(@RequestParam("name")String name, @RequestParam("val") String val){
-        if(userService.isExit(name,val)){
-            return "true";
+    public JsonStructure isExit(@RequestParam("name") String name, @RequestParam("val") String val, HttpServletRequest request) {
+        if (!utilService.isEmpty(name, val)) {
+            if("username".equals(name)){
+                String username = userService.getUsernameByCookie(request.getCookies());
+                //当前用户名
+                if (username.equals(val)) {
+                    return new JsonStructure<>();
+                }
+            }
+            if (!userService.isExit(name, val)) {
+                return new JsonStructure<>();
+            }
         }
-        return "false";
+        return new JsonStructure("fail", "");
     }
 
 
@@ -54,7 +71,7 @@ public class BasicUserController {
      */
     @ResponseBody
     @PostMapping(value = "/changePassword", consumes = "application/json")
-    public String changePassword(@RequestBody Map<String,String> map){
-        return userService.changePassword(map.get("phoneNumber"),map.get("smsCode"),map.get("password"));
+    public String changePassword(@RequestBody Map<String, String> map) {
+        return userService.changePassword(map.get("phoneNumber"), map.get("smsCode"), map.get("password"));
     }
 }

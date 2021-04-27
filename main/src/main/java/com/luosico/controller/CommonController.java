@@ -7,6 +7,7 @@ import com.luosico.domain.JsonStructure;
 import com.luosico.domain.Region;
 import com.luosico.service.UserService;
 import com.luosico.service.UtilService;
+import com.netflix.ribbon.proxy.annotation.Http;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -117,17 +118,100 @@ public class CommonController {
 
     /**
      * 删除地址
+     *
      * @return
      */
     @DeleteMapping("address")
-    public JsonStructure deleteAddress(@RequestBody Map<String, String> map){
+    public JsonStructure deleteAddress(@RequestBody Map<String, String> map) {
         String addressId = map.get("addressId");
-        if (!utilService.isEmpty(addressId)){
-            if (userService.deleteAddress(Integer.valueOf(addressId))){
+        if (!utilService.isEmpty(addressId)) {
+            if (userService.deleteAddress(Integer.valueOf(addressId))) {
                 return new JsonStructure();
             }
         }
         return new JsonStructure("fail", "");
+    }
+
+    /**
+     * 获取短信验证码
+     */
+    @GetMapping("smsCode")
+    public void getSmsCode(@RequestParam("need") String need, @RequestParam(value = "phoneNumber", required = false) String phoneNumber, HttpServletRequest request) {
+        if ("no".equals(need)) {
+            userService.sendSmsCode(request.getCookies());
+        } else {
+            userService.sendSmsCode(phoneNumber);
+        }
+    }
+
+    /**
+     * 更新用户信息
+     * 包含：username     name
+     *
+     * @param map
+     * @return
+     */
+    @PutMapping("updateUserName")
+    public JsonStructure updateUser(@RequestBody Map<String, String> map, HttpServletRequest request) {
+        String newUsername = map.get("username");
+        String name = map.get("name");
+        if (!utilService.isEmpty(newUsername, name)) {
+            //获取当前登录用户名
+            String username = userService.getUsernameByCookie(request.getCookies());
+            if (userService.updateUserName(username, newUsername, name)) {
+                return new JsonStructure();
+            } else {
+                return new JsonStructure("fail", "提交出现错误");
+            }
+        } else {
+            return new JsonStructure("fail", "存在内容为空");
+        }
+    }
+
+    /**
+     * 更新用户手机号码
+     *
+     * @param map
+     * @param request
+     * @return
+     */
+    @PutMapping("updatePhoneNumber")
+    public JsonStructure updatePhoneNumber(@RequestBody Map<String, String> map, HttpServletRequest request) {
+        String phoneNumber = map.get("phoneNumber");
+        String smsCode = map.get("smsCode");
+        //验证短信验证码
+        if (userService.validateSmsCode(phoneNumber, smsCode)) {
+            String username = userService.getUsernameByCookie(request.getCookies());
+            //更新手机号码
+            if (userService.updatePhoneNumber(username, phoneNumber)) {
+                return new JsonStructure();
+            }
+            return new JsonStructure("fail", "服务器出现错误");
+        } else {
+            return new JsonStructure("fail", "验证码错误");
+        }
+    }
+
+    /**
+     * 更改密码
+     *
+     * @param map
+     * @param request
+     * @return
+     */
+    @PutMapping("updatePassword")
+    public JsonStructure updatePassword(@RequestBody Map<String, String> map, HttpServletRequest request) {
+        String password = map.get("password");
+        String smsCode = map.get("smsCode");
+        if (!utilService.isEmpty(password, smsCode)) {
+            //校验验证码
+            if (userService.validateSmsCode(request.getCookies(), smsCode)) {
+
+            } else {
+                return new JsonStructure("fail", "验证码错误");
+            }
+        }
+        return new JsonStructure("fail", "内容不能为空");
     }
 
     /**

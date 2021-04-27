@@ -100,4 +100,29 @@ public interface UserUtil {
      */
     int deleteAddress(Integer addressId);
 
+    /**
+     * 从数据库中
+     * 根据 userId查找手机号码
+     * @param userId
+     * @return
+     */
+    String selectPhoneNumber(Integer userId);
+
+    /**
+     * 更新用户信息
+     * @param username 当前用户名
+     * @param newUsername 新的用户名
+     * @param name  姓名
+     * @return 执行结果
+     */
+    int updateUserName(String username, String newUsername, String name);
+
+    /**
+     * 更新手机号码
+     * @param username
+     * @param phoneNumber
+     * @return
+     */
+    int updatePhoneNumber(String username, String phoneNumber);
+
 }

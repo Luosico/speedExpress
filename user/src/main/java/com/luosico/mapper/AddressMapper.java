@@ -32,7 +32,7 @@ public interface AddressMapper {
      * @param address
      * @return
      */
-    int addAddress(@Param("address") Address address);
+    int addAddress(Address address);
 
     /**
      * 更新地址

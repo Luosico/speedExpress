@@ -83,13 +83,21 @@ public class UserService {
         return userUtil.selectProperty(name, val) == 1;
     }
 
+    /**
+     * 更改密码
+     *
+     * @param phoneNumber 手机号码
+     * @param smsCode     短信验证码
+     * @param password    密码
+     * @return
+     */
     public String changePassword(String phoneNumber, String smsCode, String password) {
         String message = "";
         if (!utilService.isEmpty(phoneNumber, smsCode, password)) {
             //验证码正确
-            if (smsService.isCorrect(phoneNumber, smsCode)) {
+            if (validateSmsCode(phoneNumber, smsCode)) {
                 User user = new User(password, phoneNumber);
-                if (userUtil.updateUser(user) != 0) {
+                if (updateUser(user)) {
                     message = "ok";
                 }
             } else {
@@ -99,6 +107,37 @@ public class UserService {
             message = "不能为空";
         }
         return message;
+    }
+
+    /**
+     * 更改密码
+     *
+     * @param username 用户名
+     * @param password 新的密码
+     * @return 执行结果
+     */
+    public boolean updatePassword(String username, String password) {
+        if (!utilService.isEmpty(username, password)) {
+            User user = new User();
+            user.setUsername(username);
+            user.setPassword(password);
+
+            return updateUser(user);
+        }
+        return false;
+    }
+
+    /**
+     * 更新用户信息
+     *
+     * @param user
+     * @return
+     */
+    public boolean updateUser(User user) {
+        if (user != null) {
+            return userUtil.updateUser(user) == 1;
+        }
+        return false;
     }
 
     /**
@@ -207,9 +246,11 @@ public class UserService {
      * @param username 用户名
      */
     public void setUserInfo(String uid, String username) {
+        String userId = userUtil.selectUserIdByUsername(username);
         redisUtil.set(uid, username, 60 * 30);
         redisUtil.hset(username, "uid", uid, 60 * 30);
         redisUtil.hset(username, "userId", getUserIdByUsername(username));
+        redisUtil.hset(username, "phoneNumber", selectPhoneNumber(userId));
     }
 
     /**
@@ -252,8 +293,87 @@ public class UserService {
         return userUtil.deleteAddress(addressId) == 1;
     }
 
+    /**
+     * 获取电话号码
+     *
+     * @param cookies
+     * @return
+     */
+    public String getPhoneNumber(Cookie[] cookies) {
+        String username = getUsernameByCookie(cookies);
+        return (String) redisUtil.hget(username, "phoneNumber");
+    }
 
-    public String test() {
-        return userUtil.selectUserIdByUsername("user");
+    /**
+     * 从数据库中查找手机号码
+     *
+     * @param userId
+     * @return
+     */
+    public String selectPhoneNumber(String userId) {
+        return userUtil.selectPhoneNumber(Integer.valueOf(userId));
+    }
+
+    /**
+     * 发送短信验证码
+     *
+     * @param cookies
+     */
+    public void sendSmsCode(Cookie[] cookies) {
+        String phoneNumber = getPhoneNumber(cookies);
+        smsService.sendSmsCode(phoneNumber);
+    }
+
+    /**
+     * 发送短信验证码
+     *
+     * @param phoneNumber 手机号码
+     */
+    public void sendSmsCode(String phoneNumber) {
+        smsService.sendSmsCode(phoneNumber);
+    }
+
+    /**
+     * 更新用户信息
+     *
+     * @param username    当前用户名
+     * @param newUsername 新的用户名
+     * @param name        姓名
+     * @return 执行结果
+     */
+    public boolean updateUserName(String username, String newUsername, String name) {
+        return userUtil.updateUserName(username, newUsername, name) == 1;
+    }
+
+    /**
+     * 验证短信验证码
+     *
+     * @param phoneNumber 手机号码
+     * @return 验证结果
+     */
+    public boolean validateSmsCode(String phoneNumber, String smsCode) {
+        if (!utilService.isEmpty(phoneNumber, smsCode)) {
+            Object temp = redisUtil.get(phoneNumber);
+            if (temp != null && ((String) temp).equals(smsCode)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean validateSmsCode(Cookie[] cookies, String smsCode) {
+        String phoneNumber = getPhoneNumber(cookies);
+        return validateSmsCode(phoneNumber, smsCode);
+    }
+
+    /**
+     * 更新手机号码
+     *
+     * @param username
+     * @param phoneNumber
+     * @return
+     */
+    public boolean updatePhoneNumber(String username, String phoneNumber) {
+        return userUtil.updatePhoneNumber(username, phoneNumber) == 1;
     }
 }

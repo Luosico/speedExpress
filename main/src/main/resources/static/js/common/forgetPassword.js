@@ -94,7 +94,7 @@ let forgetPassword = {
                 },
                 async: false, //同步请求
                 success: function (response) {
-                    if (response === 'false') {
+                    if (response.status === 'false') {
                         result = false;
                     } else {
                         result = true;

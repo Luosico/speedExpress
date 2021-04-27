@@ -76,6 +76,19 @@
             </otherwise>
         </choose>
     </select>
+    <select id="selectPhoneNumber" resultType="java.lang.String">
+        select phone_number
+        from user
+        where
+        <choose>
+            <when test="userId!=null and userId!=''">
+                id = #{userId}
+            </when>
+            <otherwise>
+                1 = 2
+            </otherwise>
+        </choose>
+    </select>
 
     <update id="updateUser">
         update
@@ -114,6 +127,46 @@
             </when>
             <otherwise>
                 and 1=2
+            </otherwise>
+        </choose>
+    </update>
+    <update id="updateUserName">
+        update user
+        <set>
+            <if test="newUsername != null and newUsername != '' ">
+                username = #{newUsername},
+            </if>
+            <if test="name != null and name != '' ">
+                name = #{name},
+            </if>
+            username = #{username}
+        </set>
+        where
+        <choose>
+            <when test="username !=null and username != ''">
+                username = #{username}
+            </when>
+            <otherwise>
+                1 = 2
+            </otherwise>
+        </choose>
+    </update>
+
+    <update id="updatePhoneNumber">
+        update user
+        <set>
+            <if test="phoneNumber != null and phoneNumber != ''">
+                phone_number = #{phoneNumber},
+            </if>
+            username = #{username}
+        </set>
+        where
+        <choose>
+            <when test="username !=null and username != ''">
+                username = #{username}
+            </when>
+            <otherwise>
+                1 = 2
             </otherwise>
         </choose>
     </update>

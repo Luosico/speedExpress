@@ -23,13 +23,7 @@ let Main = {
             callback();
         };
         let validatePasswordRepeat = (rule, value, callback) => {
-            if (!value) {
-                callback(new Error('密码不能为空'));
-            } else if (value.length < 6) {
-                callback(new Error("密码不能少于6位"))
-            } else if (!/^[0-9a-zA-Z_]*$/.test(value)) {
-                callback(new Error("只能由数字、字母、_(下划线) 组成"))
-            } else if (value !== this.form.password) {
+            if (value !== this.form.password) {
                 callback(new Error("两次输入的密码不一致"));
             }
             callback();
@@ -41,7 +35,7 @@ let Main = {
                 callback(new Error('手机号码格式不正确'))
             } else if (value.length < 6) {
                 callback(new Error('不少于 6 位'))
-            } else if(this.isExit("phoneNumber", value)){
+            } else if (this.isExit("phoneNumber", value)) {
                 callback(new Error("该手机号码已被使用 "))
             }
             callback();
@@ -110,7 +104,7 @@ let Main = {
                 },
                 async: false, //同步请求
                 success: function (response) {
-                    if (response === 'false') {
+                    if (response.status === 'false') {
                         result = false;
                     } else {
                         result = true;

@@ -21,6 +21,21 @@ function setUsername(vue) {
 }
 
 /**
+ * 获取 username
+ * 更新 Vue实例的 username
+ * @param vue Vue实例
+ */
+function getUsername(success) {
+    axios({
+        url: "/common/username",
+        method: "GET",
+        responseType: "json"
+    }).then(function (response) {
+        success(response.data.username)
+    })
+}
+
+/**
  * 获取区域
  */
 function getRegions(vue) {
@@ -44,9 +59,9 @@ function addAddress(data, vue) {
         data: data,
         responseType: "json",
     }).then(function (response) {
-        if(requestSuccess(response)){
+        if (requestSuccess(response)) {
             refresh();
-        }else{
+        } else {
             vue.$message({
                 message: '提交失败',
                 type: 'error'
@@ -83,13 +98,13 @@ function updateAddress(data, vue) {
     }).then(function (response) {
         vue.loading = false;
         //更新成功
-        if(requestSuccess(response)){
+        if (requestSuccess(response)) {
             getAddresses(vue);
             vue.$message({
                 message: '地址更新成功',
                 type: 'success'
             });
-        }else{
+        } else {
             vue.$message({
                 message: '地址更新失败',
                 type: 'error'
@@ -113,10 +128,10 @@ function deleteAddress(addressId, vue) {
         },
         responseType: "json",
     }).then(function (response) {
-        vue.loading =false;
-        if(requestSuccess(response)){
+        vue.loading = false;
+        if (requestSuccess(response)) {
             refresh();
-        }else {
+        } else {
             vue.$message({
                 message: '地址删除失败',
                 type: 'error'
@@ -132,4 +147,125 @@ function deleteAddress(addressId, vue) {
  */
 function requestSuccess(response) {
     return response.data.status === 'ok';
+}
+
+/**
+ * 获取手机验证码
+ */
+function getSmsCode(phoneNumber, vue) {
+
+    vue.canGetSmsCode = false;
+    vue.timeRemain = setInterval(this.smsCodeCount, 1000);
+
+    axios({
+        url: "/smsCode",
+        method: "GET",
+        params: {
+            phoneNumber: phoneNumber,
+            type: "login",
+        }
+    });
+}
+
+/**
+ * 检查属性是否存在
+ * @param name 属性名
+ * @param val 属性值
+ * @param data vue对象
+ * @param success 成功执行方法
+ * @param fail 失败执行方法
+ */
+function isExit(name, val, data, success, fail) {
+    axios({
+        url: "/isExit",
+        method: "GET",
+        params: {
+            name: name,
+            val: val,
+        }
+    }).then(function (response) {
+        if (response.data.status === 'ok') {
+            //回调函数
+            success(data);
+        } else {
+            //回调函数
+            fail(data);
+        }
+    })
+}
+
+/**
+ * 更新手机号码
+ * @param phoneNumber 手机号码
+ * @param smsCode   短信验证码
+ * @param data  数据
+ * @param success   成功时的回调函数
+ * @param fail  失败时的回调函数
+ */
+function updatePhoneNumber(phoneNumber, smsCode, data, success, fail) {
+    axios({
+        url: "/common/updatePhoneNumber",
+        method: "PUT",
+        data: {
+            phoneNumber: phoneNumber,
+            smsCode: smsCode
+        },
+    }).then(function (response) {
+        if (response.data.status === 'ok') {
+            success(data);
+        } else {
+            fail(data, response.data.message);
+        }
+    })
+}
+
+/**
+ * 更新用户信息
+ * 用户名和姓名
+ * @param username 用户名
+ * @param name  姓名
+ * @param data
+ * @param success
+ * @param fail
+ */
+function updateUserName(username, name, data, success, fail) {
+    axios({
+        url: "/common/updateUserName",
+        method: "PUT",
+        data: {
+            username: username,
+            name: name
+        },
+    }).then(function (response) {
+        if (response.data.status === 'ok') {
+            success(data);
+        } else {
+            fail(data, response.data.message);
+        }
+    })
+}
+
+/**
+ * 更改密码
+ * @param password 新密码
+ * @param smsCode   短信验证码
+ * @param data
+ * @param success
+ * @param fail
+ */
+function updatePassword(password, smsCode, data, success, fail) {
+    axios({
+        url: "/common/updatePassword",
+        method: "PUT",
+        data: {
+            password: password,
+            smsCode: smsCode
+        },
+    }).then(function (response) {
+        if (response.data.status === 'ok') {
+            success(data);
+        } else {
+            fail(data, response.data.message);
+        }
+    })
 }

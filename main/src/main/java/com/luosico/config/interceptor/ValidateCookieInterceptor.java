@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -42,7 +43,12 @@ public class ValidateCookieInterceptor implements HandlerInterceptor {
     //DispatcherServlet 渲染了对应的视图之后执行, 主要用来进行资源清理
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
-
-        HandlerInterceptor.super.afterCompletion(request, response, handler, ex);
+        //刷新cookie存活时间
+        Cookie[] cookies = request.getCookies();
+        for (Cookie cookie : cookies) {
+            if ("uid".equals(cookie.getName())) {
+                cookie.setMaxAge(60 * 30);
+            }
+        }
     }
 }

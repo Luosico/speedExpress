@@ -91,7 +91,7 @@ public class User implements Serializable {
     }
 
     public void setPassword(String password) {
-        this.password = password;
+        this.password = passwordEncoder.encode(password);
     }
 
     public void setPhoneNumber(String phoneNumber) {

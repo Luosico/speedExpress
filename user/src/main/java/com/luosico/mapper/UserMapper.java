@@ -4,6 +4,7 @@ package com.luosico.mapper;
 import com.luosico.domain.User;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.security.core.parameters.P;
 
 /**
  * @Author: luo kai fa
@@ -51,5 +52,35 @@ public interface UserMapper {
      */
     int selectProperty(@Param("name") String username, @Param("val") String val);
 
+    /**
+     * 更新用户信息
+     * @param user
+     * @return
+     */
     int updateUser(@Param("user") User user);
+
+    /**
+     * 查询手机号码
+     * @param userId
+     * @return
+     */
+    String selectPhoneNumber(@Param("userId") Integer userId);
+
+    /**
+     * 更新用户信息
+     *
+     * @param username    当前用户名
+     * @param newUsername 新的用户名
+     * @param name        姓名
+     * @return 执行结果
+     */
+    int updateUserName(@Param("username") String username, @Param("newUsername") String newUsername, @Param("name") String name);
+
+    /**
+     * 更新手机号码
+     * @param username
+     * @param phoneNumber
+     * @return
+     */
+    int updatePhoneNumber(@Param("username") String username, @Param("phoneNumber") String phoneNumber);
 }

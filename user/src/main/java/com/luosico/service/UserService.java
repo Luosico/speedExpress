@@ -88,4 +88,19 @@ public class UserService implements UserUtil {
     public int deleteAddress(Integer addressId) {
         return addressMapper.deleteAddress(addressId);
     }
+
+    @Override
+    public String selectPhoneNumber(Integer userId) {
+        return userMapper.selectPhoneNumber(userId);
+    }
+
+    @Override
+    public int updateUserName(String username, String newUsername, String name) {
+        return userMapper.updateUserName(username, newUsername, name);
+    }
+
+    @Override
+    public int updatePhoneNumber(String username, String phoneNumber) {
+        return userMapper.updatePhoneNumber(username, phoneNumber);
+    }
 }
