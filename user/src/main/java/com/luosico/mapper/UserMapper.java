@@ -13,13 +13,6 @@ import org.springframework.security.core.parameters.P;
 
 @Mapper
 public interface UserMapper {
-    /**
-     * 通过账号查找用户
-     *
-     * @param username 账号
-     * @return 用户信息
-     */
-    User findUserByUsername(@Param("username") String username);
 
     /**
      * 通过手机号码查找用户
@@ -27,7 +20,7 @@ public interface UserMapper {
      * @param phoneNumber 手机号码
      * @return 用户信息
      */
-    User findUserByPhoneNumber(@Param("phoneNumber") String phoneNumber);
+    User SelectUserByPhoneNumber(@Param("phoneNumber") String phoneNumber);
 
     /**
      * 通过 username查找 userId
@@ -58,6 +51,14 @@ public interface UserMapper {
      * @return
      */
     int updateUser(@Param("user") User user);
+
+    /**
+     * 查找用户信息
+     *
+     * @param username
+     * @return
+     */
+    User selectUserByUsername(String username);
 
     /**
      * 查询手机号码

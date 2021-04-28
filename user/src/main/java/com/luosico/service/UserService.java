@@ -30,13 +30,12 @@ public class UserService implements UserUtil {
 
     @Override
     public User selectUserByUsername(String username) {
-        User user = userMapper.findUserByUsername(username);
-        return user;
+        return userMapper.selectUserByUsername(username);
     }
 
     @Override
     public User selectUserByPhoneNumber(String phoneNumber) {
-        return userMapper.findUserByPhoneNumber(phoneNumber);
+        return userMapper.SelectUserByPhoneNumber(phoneNumber);
     }
 
     @Override

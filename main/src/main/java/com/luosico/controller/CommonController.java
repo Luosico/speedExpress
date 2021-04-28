@@ -7,7 +7,6 @@ import com.luosico.domain.JsonStructure;
 import com.luosico.domain.Region;
 import com.luosico.service.UserService;
 import com.luosico.service.UtilService;
-import com.netflix.ribbon.proxy.annotation.Http;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -40,13 +39,18 @@ public class CommonController {
      * @return username
      */
     @GetMapping("username")
-    public String getUsername(HttpServletRequest request) throws JsonProcessingException {
+    public JsonStructure getUsername(HttpServletRequest request){
         Cookie[] cookies = request.getCookies();
         String username = userService.getUsernameByCookie(cookies);
         HashMap<String, String> map = new HashMap<>();
         map.put("username", username);
-        ObjectMapper objectMapper = new ObjectMapper();
-        return objectMapper.writeValueAsString(map);
+        return new JsonStructure("ok", "", username);
+    }
+
+    @GetMapping("name")
+    public JsonStructure getName(HttpServletRequest request){
+        String username = userService.getUsernameByCookie(request.getCookies());
+        return new JsonStructure("ok","",userService.getNameByUsername(username));
     }
 
     /**
@@ -206,7 +210,13 @@ public class CommonController {
         if (!utilService.isEmpty(password, smsCode)) {
             //校验验证码
             if (userService.validateSmsCode(request.getCookies(), smsCode)) {
-
+                String username = userService.getUsernameByCookie(request.getCookies());
+                //更新密码成功
+                if (userService.updatePassword(username, password)) {
+                    return new JsonStructure();
+                } else {
+                    return new JsonStructure("fail", "服务器出现错误");
+                }
             } else {
                 return new JsonStructure("fail", "验证码错误");
             }
@@ -227,7 +237,7 @@ public class CommonController {
         String pickUpAddress = map.get("pickUpAddress");
         String receiveAddress = map.get("receiveAddress");
         if (!utilService.isEmpty(username, regionId, pickUpAddress, receiveAddress)) {
-            String userId = userService.getUserIdByUsername(username);
+            String userId = userService.selectUserIdByUsername(username);
             Address address = new Address(Integer.valueOf(userId), Integer.valueOf(regionId), pickUpAddress, receiveAddress);
             if (!utilService.isEmpty(addressId)) {
                 address.setAddressId(Integer.valueOf(addressId));

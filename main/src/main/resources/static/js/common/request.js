@@ -7,23 +7,6 @@ function refresh() {
 
 /**
  * 获取 username
- * 更新 Vue实例的 username
- * @param vue Vue实例
- */
-function setUsername(vue) {
-    axios({
-        url: "/common/username",
-        method: "GET",
-        responseType: "json"
-    }).then(function (response) {
-        vue.username = response.data.username
-    })
-}
-
-/**
- * 获取 username
- * 更新 Vue实例的 username
- * @param vue Vue实例
  */
 function getUsername(success) {
     axios({
@@ -31,7 +14,21 @@ function getUsername(success) {
         method: "GET",
         responseType: "json"
     }).then(function (response) {
-        success(response.data.username)
+        success(response.data)
+    })
+}
+
+/**
+ * 获取用户姓名
+ * @param success
+ */
+function getName(success) {
+    axios({
+        url: "/common/name",
+        method: "GET",
+        responseType: "json"
+    }).then(function (response) {
+        success(response.data)
     })
 }
 

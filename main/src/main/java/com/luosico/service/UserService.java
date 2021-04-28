@@ -10,12 +10,16 @@ import org.springframework.stereotype.Service;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Map;
 
 /**
  * 所有用户相关的服务
  * USER、COURIER、ADMIN
+ * <p>
+ * 操作mysql 以 select 开头
+ * 操作redis、cookie 以 get 开头
  *
  * @Author: luo kai fa
  * @Date: 2021/1/14
@@ -120,7 +124,7 @@ public class UserService {
         if (!utilService.isEmpty(username, password)) {
             User user = new User();
             user.setUsername(username);
-            user.setPassword(password);
+            user.setEncodePassword(password);
 
             return updateUser(user);
         }
@@ -204,7 +208,7 @@ public class UserService {
      */
     public String getUserIdByCookie(Cookie[] cookies) {
         String username = getUsernameByCookie(cookies);
-        return getUserIdByUsername(username);
+        return selectUserIdByUsername(username);
     }
 
     /**
@@ -235,8 +239,18 @@ public class UserService {
      * @param username 用户名
      * @return userId
      */
-    public String getUserIdByUsername(String username) {
+    public String selectUserIdByUsername(String username) {
         return userUtil.selectUserIdByUsername(username);
+    }
+
+    /**
+     * 在缓存中通过 username 查找 userId
+     *
+     * @param username 用户名
+     * @return userId
+     */
+    public String getUserIdByUsername(String username) {
+        return (String) redisUtil.hget(username, "uerId");
     }
 
     /**
@@ -246,11 +260,13 @@ public class UserService {
      * @param username 用户名
      */
     public void setUserInfo(String uid, String username) {
-        String userId = userUtil.selectUserIdByUsername(username);
+        String userId = selectUserIdByUsername(username);
+        User user  = selectUserByUsername(username);
         redisUtil.set(uid, username, 60 * 30);
         redisUtil.hset(username, "uid", uid, 60 * 30);
-        redisUtil.hset(username, "userId", getUserIdByUsername(username));
-        redisUtil.hset(username, "phoneNumber", selectPhoneNumber(userId));
+        redisUtil.hset(username, "userId", userId);
+        redisUtil.hset(username, "phoneNumber", user.getPhoneNumber());
+        redisUtil.hset(username, "name", user.getName());
     }
 
     /**
@@ -301,6 +317,16 @@ public class UserService {
      */
     public String getPhoneNumber(Cookie[] cookies) {
         String username = getUsernameByCookie(cookies);
+        return getPhoneNumberByUsername(username);
+    }
+
+    /**
+     * 通过 username 获取 phoneNumber
+     *
+     * @param username
+     * @return
+     */
+    public String getPhoneNumberByUsername(String username) {
         return (String) redisUtil.hget(username, "phoneNumber");
     }
 
@@ -310,8 +336,19 @@ public class UserService {
      * @param userId
      * @return
      */
-    public String selectPhoneNumber(String userId) {
+    public String selectPhoneNumberByUserId(String userId) {
         return userUtil.selectPhoneNumber(Integer.valueOf(userId));
+    }
+
+    /**
+     * 根据 username 查找 手机号码
+     *
+     * @param username
+     * @return
+     */
+    public String selectPhoneNumberByUsername(String username) {
+        String userId = selectUserIdByUsername(username);
+        return selectPhoneNumberByUserId(userId);
     }
 
     /**
@@ -342,7 +379,21 @@ public class UserService {
      * @return 执行结果
      */
     public boolean updateUserName(String username, String newUsername, String name) {
-        return userUtil.updateUserName(username, newUsername, name) == 1;
+        if (userUtil.updateUserName(username, newUsername, name) == 1) {
+            String uid = getUidByUsername(username);
+            String userId = selectUserIdByUsername(username);
+            String phoneNumber = getPhoneNumberByUsername(username);
+            //更新Redis信息
+            redisUtil.set(uid, newUsername, 60 * 30);
+            redisUtil.del(username);
+            redisUtil.hset(newUsername, "uid", uid, 60 * 30);
+            redisUtil.hset(newUsername, "userId", userId);
+            redisUtil.hset(newUsername, "phoneNumber", phoneNumber);
+            redisUtil.hset(newUsername, "name", name);
+
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -374,6 +425,32 @@ public class UserService {
      * @return
      */
     public boolean updatePhoneNumber(String username, String phoneNumber) {
-        return userUtil.updatePhoneNumber(username, phoneNumber) == 1;
+        if (userUtil.updatePhoneNumber(username, phoneNumber) == 1) {
+            redisUtil.hset(username, "phoneNumber", phoneNumber);
+            redisUtil.expire(username, 60 * 30);
+            return true;
+        }
+        return false;
     }
+
+    /**
+     * 查询用户信息
+     *
+     * @param username 用户名
+     * @return
+     */
+    public User selectUserByUsername(String username) {
+        return userUtil.selectUserByUsername(username);
+    }
+
+    /**
+     * 查找用户姓名
+     *
+     * @param username
+     * @return
+     */
+    public String getNameByUsername(String username) {
+        return (String) redisUtil.hget(username, "name");
+    }
+
 }

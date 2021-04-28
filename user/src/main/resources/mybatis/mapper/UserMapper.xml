@@ -24,22 +24,10 @@
                 #{user.enabled})
     </insert>
 
-    <select id="findUserByUsername" resultType="com.luosico.domain.User">
-        select username,
-               password,
-               phone_number,
-               create_time,
-               authorities authority,
-               credentials_non_expired,
-               account_non_expired,
-               account_non_locked,
-               enabled
-        from user
-        where username = #{username}
-    </select>
-
-    <select id="findUserByPhoneNumber" resultType="com.luosico.domain.User">
-        select username,
+    <select id="SelectUserByPhoneNumber" resultType="com.luosico.domain.User">
+        select id,
+               username,
+               name,
                password,
                phone_number,
                create_time,
@@ -88,6 +76,59 @@
                 1 = 2
             </otherwise>
         </choose>
+    </select>
+
+    <select id="selectUserByUsername" resultType="com.luosico.domain.User">
+        select
+        id,
+        username,
+        name,
+        password,
+        phone_number,
+        create_time,
+        authorities authority,
+        credentials_non_expired,
+        account_non_expired,
+        account_non_locked,
+        enabled
+        from user
+        where username = #{username}
+        <!--select
+        id
+        <if test="username!=null and username!=''">
+            ,username
+        </if>
+        <if test="name!=null and name!=''">
+            ,name
+        </if>
+        <if test="createTime!=null">
+            ,create_time
+        </if>
+        <if test="authority!=null and authority!=''">
+            ,authorities
+        </if>
+        <if test="accountNonExpired=-1">
+            ,account_non_expired
+        </if>
+        <if test="accountNonLocked=-1">
+            ,account_non_locked
+        </if>
+        <if test="credentialsNonExpired=-1">
+            ,credentials_non_expired
+        </if>
+        <if test="enabled=-1">
+            ,enabled
+        </if>
+        from user
+        where
+        <choose>
+            <when test="username!=null and username!=''">
+                username = #{username}
+            </when>
+            <otherwise>
+                1 = 2
+            </otherwise>
+        </choose>-->
     </select>
 
     <update id="updateUser">

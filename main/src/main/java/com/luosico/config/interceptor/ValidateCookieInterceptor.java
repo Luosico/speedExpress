@@ -1,6 +1,8 @@
 package com.luosico.config.interceptor;
 
 import com.luosico.service.UserService;
+import com.luosico.util.RedisUtils;
+import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -23,6 +25,9 @@ public class ValidateCookieInterceptor implements HandlerInterceptor {
     @Autowired
     UserService userService;
 
+    @DubboReference
+    RedisUtils redisUtils;
+
     //Controller处理之前
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
@@ -43,11 +48,15 @@ public class ValidateCookieInterceptor implements HandlerInterceptor {
     //DispatcherServlet 渲染了对应的视图之后执行, 主要用来进行资源清理
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
-        //刷新cookie存活时间
+        //刷新cookie存活时间 和 redis键的过期时间
         Cookie[] cookies = request.getCookies();
         for (Cookie cookie : cookies) {
             if ("uid".equals(cookie.getName())) {
+                String uid = cookie.getValue();
+                String username = userService.getUsernameByUid(uid);
                 cookie.setMaxAge(60 * 30);
+                redisUtils.expire(uid, 60 * 30);
+                redisUtils.expire(username, 60 * 30);
             }
         }
     }

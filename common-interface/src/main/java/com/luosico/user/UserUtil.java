@@ -16,7 +16,7 @@ import java.util.List;
 public interface UserUtil {
 
     /**
-     * 通过账号查找用户
+     * 通过用户名查找用户
      *
      * @param username 账号
      * @return 用户信息

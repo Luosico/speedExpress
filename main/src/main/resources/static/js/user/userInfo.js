@@ -160,7 +160,7 @@ let Main = {
             this.$refs['password'].validate((valid) => {
                 if (valid) {
                     let password = this.password.newPassword;
-                    let smsCode = this.path.smsCode;
+                    let smsCode = this.password.smsCode;
                     updatePassword(password, smsCode, this, (val) => {
                         val.$message({
                             message: '修改成功',
@@ -280,7 +280,7 @@ let Main = {
 
         getUsername(username) {
             this.username = username;
-        }
+        },
     },
     watch: {
         timeRemaining1: function (val) {
@@ -306,7 +306,16 @@ let Main = {
         }
     },
     created() {
-        getUsername(this.getUsername)
+        getUsername((val => {
+            if(val.status ==='ok'){
+                app.username = val.data;
+            }
+        }));
+        getName((val) => {
+            if(val.status === 'ok'){
+                app.user.name = val.data;
+            }
+        })
     }
 };
 let main = Vue.createApp(Main);

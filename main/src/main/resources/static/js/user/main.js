@@ -12,14 +12,16 @@ const Main = {
     },
     watch:{
 
+    },
+    created(){
+        getUsername((val) =>{
+            if(val.status === 'ok'){
+                app.username = val.data;
+            }
+        });
     }
 };
 
 let main = Vue.createApp(Main);
 main.use(ElementPlus);
 const app = main.mount('#main');
-
-//页面加载完成
-window.onload = function (){
-    setUsername(app);
-}

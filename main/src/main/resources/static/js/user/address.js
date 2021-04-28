@@ -115,7 +115,11 @@ let Address = {
     },
     //生命期钩子
     created() {
-        setUsername(this);
+        getUsername((val) =>{
+            if(val.status === 'ok'){
+                app.username = val.data;
+            }
+        });
         getRegions(this);
         getAddresses(this);
     },
