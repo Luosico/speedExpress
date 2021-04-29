@@ -212,12 +212,12 @@ let app = new Vue({
                     window.location = "http://localhost:8080/courier/main";
                 }else if(role === "admin"){
                     window.location = "http://localhost:8080/admin/main";
+                }
+            }else{
+                if (way==='usernamePwd'){
+                    app.$message.error('账号或密码错误，请重试! ');
                 }else{
-                    if (way==='usernamePwd'){
-                        app.$message.error('账号或密码错误，请重试! ');
-                    }else{
-                        app.$message.error('验证码错误或用户未注册！');
-                    }
+                    app.$message.error('验证码错误或用户未注册！');
                 }
             }
         }

@@ -2,13 +2,14 @@ package com.luosico.domain;
 
 import com.luosico.config.PayStatus;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
 /**
  * @Author: luo kai fa
  * @Date: 2021/4/29
  */
-public class Pay {
+public class Pay implements Serializable {
     private Integer payId;
     private Long fee;
     private Timestamp createTime;

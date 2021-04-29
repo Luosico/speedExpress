@@ -161,6 +161,7 @@ const AddOrder = {
 
             addOrder(data, this, (vue, response) => {
                 if (response.status === 'ok') {
+                    vue.dialogPayVisible = false;
                     vue.$message({
                         type: 'success',
                         message: '订单创建成功'
@@ -187,27 +188,6 @@ const AddOrder = {
                 fee: this.form.fee,
                 remark: this.form.remark
             }
-
-            payFee("", this, (vue, response) => {
-                //支付成功
-                if (response.status === 'ok') {
-                    //创建订单
-                    addOrder(data, this, (vue, response) => {
-                        if (response.status === 'ok') {
-                            vue.$message({
-                                type: 'success',
-                                message: '订单创建成功'
-                            })
-                        }
-                    })
-
-                } else {
-                    vue.$message({
-                        type: 'warning',
-                        message: '支付失败'
-                    })
-                }
-            })
         },
 
         /**

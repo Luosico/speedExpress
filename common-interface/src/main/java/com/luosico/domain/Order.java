@@ -2,6 +2,7 @@ package com.luosico.domain;
 
 import com.luosico.config.OrderStatus;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
 /**
@@ -10,7 +11,7 @@ import java.sql.Timestamp;
  * @Author: luo kai fa
  * @Date: 2021/4/29
  */
-public class Order {
+public class Order implements Serializable {
     private Integer orderId;
     private Integer userId;
     private Integer payId;

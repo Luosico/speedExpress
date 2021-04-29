@@ -14,13 +14,13 @@
          express_type,
          fee,
          remark)
-        values (#{address_id},
+        values (#{addressId},
                 #{name},
-                #{express_number},
-                #{express_company},
-                #{express_code},
-                #{phone_number},
-                #{express_type},
+                #{expressNumber},
+                #{expressCompany},
+                #{expressCode},
+                #{phoneNumber},
+                #{expressType},
                 #{fee},
                 #{remark})
     </insert>

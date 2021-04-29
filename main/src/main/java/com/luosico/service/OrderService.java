@@ -38,13 +38,13 @@ public class OrderService {
         express.setExpressCode((String) map.get("expressCode"));
         express.setPhoneNumber((String) map.get("phoneNumber"));
         express.setExpressType(ExpressType.valueOf((String) map.get("expressType")));
-        express.setFee((Long) map.get("fee"));
+        express.setFee(Long.valueOf((String) map.get("fee")));
         express.setRemark((String) map.get("remark"));
 
         Order order = new Order();
         order.setUserId((Integer) map.get("userId"));
         order.setPayId((Integer) map.get("payId"));
-        order.setOrderStatus(OrderStatus.valueOf((String) map.get("orderStatus")));
+        order.setOrderStatus(OrderStatus.UN_ACCEPT_ORDER);
 
         return orderUtil.addOrder(order, express);
     }

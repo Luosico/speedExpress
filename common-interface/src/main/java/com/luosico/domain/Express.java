@@ -2,6 +2,7 @@ package com.luosico.domain;
 
 import com.luosico.config.ExpressType;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
 /**
@@ -9,7 +10,7 @@ import java.sql.Timestamp;
  * @Author: luo kai fa
  * @Date: 2021/4/29
  */
-public class Express {
+public class Express implements Serializable {
     private Integer expressId;
     private Integer addressId;
     private String name;

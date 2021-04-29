@@ -315,19 +315,3 @@ function addOrder(data, vue, func) {
         func(vue, response.data);
     })
 }
-
-/**
- * 去支付
- * @param data
- * @param vue
- * @param func
- */
-function payFee(data, vue, func) {
-    axios({
-        url: "/common/payFee",
-        method: "POST",
-        data: data
-    }).then(function (response) {
-        func(vue, response.data);
-    })
-}
