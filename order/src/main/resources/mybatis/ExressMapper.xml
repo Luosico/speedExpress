@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.luosico.mapper.ExpressMapper">
+
+    <insert id="addExpress" useGeneratedKeys="true" keyProperty="expressId">
+        insert into express
+        (address_id,
+         name,
+         express_number,
+         express_company,
+         express_code,
+         phone_number,
+         express_type,
+         fee,
+         remark)
+        values (#{address_id},
+                #{name},
+                #{express_number},
+                #{express_company},
+                #{express_code},
+                #{phone_number},
+                #{express_type},
+                #{fee},
+                #{remark})
+    </insert>
+    <select id="selectExpress" resultType="com.luosico.domain.Express">
+        select (1)
+        from express
+        where express_id = #{expressId}
+    </select>
+</mapper>

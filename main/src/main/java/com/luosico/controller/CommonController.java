@@ -2,9 +2,12 @@ package com.luosico.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.luosico.config.PayStatus;
 import com.luosico.domain.Address;
 import com.luosico.domain.JsonStructure;
 import com.luosico.domain.Region;
+import com.luosico.service.OrderService;
+import com.luosico.service.PayService;
 import com.luosico.service.UserService;
 import com.luosico.service.UtilService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +35,12 @@ public class CommonController {
     @Autowired
     UtilService utilService;
 
+    @Autowired
+    PayService payService;
+
+    @Autowired
+    OrderService orderService;
+
     /**
      * 获取当前请求的 username
      *
@@ -39,7 +48,7 @@ public class CommonController {
      * @return username
      */
     @GetMapping("username")
-    public JsonStructure getUsername(HttpServletRequest request){
+    public JsonStructure getUsername(HttpServletRequest request) {
         Cookie[] cookies = request.getCookies();
         String username = userService.getUsernameByCookie(cookies);
         HashMap<String, String> map = new HashMap<>();
@@ -48,20 +57,18 @@ public class CommonController {
     }
 
     @GetMapping("name")
-    public JsonStructure getName(HttpServletRequest request){
+    public JsonStructure getName(HttpServletRequest request) {
         String username = userService.getUsernameByCookie(request.getCookies());
-        return new JsonStructure("ok","",userService.getNameByUsername(username));
+        return new JsonStructure("ok", "", userService.getNameByUsername(username));
     }
 
     /**
      * 获取支持的所有区域
      */
     @GetMapping("regions")
-    public Map<String, List<Region>> getAllRegions() {
+    public JsonStructure<List<Region>> getAllRegions() {
         List<Region> regions = utilService.getAllRegion();
-        HashMap<String, List<Region>> map = new HashMap<>();
-        map.put("regions", regions);
-        return map;
+        return new JsonStructure<>("ok", regions);
     }
 
     /**
@@ -172,6 +179,12 @@ public class CommonController {
         }
     }
 
+    @GetMapping("phoneNumber")
+    public JsonStructure<String> getPhoneNumber(HttpServletRequest request) {
+        String phoneNumber = userService.getPhoneNumber(request.getCookies());
+        return new JsonStructure<>("ok", "", phoneNumber);
+    }
+
     /**
      * 更新用户手机号码
      *
@@ -222,6 +235,30 @@ public class CommonController {
             }
         }
         return new JsonStructure("fail", "内容不能为空");
+    }
+
+    /**
+     * 提交订单
+     *
+     * @return
+     */
+    @PostMapping("addOrder")
+    public JsonStructure addOrder(@RequestBody Map map, HttpServletRequest request) {
+        String userId = userService.getUserIdByCookie(request.getCookies());
+        Map payResult = payService.processPay(map);
+        //支付成功
+        if (payResult.get("result") == PayStatus.ALREADY_PAY) {
+            Integer payId = (Integer) payResult.get("payId");
+            map.put("payId", payId);
+            map.put("userId", Integer.valueOf(userId));
+            if (orderService.addOrder(map)) {
+                return new JsonStructure();
+            } else {
+                return new JsonStructure("fail", "订单创建失败");
+            }
+        } else {
+            return new JsonStructure("fail", "支付失败" + (String) payResult.get("message"));
+        }
     }
 
     /**

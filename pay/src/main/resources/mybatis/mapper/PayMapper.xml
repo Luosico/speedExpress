@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.luosico.mapper.PayMapper">
+
+    <insert id="addPay" useGeneratedKeys="true" keyProperty="payId">
+        insert into pay(fee, pay_status)
+        values (#{fee}, #{payStatus})
+    </insert>
+    <update id="updatePayStatus">
+        update
+            pay
+        set pay_status = #{payStatus}
+        where pay_id = #{payId}
+    </update>
+    <select id="selectPay" resultType="com.luosico.domain.Pay">
+        select pay_id,
+               fee,
+               create_time,
+               pay_status
+        from pay
+        where pay_id = #{payId}
+    </select>
+</mapper>

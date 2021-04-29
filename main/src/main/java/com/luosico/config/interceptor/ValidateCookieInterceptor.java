@@ -54,7 +54,13 @@ public class ValidateCookieInterceptor implements HandlerInterceptor {
             if ("uid".equals(cookie.getName())) {
                 String uid = cookie.getValue();
                 String username = userService.getUsernameByUid(uid);
-                cookie.setMaxAge(60 * 30);
+                //cookie.setMaxAge(60 * 30);
+                /*Cookie newCookie = new Cookie("uid", cookie.getValue());
+                newCookie.setPath("/");
+                newCookie.setMaxAge(60 * 30);
+                newCookie.setHttpOnly(true);
+                response.addCookie(newCookie);*/
+
                 redisUtils.expire(uid, 60 * 30);
                 redisUtils.expire(username, 60 * 30);
             }

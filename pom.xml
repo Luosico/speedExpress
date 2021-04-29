@@ -17,6 +17,7 @@
         <module>sms</module>
         <module>common-interface</module>
         <module>redis</module>
+        <module>pay</module>
     </modules>
 
     <properties>

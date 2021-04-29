@@ -18,7 +18,8 @@
                     </el-button>
                     <template #dropdown>
                         <el-dropdown-menu>
-                          <el-dropdown-item><el-link href="userInfo" :underline="false">个人中心</el-link></el-dropdown-item>
+                          <el-dropdown-item><el-link href="userInfo"
+                                                     :underline="false">个人中心</el-link></el-dropdown-item>
                           <el-dropdown-item><el-link href="/logout" :underline="false">登出</el-link></el-dropdown-item>
                         </el-dropdown-menu>
                     </template>
@@ -59,49 +60,80 @@
                 </el-menu>
             </el-aside>
             <el-main>
-                <el-form :model="form" label-width="70px" style="margin-right: 30px">
+                <el-form :model="form" :rules="formRules" ref="form" label-width="70px" style="margin-right: 30px">
+                    <el-form-item label="选择地址">
+                        <el-button @click="selectAddress()" style="width: 100%" type="primary" plain>点击选择</el-button>
+                    </el-form-item>
                     <el-form-item label="配送区域">
-                        <el-select v-model="form.regionValue" placeholder="仅支持以下区域">
+                        <el-input v-model="form.regionName" :disabled="true"></el-input>
+                    </el-form-item>
+                    <el-form-item label="取件地址">
+                        <el-input v-model="form.pickUpAddress" :disabled="true"></el-input>
+                    </el-form-item>
+                    <el-form-item label="收件地址">
+                        <el-input v-model="form.receiveAddress" :disabled="true"></el-input>
+                    </el-form-item>
+                    <el-form-item label="取件姓名" prop="name">
+                        <el-input v-model="form.name"></el-input>
+                    </el-form-item>
+                    <el-form-item label="取件电话" prop="phoneNumber">
+                        <el-input v-model="form.phoneNumber"></el-input>
+                    </el-form-item>
+                    <el-form-item label="快递单号" prop="expressNumber">
+                        <el-input v-model="form.expressNumber"></el-input>
+                    </el-form-item>
+                    <el-form-item label="快递公司" prop="expressCompany">
+                        <el-input v-model="form.expressCompany"></el-input>
+                    </el-form-item>
+                    <el-form-item label="取件码" prop="expressCode">
+                        <el-input v-model="form.expressCode"></el-input>
+                    </el-form-item>
+                    <el-form-item label="快递类型" prop="expressType">
+                        <el-select v-model="form.expressType" placeholder="请选择你的快递类型" style="width: 100%">
                             <el-option
-                                    v-for="region in form.regions"
-                                    :key="region.value"
-                                    :label="region.label"
-                                    :value="region.value">
+                                    v-for="item in expressTypes"
+                                    :key="item.value"
+                                    :label="item.label"
+                                    :value="item.value">
                             </el-option>
                         </el-select>
                     </el-form-item>
-                    <el-form-item label="取件地址">
-                        <el-input v-model="form.detailAddress"></el-input>
-                    </el-form-item>
-                    <el-form-item label="取件姓名">
-                        <el-input v-model="form.name"></el-input>
-                    </el-form-item>
-                    <el-form-item label="取件电话">
-                        <el-input v-model="form.phoneNumber"></el-input>
-                    </el-form-item>
-                    <el-form-item label="快递单号">
-                        <el-input v-model="form.courierNumber"></el-input>
-                    </el-form-item>
-                    <el-form-item label="快递公司">
-                        <el-input v-model="form.courierCompany"></el-input>
-                    </el-form-item>
-                    <el-form-item label="取件码">
-                        <el-input v-model="form.courierCode"></el-input>
-                    </el-form-item>
-                    <el-form-item label="快递类型">
-                        <el-input v-model="form.courierType"></el-input>
-                    </el-form-item>
-                    <el-form-item label="收件地址">
-                        <el-input v-model="form.sendAddress"></el-input>
+                    <el-form-item label="酬金" prop="fee">
+                        <el-input v-model="form.fee" placeholder="给帮助你的同学一点报酬吧"></el-input>
                     </el-form-item>
                     <el-form-item label="备注">
                         <el-input v-model="form.remark"></el-input>
                     </el-form-item>
                     <el-form-item>
-                        <el-button type="primary" @click="">提交</el-button>
-                        <el-button>清空</el-button>
+                        <el-button type="primary" @click="validateOrder()">提交</el-button>
+                        <el-button @click="clearForm()">清空</el-button>
                     </el-form-item>
                 </el-form>
+
+                <el-dialog title="选择地址" v-model="dialogVisible">
+                    <el-table :data="tableData" border highlight-current-row style="width: 100%">
+                        <el-table-column type="index" width="50"></el-table-column>
+                        <el-table-column prop="addressId" v-if="false"></el-table-column>
+                        <el-table-column prop="regionId" label="" v-if="false"></el-table-column>
+                        <el-table-column prop="regionName" label="区域" width="200"></el-table-column>
+                        <el-table-column prop="pickUpAddress" label="取件地址"></el-table-column>
+                        <el-table-column prop="receiveAddress" label="收件地址"></el-table-column>
+                        <el-table-column label="操作" width="200">
+                            <template #default="scope">
+                                <el-button size="mini" type="primary" @click="handleSelect(scope.row)">选择</el-button>
+                            </template>
+                        </el-table-column>
+                    </el-table>
+                </el-dialog>
+
+                <el-dialog title="支付" v-model="dialogPayVisible">
+                    <div class="dialog-fee">
+                        <p>金额： <span>￥{{form.fee}}</span></p>
+                    </div>
+                    <div>
+                        <el-button type="success" plain @click="submitOrder()">前往支付</el-button>
+                    </div>
+                </el-dialog>
             </el-main>
         </el-container>
     </el-container>
@@ -110,5 +142,6 @@
 <script src="/js/tool/vue3.js"></script>
 <script src="/js/tool/elementPlus.js"></script>
 <script src="/js/tool/axios.min.js"></script>
+<script src="/js/common/request.js"></script>
 <script src="/js/user/addOrder.js"></script>
 </html>

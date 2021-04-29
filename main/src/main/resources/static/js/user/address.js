@@ -115,21 +115,20 @@ let Address = {
     },
     //生命期钩子
     created() {
-        getUsername((val) =>{
-            if(val.status === 'ok'){
-                app.username = val.data;
+        getUsername(this, (vue, response) => {
+            if (response.status === 'ok') {
+                vue.username = response.data;
             }
         });
-        getRegions(this);
-        getAddresses(this);
+        getRegions(this, (vue, response) => {
+            vue.regions = response.data;
+        });
+        getAddresses(this, (vue, response) => {
+            vue.tableData = response.data;
+        });
     },
 }
 
 let address = Vue.createApp(Address);
 address.use(ElementPlus);
 const app = address.mount('#address');
-
-window.onload = function () {
-    /*setUsername(app);
-    getRegions(app);*/
-}

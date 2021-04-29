@@ -155,8 +155,9 @@ public class UserService {
         Cookie cookie = new Cookie("uid", uid);
         //作用路径
         cookie.setPath("/");
+        cookie.setHttpOnly(true);
         //过期时间 秒
-        cookie.setMaxAge(60 * 30);
+        cookie.setMaxAge(-1);
         response.addCookie(cookie);
 
         //存入redis

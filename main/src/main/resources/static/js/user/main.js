@@ -1,22 +1,18 @@
 const Main = {
-    data(){
+    data() {
         return {
-            username:'',
+            username: '',
             unfinishedOrder: '1',
-            finishedOrder:'1',
-            feedback:'1',
+            finishedOrder: '1',
+            feedback: '1',
         };
     },
-    methods:{
-
-    },
-    watch:{
-
-    },
-    created(){
-        getUsername((val) =>{
-            if(val.status === 'ok'){
-                app.username = val.data;
+    methods: {},
+    watch: {},
+    created() {
+        getUsername(this, (vue, response) => {
+            if (response.status === 'ok') {
+                vue.username = response.data;
             }
         });
     }

@@ -306,14 +306,14 @@ let Main = {
         }
     },
     created() {
-        getUsername((val => {
-            if(val.status ==='ok'){
-                app.username = val.data;
+        getUsername(this, (vue, response) => {
+            if (response.status === 'ok') {
+                vue.username = response.data;
             }
-        }));
-        getName((val) => {
-            if(val.status === 'ok'){
-                app.user.name = val.data;
+        });
+        getName(this,(vue, response) => {
+            if (response.status === 'ok') {
+                vue.user.name = response.data;
             }
         })
     }

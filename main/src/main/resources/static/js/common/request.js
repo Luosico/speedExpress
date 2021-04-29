@@ -8,41 +8,59 @@ function refresh() {
 /**
  * 获取 username
  */
-function getUsername(success) {
+function getUsername(vue, success) {
     axios({
         url: "/common/username",
         method: "GET",
         responseType: "json"
     }).then(function (response) {
-        success(response.data)
+        success(vue, response.data)
     })
 }
 
 /**
  * 获取用户姓名
+ * @param vue
  * @param success
  */
-function getName(success) {
+function getName(vue, success) {
     axios({
         url: "/common/name",
         method: "GET",
         responseType: "json"
     }).then(function (response) {
-        success(response.data)
+        success(vue, response.data)
     })
 }
 
 /**
  * 获取区域
  */
-function getRegions(vue) {
+function getRegions(vue, success) {
     axios({
         url: "/common/regions",
         method: "GET",
         responseType: "json"
     }).then(function (response) {
-        vue.regions = response.data.regions;
+        success(vue, response.data)
     })
+}
+
+/**
+ * 根据regionId获取regionName
+ * @param regionId
+ * @param regions
+ * @returns {string}
+ */
+function getRegionName(regionId, regions) {
+    let regionName = '';
+    for (let i = 0; i < regions.length; i++) {
+        if (regions[i].regionId === regionId) {
+            regionName = regions[i].regionName;
+            break;
+        }
+    }
+    return regionName;
 }
 
 /**
@@ -70,14 +88,15 @@ function addAddress(data, vue) {
 /**
  * 获取所有地址
  * @param vue
+ * @param success
  */
-function getAddresses(vue) {
+function getAddresses(vue, success) {
     axios({
         url: "/common/address",
         method: "GET",
         responseType: "json",
     }).then(function (response) {
-        vue.tableData = response.data.data;
+        success(vue, response.data);
     })
 }
 
@@ -264,5 +283,51 @@ function updatePassword(password, smsCode, data, success, fail) {
         } else {
             fail(data, response.data.message);
         }
+    })
+}
+
+/**
+ * 获取手机号码
+ * @param vue
+ * @param func
+ */
+function getPhoneNumber(vue, func) {
+    axios({
+        url: "/common/phoneNumber",
+        method: "GET",
+    }).then(function (response) {
+        func(vue, response.data);
+    })
+}
+
+/**
+ * 添加订单
+ * @param data
+ * @param vue
+ * @param func 回调函数
+ */
+function addOrder(data, vue, func) {
+    axios({
+        url: "/common/addOrder",
+        method: "POST",
+        data: data
+    }).then(function (response) {
+        func(vue, response.data);
+    })
+}
+
+/**
+ * 去支付
+ * @param data
+ * @param vue
+ * @param func
+ */
+function payFee(data, vue, func) {
+    axios({
+        url: "/common/payFee",
+        method: "POST",
+        data: data
+    }).then(function (response) {
+        func(vue, response.data);
     })
 }
