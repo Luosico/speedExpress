@@ -45,8 +45,14 @@ public class SuccessHandle implements AuthenticationSuccessHandler {
         httpServletResponse.setCharacterEncoding("UTF-8");
         httpServletResponse.setContentType("text/plain");
 
-        //添加cookie
-        userService.loginSuccessAddCookie(httpServletResponse, (String) authentication.getPrincipal());
+        //帐号密码登录
+        if (httpServletRequest.getParameter("username") != null) {
+            //添加cookie
+            userService.loginSuccessAddCookie(httpServletResponse,"pwd", (String) authentication.getPrincipal());
+        } else {
+            //手机验证码登录
+            userService.loginSuccessAddCookie(httpServletResponse,"phone", (String) authentication.getPrincipal());
+        }
         PrintWriter out = httpServletResponse.getWriter();
         out.write(json);
         out.flush();

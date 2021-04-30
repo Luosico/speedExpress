@@ -43,7 +43,7 @@ public class SmsCodeAuthenticationProvider implements AuthenticationProvider {
         }else{
             logger.info(phoneNumber + " 验证成功");
             //加载用户信息
-            User user = userService.findUserByPhoneNumber(phoneNumber);
+            User user = userService.selectUserByPhoneNumber(phoneNumber);
             if (user == null){
                 return null;
             }

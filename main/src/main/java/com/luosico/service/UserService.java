@@ -56,7 +56,7 @@ public class UserService {
      * @param phoneNumber 手机号码
      * @return 用户信息
      */
-    public User findUserByPhoneNumber(String phoneNumber) {
+    public User selectUserByPhoneNumber(String phoneNumber) {
         return userUtil.selectUserByPhoneNumber(phoneNumber);
     }
 
@@ -149,9 +149,10 @@ public class UserService {
      * 登录成功，设置cookie, 并存入redis
      *
      * @param response
-     * @param username
+     * @param principal
+     * @param loginWay
      */
-    public void loginSuccessAddCookie(HttpServletResponse response, String username) {
+    public void loginSuccessAddCookie(HttpServletResponse response, String loginWay, String principal) {
         String uid = UtilService.getCharAndNum(8);
         Cookie cookie = new Cookie("uid", uid);
         //作用路径
@@ -162,7 +163,7 @@ public class UserService {
         response.addCookie(cookie);
 
         //存入redis
-        setUserInfo(uid, username);
+        setUserInfo(uid, loginWay, principal);
     }
 
     /**
@@ -258,15 +259,25 @@ public class UserService {
     /**
      * 将 user信息存入 redis中
      *
-     * @param uid      随机数字字母混合
-     * @param username 用户名
+     * @param uid       随机数字字母混合
+     * @param principal 用户身份
+     * @param loginWay  登录方式
      */
-    public void setUserInfo(String uid, String username) {
-        String userId = selectUserIdByUsername(username);
-        User user = selectUserByUsername(username);
+    public void setUserInfo(String uid, String loginWay, String principal) {
+        String username;
+        User user;
+        //用户名密码登录
+        if ("pwd".equals(loginWay)) {
+            username = principal;
+            user = selectUserByUsername(username);
+        } else {
+            user = selectUserByPhoneNumber(principal);
+            username = user.getUsername();
+            //手机验证码登录
+        }
         redisUtil.set(uid, username, 60 * 30);
         redisUtil.hset(username, "uid", uid, 60 * 30);
-        redisUtil.hset(username, "userId", userId);
+        redisUtil.hset(username, "userId", user.getId());
         redisUtil.hset(username, "phoneNumber", user.getPhoneNumber());
         redisUtil.hset(username, "name", user.getName());
     }
