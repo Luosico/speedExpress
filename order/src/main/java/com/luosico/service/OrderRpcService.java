@@ -38,4 +38,9 @@ public class OrderRpcService implements OrderUtil {
     public boolean updateOrderStatus(Integer orderId, OrderStatus orderStatus) {
         return orderService.updateOrderStatus(orderId,orderStatus);
     }
+
+    @Override
+    public int countOrderByStatus(Integer userId, List<OrderStatus> orderStatusList) {
+        return orderService.countOrderByStatus(userId, orderStatusList);
+    }
 }

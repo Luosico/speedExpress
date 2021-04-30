@@ -64,4 +64,12 @@ public class OrderService {
         return orderMapper.updateOrderStatus(orderId,orderStatus) == 1;
     }
 
+    /**
+     * 统计指定状态的订单数量
+     * @return
+     */
+    public int countOrderByStatus(Integer userId, List<OrderStatus> orderStatusList){
+        return orderMapper.countOrderByStatus(userId, orderStatusList);
+    }
+
 }

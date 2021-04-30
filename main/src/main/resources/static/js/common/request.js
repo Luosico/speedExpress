@@ -372,3 +372,21 @@ function sleep(mil) {
         }
     }
 }
+
+/**
+ * 查询订单数量
+ * @param data
+ * @param vue
+ * @param func
+ */
+function countOrder(data, vue, func) {
+    axios({
+        url: "/common/countOrderByStatus",
+        method: "POST",
+        data: {
+            types: data
+        },
+    }).then((response) => {
+        func(vue, response.data)
+    })
+}

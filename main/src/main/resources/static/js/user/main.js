@@ -2,8 +2,8 @@ const Main = {
     data() {
         return {
             username: '',
-            unfinishedOrder: '1',
-            finishedOrder: '1',
+            unfinishedOrder: '',
+            finishedOrder: '',
             feedback: '1',
         };
     },
@@ -15,6 +15,29 @@ const Main = {
                 vue.username = response.data;
             }
         });
+        //未完成订单
+        countOrder( ['UN_ACCEPT_ORDER', 'ACCEPTED_ORDER', 'DELIVERY_ORDER', 'FINISHED_ORDER'], this, (vue, response) => {
+            if (response.status === 'ok') {
+                vue.unfinishedOrder = response.data;
+            } else {
+                vue.$message({
+                    type: 'error',
+                    message: response.message
+                })
+            }
+        })
+        //已完成订单
+        countOrder(['CONFIRMED_ORDER'], this, (vue, response) => {
+            if (response.status === 'ok') {
+                vue.finishedOrder = response.data;
+            } else {
+                vue.$message({
+                    type: 'error',
+                    message: response.message
+                })
+            }
+        })
+
     }
 };
 

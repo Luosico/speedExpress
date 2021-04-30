@@ -2,6 +2,7 @@ package com.luosico.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.luosico.config.OrderStatus;
 import com.luosico.config.PayStatus;
 import com.luosico.domain.Address;
 import com.luosico.domain.JsonStructure;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -264,6 +266,7 @@ public class CommonController {
 
     /**
      * 查询用户所有快递订单信息
+     *
      * @param request
      * @return
      */
@@ -271,24 +274,49 @@ public class CommonController {
     public JsonStructure<List<UserOrder>> selectOrder(HttpServletRequest request) {
         String userId = userService.getUserIdByCookie(request.getCookies());
         List<UserOrder> userOrder = orderService.selectUserOrder(Integer.valueOf(userId));
-        if (userOrder != null){
-            return new JsonStructure<>("ok","查询成功",userOrder);
+        if (userOrder != null) {
+            return new JsonStructure<>("ok", "查询成功", userOrder);
         }
-        return new JsonStructure<>("fail","订单查询失败，服务器出现错误");
+        return new JsonStructure<>("fail", "订单查询失败，服务器出现错误");
     }
 
-
+    /**
+     * 确认收到快递
+     * @param map
+     * @return
+     */
     @PutMapping("orderConfirmReceived")
-    public JsonStructure confirmReceived(@RequestBody Map map){
+    public JsonStructure confirmReceived(@RequestBody Map map) {
         String orderId = (String) map.get("orderId");
-        if(!utilService.isEmpty(orderId)){
-            if(orderService.orderConfirmReceived(Integer.valueOf(orderId))){
+        if (!utilService.isEmpty(orderId)) {
+            if (orderService.orderConfirmReceived(Integer.valueOf(orderId))) {
                 return new JsonStructure();
-            }else{
-                return new JsonStructure("fai","提交失败，服务器出现错误");
+            } else {
+                return new JsonStructure("fai", "提交失败，服务器出现错误");
             }
         }
-        return new JsonStructure("fail","内容不能为空");
+        return new JsonStructure("fail", "内容不能为空");
+    }
+
+    /**
+     * 查询指定状态数量
+     * @param map
+     * @param request
+     * @return
+     */
+    @PostMapping("countOrderByStatus")
+    public JsonStructure countOrderByStatus(@RequestBody Map<String,List<String>> map, HttpServletRequest request) {
+        Integer userId = Integer.valueOf(userService.getUserIdByCookie(request.getCookies()));
+        List<String> list = map.get("types");
+        if (list != null && list.size() > 0) {
+            List<OrderStatus> orderStatuses = new ArrayList<>();
+            for (String orderStatus: list){
+                orderStatuses.add(OrderStatus.valueOf(orderStatus));
+            }
+            int count = orderService.countOrderByStatus(userId,orderStatuses);
+            return new JsonStructure("ok","query success",count);
+        }
+        return new JsonStructure("fail", "请求内容为空");
     }
 
 

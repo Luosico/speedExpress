@@ -44,4 +44,6 @@ public interface OrderMapper {
      * @return
      */
     int updateOrderStatus(@Param("orderId") Integer orderId, @Param("orderStatus") OrderStatus orderStatus);
+
+    public int countOrderByStatus(@Param("userId") Integer userId, @Param("list") List<OrderStatus> orderStatusList);
 }

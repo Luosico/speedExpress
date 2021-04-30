@@ -70,4 +70,12 @@ public class OrderService {
     public boolean orderConfirmReceived(Integer orderId){
         return orderUtil.updateOrderStatus(orderId, OrderStatus.CONFIRMED_ORDER);
     }
+
+    /**
+     * 统计指定状态的订单数量
+     * @return
+     */
+    public int countOrderByStatus(Integer userId, List<OrderStatus> orderStatusList){
+        return orderUtil.countOrderByStatus(userId, orderStatusList);
+    }
 }

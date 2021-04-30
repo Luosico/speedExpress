@@ -35,4 +35,10 @@ public interface OrderUtil {
      * @return
      */
     boolean updateOrderStatus(Integer orderId, OrderStatus orderStatus);
+
+    /**
+     * 统计指定状态的订单数量
+     * @return
+     */
+    int countOrderByStatus(Integer userId, List<OrderStatus> orderStatusList);
 }
