@@ -1,55 +1,20 @@
 const Order = {
     data() {
         return {
-            username: 'lootalker',
-            tableData: [{
-                orderId: '202104171417531',
-                regionName: '湖南科技大学',
-                detailedAddress: '南校图书馆旁小堕落街口京东派',
-                destination: '7区10栋101',
-                courierNumber: '162758631105',
-                name:'张三',
-                courierCompany: '京东',
-                courierType: '一类',
-                courierCode: '41-103',
-                phoneNumber: '15200010002',
-                courierName: '张三',
-                courierPhoneNumber: '1520001002',
-                createTime: '2021-04-17 14:21',
-                payId: '202104171417531',
-                money: 2,
-                status: '等待接单',
-
-            }, {
-                orderId: '202104171417532',
-                regionName: '湖南科技大学',
-                detailedAddress: '南校图书馆旁小堕落街口京东派',
-                destination: '7区10栋101',
-                courierNumber: '162758631105',
-                name:'张三',
-                courierCompany: '京东',
-                courierType: '一类',
-                courierCode: '41-103',
-                phoneNumber: '15200010002',
-                courierName: '张三',
-                courierPhoneNumber: '1520001002',
-                createTime: '2021-04-18 14:21',
-                payId: '202104171417531',
-                money: 1,
-                status: '已确认收货',
-            }],
+            username: '',
+            tableData: '',
         }
     },
     methods: {
-        getStatus(status) {
+        getStatusType(status) {
             switch (status) {
-                case '等待接单':
+                case 'UN_ACCEPT_ORDER':
                     return 'danger';
-                case '已接单' :
+                case 'ACCEPTED_ORDER' :
                     return 'warning';
-                case '配送中' :
+                case 'DELIVERY_ORDER' :
                     return '';
-                case '配送完成' :
+                case 'FINISHED_ORDER' :
                     return 'success';
                 default:
                     return 'info';
@@ -59,13 +24,60 @@ const Order = {
          * 确认收货
          */
         getExpressStatus(status) {
-            if (status === "已确认收货") {
+            if (status === "CONFIRMED_ORDER") {
                 return false
             }
             return true;
+        },
+        getStatus(status) {
+            switch (status) {
+                case 'UN_ACCEPT_ORDER':
+                    return '等待接单';
+                case 'ACCEPTED_ORDER' :
+                    return '已接单';
+                case 'DELIVERY_ORDER' :
+                    return '派送中';
+                case 'FINISHED_ORDER' :
+                    return '派送完成';
+                case 'CONFIRMED_ORDER' :
+                    return '已确认收货';
+            }
+        },
+        /**
+         * 确认收货
+         * @param row
+         */
+        confirmReceived(row) {
+            this.$confirm('您确定快递已送到了吗?', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+            }).then(() => {
+                //订单编号
+                let orderId = row.orderId;
+                orderConfirmReceived(orderId, this, (vue, response) => {
+                    if (response.status === 'ok') {
+                        refresh();
+                    } else {
+                        vue.$message({
+                            type: 'error',
+                            message: response.message
+                        })
+                    }
+                })
+            })
         }
     },
-    computed: {}
+    created() {
+        getUsername(this, (vue, response) => {
+            if (response.status === 'ok') {
+                vue.username = response.data;
+            }
+        })
+        getUserOrders(this, (vue, response) => {
+            vue.tableData = response.data;
+        })
+    }
 }
 
 let order = Vue.createApp(Order);

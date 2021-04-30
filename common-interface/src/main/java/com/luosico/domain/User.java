@@ -66,22 +66,6 @@ public class User implements Serializable {
         return username;
     }
 
-    public boolean isAccountNonExpired() {
-        return accountNonExpired != 0;
-    }
-
-    public boolean isAccountNonLocked() {
-        return accountNonLocked != 0;
-    }
-
-    public boolean isCredentialsNonExpired() {
-        return credentialsNonExpired != 0;
-    }
-
-    public boolean isEnabled() {
-        return enabled != 0;
-    }
-
     public byte getEnabled() {
         return enabled;
     }

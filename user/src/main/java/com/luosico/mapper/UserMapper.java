@@ -1,6 +1,7 @@
 package com.luosico.mapper;
 
 
+import com.luosico.domain.Courier;
 import com.luosico.domain.User;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -84,4 +85,17 @@ public interface UserMapper {
      * @return
      */
     int updatePhoneNumber(@Param("username") String username, @Param("phoneNumber") String phoneNumber);
+
+    /**
+     * 成为快取员
+     * @param courier
+     * @return
+     */
+    int addCourier(Courier courier);
+
+    /**
+     * 成为快取员，更新权限
+     * @return
+     */
+    int updateAuthority(@Param("userId") Integer userId, @Param("authority") String authority);
 }

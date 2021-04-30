@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="/css/user/becomeSender.css">
     <link rel="stylesheet" href="https://unpkg.com/element-plus/lib/theme-chalk/index.css">
 </head>
-<body>
+<body v-loading="loading">
 <div id="becomeSender">
     <el-container>
         <el-header>
@@ -70,24 +70,27 @@
                             <p>(4)、同时同学们在必要去自提点取快递时，可以选择帮助其他同学取件，尽举手之劳，构建和谐校园；并且，其中的一些快递含有报酬，可以获得一定的酬劳哦！快来加入我们吧！</p>
                         </div>
                         <p class="title">填写个人信息</p>
-                        <el-form label-width="85px" style="margin-right: 15px">
-                            <el-form-item label="姓名">
-                                <el-input v-model="form.name"></el-input>
+                        <el-form :model="form" :rules="formRules" ref="form" label-width="85px" style="margin-right: 15px">
+                            <el-form-item label="姓名" prop="name">
+                                <el-input v-model="form.name" :disabled="true"></el-input>
                             </el-form-item>
-                            <el-form-item label="身份证号">
-                                <el-input v-model="form.identityNumberId"></el-input>
+                            <el-form-item label="身份证号" prop="identityId">
+                                <el-input v-model="form.identityId"></el-input>
                             </el-form-item>
-                            <el-form-item label="手机号码">
-                                <el-input v-model="form.phoneNumber"></el-input>
+                            <el-form-item label="手机号码" prop="phoneNumber">
+                                <el-input v-model="form.phoneNumber" :disabled="true"></el-input>
                             </el-form-item>
-                            <el-form-item label="验证码">
+                            <el-form-item label="验证码" prop="smsCode">
                                 <el-row :gutter="100" style="margin-left: 0">
                                     <el-col :span="10" style="padding-left: 0;"><el-input v-model="form.smsCode"></el-input></el-input></el-col>
-                                    <el-col :span="5"><el-button type="primary" plain>获取验证码</el-button></el-col>
+                                    <el-col :span="5">
+                                        <el-button type="primary" v-if="canGetSmsCode" @click="getSmsCode()" plain>获取验证码</el-button>
+                                        <el-button v-if="!canGetSmsCode" disabled>{{timeRemaining}} 秒后重试</el-button>
+                                    </el-col>
                                 </el-row>
                             </el-form-item>
                             <el-form-item>
-                                <el-button type="success" style="width: 80%; margin-left: 30px">加入</el-button>
+                                <el-button type="success" @click="submitForm()" style="width: 80%; margin-left: 30px">加入</el-button>
                             </el-form-item>
                         </el-form>
                     </div>
@@ -100,5 +103,6 @@
 <script src="/js/tool/vue3.js"></script>
 <script src="/js/tool/elementPlus.js"></script>
 <script src="/js/tool/axios.min.js"></script>
+<script src="/js/common/request.js"></script>
 <script src="/js/user/becomeSender.js"></script>
 </html>

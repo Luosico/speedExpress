@@ -2,6 +2,7 @@ package com.luosico.service;
 
 
 import com.luosico.domain.Address;
+import com.luosico.domain.Courier;
 import com.luosico.domain.Region;
 import com.luosico.domain.User;
 import com.luosico.mapper.AddressMapper;
@@ -101,5 +102,16 @@ public class UserService implements UserUtil {
     @Override
     public int updatePhoneNumber(String username, String phoneNumber) {
         return userMapper.updatePhoneNumber(username, phoneNumber);
+    }
+
+    @Override
+    public int addCourier(Courier courier) {
+        return userMapper.addCourier(courier);
+    }
+
+    @Override
+    public int updateAuthority(Integer userId) {
+        String authority = "ROLE_COURIER";
+        return userMapper.updateAuthority(userId, authority);
     }
 }

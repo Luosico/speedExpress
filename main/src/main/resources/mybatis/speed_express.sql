@@ -54,7 +54,7 @@ create table pay
 create table courier
 (
     courier_id  int auto_increment not null,
-    user_id     int                not null,
+    user_id     int                not null unique,
     identity_id varchar(100)       not null,
     create_time datetime default current_timestamp,
     primary key (courier_id),
@@ -64,7 +64,7 @@ create table courier
 create table express
 (
     express_id      int auto_increment not null,
-    address_id      int                not null,
+    address_id      int                not null unique,
     name            varchar(30)        not null,
     express_number  varchar(100)       not null,
     express_company varchar(100)       not null,
@@ -81,8 +81,8 @@ create table express
 create table express_order
 (
     order_id     int auto_increment not null,
-    user_id      int                not null,
-    pay_id       int                not null,
+    user_id      int                not null ,
+    pay_id       int                not null unique ,
     courier_id   int,
     express_id   int                not null,
     order_status varchar(30)        not null,

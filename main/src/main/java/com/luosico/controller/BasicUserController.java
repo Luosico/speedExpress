@@ -51,10 +51,10 @@ public class BasicUserController {
     @ResponseBody
     public JsonStructure isExit(@RequestParam("name") String name, @RequestParam("val") String val, HttpServletRequest request) {
         if (!utilService.isEmpty(name, val)) {
-            if("username".equals(name)){
+            if ("username".equals(name)) {
                 String username = userService.getUsernameByCookie(request.getCookies());
                 //当前用户名
-                if (username.equals(val)) {
+                if (username != null && username.equals(val)) {
                     return new JsonStructure<>();
                 }
             }

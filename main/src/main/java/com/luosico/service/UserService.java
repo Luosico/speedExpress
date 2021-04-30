@@ -1,6 +1,7 @@
 package com.luosico.service;
 
 import com.luosico.domain.Address;
+import com.luosico.domain.Courier;
 import com.luosico.domain.User;
 import com.luosico.user.UserUtil;
 import com.luosico.util.RedisUtils;
@@ -262,7 +263,7 @@ public class UserService {
      */
     public void setUserInfo(String uid, String username) {
         String userId = selectUserIdByUsername(username);
-        User user  = selectUserByUsername(username);
+        User user = selectUserByUsername(username);
         redisUtil.set(uid, username, 60 * 30);
         redisUtil.hset(username, "uid", uid, 60 * 30);
         redisUtil.hset(username, "userId", userId);
@@ -454,4 +455,21 @@ public class UserService {
         return (String) redisUtil.hget(username, "name");
     }
 
+
+    /**
+     * 成为快取员
+     *
+     * @param courier
+     * @return
+     */
+    public boolean becomeCourier(Courier courier) {
+        //成功成为快取员
+        if (userUtil.addCourier(courier) == 1) {
+            //更新权限
+            if (userUtil.updateAuthority(courier.getUserId()) == 1) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

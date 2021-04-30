@@ -1,7 +1,11 @@
 package com.luosico.order;
 
+import com.luosico.config.OrderStatus;
 import com.luosico.domain.Express;
 import com.luosico.domain.Order;
+import com.luosico.domain.UserOrder;
+
+import java.util.List;
 
 /**
  * 订单服务RPC调用接口
@@ -17,4 +21,18 @@ public interface OrderUtil {
      * @return
      */
     boolean addOrder(Order order, Express express);
+
+
+    /**
+     * 查找用户所有快递订单信息
+     * @param userId
+     */
+    List<UserOrder> selectUserOrder(Integer userId);
+
+    /**
+     * 确认收到快递
+     * @param orderId
+     * @return
+     */
+    boolean updateOrderStatus(Integer orderId, OrderStatus orderStatus);
 }

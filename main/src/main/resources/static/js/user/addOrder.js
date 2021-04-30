@@ -175,21 +175,6 @@ const AddOrder = {
             })
         },
 
-        //去支付
-        toPay() {
-            let data = {
-                addressId: this.form.addressId,
-                name: this.form.name,
-                phoneNumber: this.form.phoneNumber,
-                expressNumber: this.form.expressNumber,
-                expressCompany: this.form.expressCompany,
-                expressCode: this.form.expressCode,
-                expressType: this.form.expressType,
-                fee: this.form.fee,
-                remark: this.form.remark
-            }
-        },
-
         /**
          * 地址不能为空
          */

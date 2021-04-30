@@ -8,41 +8,41 @@ function refresh() {
 /**
  * 获取 username
  */
-function getUsername(vue, success) {
+function getUsername(vue, func) {
     axios({
         url: "/common/username",
         method: "GET",
         responseType: "json"
     }).then(function (response) {
-        success(vue, response.data)
+        func(vue, response.data)
     })
 }
 
 /**
  * 获取用户姓名
  * @param vue
- * @param success
+ * @param func
  */
-function getName(vue, success) {
+function getName(vue, func) {
     axios({
         url: "/common/name",
         method: "GET",
         responseType: "json"
     }).then(function (response) {
-        success(vue, response.data)
+        func(vue, response.data)
     })
 }
 
 /**
  * 获取区域
  */
-function getRegions(vue, success) {
+function getRegions(vue, func) {
     axios({
         url: "/common/regions",
         method: "GET",
         responseType: "json"
     }).then(function (response) {
-        success(vue, response.data)
+        func(vue, response.data)
     })
 }
 
@@ -88,15 +88,15 @@ function addAddress(data, vue) {
 /**
  * 获取所有地址
  * @param vue
- * @param success
+ * @param func
  */
-function getAddresses(vue, success) {
+function getAddresses(vue, func) {
     axios({
         url: "/common/address",
         method: "GET",
         responseType: "json",
     }).then(function (response) {
-        success(vue, response.data);
+        func(vue, response.data);
     })
 }
 
@@ -167,21 +167,21 @@ function requestSuccess(response) {
 
 /**
  * 获取手机验证码
+ * data = {
+ *     need: no/yes   no不需要手机号码
+ *     phoneNumber:   手机号码
+ * }
  */
-function getSmsCode(phoneNumber, vue) {
-
-    vue.canGetSmsCode = false;
-    vue.timeRemain = setInterval(this.smsCodeCount, 1000);
-
+function getSmsCode(data) {
     axios({
-        url: "/smsCode",
+        url: "/common/smsCode",
         method: "GET",
-        params: {
-            phoneNumber: phoneNumber,
-            type: "login",
-        }
-    });
+        params: data
+    }).then(function (response) {
+
+    })
 }
+
 
 /**
  * 检查属性是否存在
@@ -308,10 +308,67 @@ function getPhoneNumber(vue, func) {
  */
 function addOrder(data, vue, func) {
     axios({
-        url: "/common/addOrder",
+        url: "/common/order",
         method: "POST",
         data: data
     }).then(function (response) {
         func(vue, response.data);
     })
+}
+
+/**
+ * 查找用户所有快递订单信息
+ */
+function getUserOrders(vue, func) {
+    axios({
+        url: "/common/order",
+        method: "GET",
+    }).then(function (response) {
+        func(vue, response.data);
+    })
+}
+
+/**
+ * 成为快取员
+ * @param vue
+ * @param data
+ * @param func
+ */
+function becomeCourier(vue, data, func) {
+    axios({
+        url: "/user/courier",
+        method: "POST",
+        data: data
+    }).then(function (response) {
+        func(vue, response.data);
+    })
+}
+
+/**
+ * 确认收货
+ */
+function orderConfirmReceived(orderId, vue, func) {
+    axios({
+        url: "/common/orderConfirmReceived",
+        method: "POST",
+        data: {
+            orderId: orderId
+        }
+    }).then(function (response) {
+        func(vue, response.data);
+    })
+}
+
+/**
+ * 休眠
+ *
+ * @param mil 毫秒
+ */
+function sleep(mil) {
+    let start = new Date().getTime();
+    while (true) {
+        if (new Date().getTime() - start > n) {
+            break;
+        }
+    }
 }

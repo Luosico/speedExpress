@@ -17,11 +17,15 @@
                 #{user.password},
                 #{user.phoneNumber},
                 #{user.createTime, jdbcType=TIMESTAMP},
-                #{authority},
+                #{user.authority},
                 #{user.credentialsNonExpired},
                 #{user.accountNonExpired},
                 #{user.accountNonLocked},
                 #{user.enabled})
+    </insert>
+    <insert id="addCourier">
+        insert into courier(user_id, identity_id)
+        values (#{userId}, #{identityId})
     </insert>
 
     <select id="SelectUserByPhoneNumber" resultType="com.luosico.domain.User">
@@ -210,6 +214,11 @@
                 1 = 2
             </otherwise>
         </choose>
+    </update>
+    <update id="updateAuthority">
+        update user
+        set authorities = #{authority}
+        where id = #{userId}
     </update>
 
 </mapper>

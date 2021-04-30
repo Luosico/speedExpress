@@ -4,10 +4,12 @@ import com.luosico.config.ExpressType;
 import com.luosico.config.OrderStatus;
 import com.luosico.domain.Express;
 import com.luosico.domain.Order;
+import com.luosico.domain.UserOrder;
 import com.luosico.order.OrderUtil;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -47,5 +49,25 @@ public class OrderService {
         order.setOrderStatus(OrderStatus.UN_ACCEPT_ORDER);
 
         return orderUtil.addOrder(order, express);
+    }
+
+    /**
+     * 查询用户所有快递订单信息
+     * @param userId
+     */
+    public List<UserOrder> selectUserOrder(Integer userId){
+        List<UserOrder> userOrders = orderUtil.selectUserOrder(userId);
+        for (UserOrder userOrder: userOrders){
+            userOrder.setFee(userOrder.getRealFee());
+        }
+        return userOrders;
+    }
+
+    /**
+     * 确认收到快递
+     * @return
+     */
+    public boolean orderConfirmReceived(Integer orderId){
+        return orderUtil.updateOrderStatus(orderId, OrderStatus.CONFIRMED_ORDER);
     }
 }

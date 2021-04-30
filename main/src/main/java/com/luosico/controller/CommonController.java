@@ -6,6 +6,7 @@ import com.luosico.config.PayStatus;
 import com.luosico.domain.Address;
 import com.luosico.domain.JsonStructure;
 import com.luosico.domain.Region;
+import com.luosico.domain.UserOrder;
 import com.luosico.service.OrderService;
 import com.luosico.service.PayService;
 import com.luosico.service.UserService;
@@ -242,7 +243,7 @@ public class CommonController {
      *
      * @return
      */
-    @PostMapping("addOrder")
+    @PostMapping("order")
     public JsonStructure addOrder(@RequestBody Map map, HttpServletRequest request) {
         String userId = userService.getUserIdByCookie(request.getCookies());
         Map payResult = payService.processPay(map);
@@ -260,6 +261,36 @@ public class CommonController {
             return new JsonStructure("fail", "支付失败" + (String) payResult.get("message"));
         }
     }
+
+    /**
+     * 查询用户所有快递订单信息
+     * @param request
+     * @return
+     */
+    @GetMapping("order")
+    public JsonStructure<List<UserOrder>> selectOrder(HttpServletRequest request) {
+        String userId = userService.getUserIdByCookie(request.getCookies());
+        List<UserOrder> userOrder = orderService.selectUserOrder(Integer.valueOf(userId));
+        if (userOrder != null){
+            return new JsonStructure<>("ok","查询成功",userOrder);
+        }
+        return new JsonStructure<>("fail","订单查询失败，服务器出现错误");
+    }
+
+
+    @PutMapping("orderConfirmReceived")
+    public JsonStructure confirmReceived(@RequestBody Map map){
+        String orderId = (String) map.get("orderId");
+        if(!utilService.isEmpty(orderId)){
+            if(orderService.orderConfirmReceived(Integer.valueOf(orderId))){
+                return new JsonStructure();
+            }else{
+                return new JsonStructure("fai","提交失败，服务器出现错误");
+            }
+        }
+        return new JsonStructure("fail","内容不能为空");
+    }
+
 
     /**
      * 获取 address信息

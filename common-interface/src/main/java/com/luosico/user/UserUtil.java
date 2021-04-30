@@ -2,6 +2,7 @@ package com.luosico.user;
 
 
 import com.luosico.domain.Address;
+import com.luosico.domain.Courier;
 import com.luosico.domain.Region;
 import com.luosico.domain.User;
 
@@ -124,5 +125,19 @@ public interface UserUtil {
      * @return
      */
     int updatePhoneNumber(String username, String phoneNumber);
+
+    /**
+     * 成为快取员
+     * @param courier
+     * @return
+     */
+    int addCourier(Courier courier);
+
+    /**
+     * 成为快取员，更新权限
+     * @param userId
+     * @return
+     */
+    int updateAuthority(Integer userId);
 
 }

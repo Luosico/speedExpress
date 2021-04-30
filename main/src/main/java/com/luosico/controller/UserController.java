@@ -1,8 +1,15 @@
 package com.luosico.controller;
 
+import com.luosico.domain.Courier;
+import com.luosico.domain.JsonStructure;
+import com.luosico.service.UserService;
+import com.luosico.service.UtilService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
 
 /**
  * 用户功能控制器
@@ -14,6 +21,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/user")
 public class UserController {
+
+    @Autowired
+    UserService userService;
+
+    @Autowired
+    UtilService utilService;
 
     @GetMapping("main")
     public String toMain() {
@@ -48,6 +61,31 @@ public class UserController {
     @GetMapping("becomeSender")
     public String toBecomeSender() {
         return "user/becomeSender";
+    }
+
+    @PostMapping("courier")
+    @ResponseBody
+    public JsonStructure becomeCourier(@RequestBody Map<String,String> map, HttpServletRequest request){
+        String identityId = map.get("identityId");
+        String smsCode = map.get("smsCode");
+        if (!utilService.isEmpty(identityId, smsCode)){
+            if(userService.validateSmsCode(request.getCookies(), smsCode)){
+                String userId = userService.getUserIdByCookie(request.getCookies());
+                Courier courier = new Courier();
+                courier.setUserId(Integer.valueOf(userId));
+                courier.setIdentityId(identityId);
+
+                //成功成为快取员
+                if(userService.becomeCourier(courier)){
+                    return new JsonStructure();
+                }else{
+                    return new JsonStructure("fail","服务器出现异常");
+                }
+            }
+            return new JsonStructure("fail","验证码错误");
+        }else{
+            return new JsonStructure("fail","内容不能为空");
+        }
     }
 
 }
