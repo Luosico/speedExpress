@@ -30,7 +30,7 @@ public interface OrderUtil {
     List<UserOrder> selectUserOrder(Integer userId);
 
     /**
-     * 确认收到快递
+     * 更新订单状态
      * @param orderId
      * @return
      */
@@ -41,4 +41,17 @@ public interface OrderUtil {
      * @return
      */
     int countOrderByStatus(Integer userId, List<OrderStatus> orderStatusList);
+
+    /**
+     * 通过订单状态查找订单
+     * @param orderStatusList 订单状态
+     */
+    List<UserOrder> selectOrderByStatus(List<OrderStatus> orderStatusList);
+
+    /**
+     * 更新订单信息
+     * @param order
+     * @return
+     */
+    boolean updateOrder(Order order);
 }

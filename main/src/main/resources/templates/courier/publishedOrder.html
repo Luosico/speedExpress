@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="/css/courier/publishedOrder.css">
     <link rel="stylesheet" href="https://unpkg.com/element-plus/lib/theme-chalk/index.css">
 </head>
-<body>
+<body v-loading="loading">
 <div id="app">
     <el-container>
         <el-header>
@@ -65,20 +65,20 @@
             </el-aside>
             <el-main>
                 <div>
-                    <el-table :data="tableData" :default-sort="{prop: 'createTime', order: 'ascending'}"
+                    <el-table :data="tableData" :default-sort="{prop: 'createTimeString', order: 'ascending'}"
                               highlight-current-row border style="width: 100%;">
                         <el-table-column type="index" width="50" label="序号"></el-table-column>
                         <el-table-column prop="orderId" width="150" label="订单编号"></el-table-column>
                         <el-table-column prop="regionName" width="120" label="区域"></el-table-column>
-                        <el-table-column prop="detailedAddress" width="250" label="详细地址"></el-table-column>
-                        <el-table-column prop="courierCompany" sortable width="110" label="快递公司"></el-table-column>
-                        <el-table-column prop="destination" width="120" label="收件地址"></el-table-column>
-                        <el-table-column prop="createTime" sortable width="140" label="下单时间"></el-table-column>
-                        <el-table-column prop="money" sortable width="100" label="费用/元"></el-table-column>
+                        <el-table-column prop="pickUpAddress" width="250" label="取件地址"></el-table-column>
+                        <el-table-column prop="receiveAddress" width="250" label="收件地址"></el-table-column>
+                        <el-table-column prop="expressType" width="120" label="快递类型"></el-table-column>
+                        <el-table-column prop="createTimeString" sortable width="180" label="下单时间"></el-table-column>
+                        <el-table-column prop="fee" sortable width="100" label="酬金/元"></el-table-column>
                         <el-table-column prop="remark" label="备注"></el-table-column>
                         <el-table-column width="120" label="操作">
                             <template #default="scope">
-                                <el-button size="small" @click="handleEdit(scope.$index, scope.row)" type="primary" plain>接单</el-button>
+                                <el-button size="small" @click="tryAcceptOrder(scope.row)" type="primary" plain>接单</el-button>
                             </template>
                         </el-table-column>
                     </el-table>
@@ -91,5 +91,6 @@
 <script src="/js/tool/vue3.js"></script>
 <script src="/js/tool/elementPlus.js"></script>
 <script src="/js/tool/axios.min.js"></script>
+<script src="/js/common/request.js"></script>
 <script src="/js/courier/publishedOrder.js"></script>
 </html>

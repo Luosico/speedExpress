@@ -72,4 +72,15 @@ public class OrderService {
         return orderMapper.countOrderByStatus(userId, orderStatusList);
     }
 
+    /**
+     * 通过订单状态查找订单
+     * @param orderStatusList 订单状态
+     */
+    public List<UserOrder> selectOrderByStatus(List<OrderStatus> orderStatusList){
+        return orderMapper.selectOrderByStatus(orderStatusList);
+    }
+
+    public boolean updateOrder(Order order){
+        return orderMapper.updateOrder(order) == 1;
+    }
 }

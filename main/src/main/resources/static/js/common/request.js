@@ -390,3 +390,53 @@ function countOrder(data, vue, func) {
         func(vue, response.data)
     })
 }
+
+/**
+ * 查找指定状态的订单
+ * @param data
+ * @param vue
+ * @param fuc
+ */
+function selectOrder(data, vue, func) {
+    axios({
+        url: "/common/selectOrderByStatus",
+        method: "POST",
+        data: {
+            types: data
+        }
+    }).then((response) => {
+        func(vue, response.data)
+    })
+}
+
+/**
+ * 获取未被接单的订单信息
+ * @param vue
+ * @param func
+ */
+function getUnAcceptOrder(vue, func) {
+    axios({
+        url: "/courier/getUnAcceptOrder",
+        method: "GET",
+    }).then((response) => {
+        func(vue, response.data)
+    })
+}
+
+/**
+ * 抢单
+ * @param orderId
+ * @param vue
+ * @param func
+ */
+function tryAcceptOrder(orderId, vue, func) {
+    axios({
+        url: "/courier/tryAcceptOrder",
+        method: "PUT",
+        data: {
+            orderId: orderId
+        }
+    }).then((response) => {
+        func(vue, response.data)
+    })
+}

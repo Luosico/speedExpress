@@ -114,4 +114,9 @@ public class UserService implements UserUtil {
         String authority = "ROLE_COURIER";
         return userMapper.updateAuthority(userId, authority);
     }
+
+    @Override
+    public Integer selectCourierIdByUserId(Integer userId) {
+        return userMapper.selectCourierIdByUserId(userId);
+    }
 }

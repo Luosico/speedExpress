@@ -34,6 +34,7 @@ public class UserOrder implements Serializable {
     private Timestamp createTime;
     private String createTimeString;
     private OrderStatus orderStatus;
+    private String remark;
 
     /**
      * 获取真实的金额
@@ -187,5 +188,13 @@ public class UserOrder implements Serializable {
 
     public void setCreateTimeString(String createTimeString) {
         this.createTimeString = createTimeString;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
     }
 }

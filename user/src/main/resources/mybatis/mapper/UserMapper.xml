@@ -134,6 +134,11 @@
             </otherwise>
         </choose>-->
     </select>
+    <select id="selectCourierIdByUserId" resultType="java.lang.Integer">
+        select courier_id
+        from courier
+        where user_id = #{userId}
+    </select>
 
     <update id="updateUser">
         update

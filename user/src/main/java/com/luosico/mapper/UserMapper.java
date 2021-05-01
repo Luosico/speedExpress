@@ -98,4 +98,11 @@ public interface UserMapper {
      * @return
      */
     int updateAuthority(@Param("userId") Integer userId, @Param("authority") String authority);
+
+    /**
+     * 获取快取员编号
+     * @param userId
+     * @return
+     */
+    Integer selectCourierIdByUserId(Integer userId);
 }

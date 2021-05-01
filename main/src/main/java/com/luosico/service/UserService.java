@@ -483,4 +483,13 @@ public class UserService {
         }
         return false;
     }
+
+    /**
+     * 获取快取员编号
+     * @param userId
+     * @return
+     */
+    public Integer selectCourierIdByUserId(Integer userId){
+        return userUtil.selectCourierIdByUserId(userId);
+    }
 }

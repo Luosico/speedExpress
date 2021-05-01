@@ -10,6 +10,13 @@ const App = {
     },
     methods: {
 
+    },
+    created(){
+        getUsername(this, (vue, response) => {
+            if (response.status === 'ok') {
+                vue.username = response.data;
+            }
+        });
     }
 }
 

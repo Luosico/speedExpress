@@ -282,6 +282,7 @@ public class CommonController {
 
     /**
      * 确认收到快递
+     *
      * @param map
      * @return
      */
@@ -300,21 +301,44 @@ public class CommonController {
 
     /**
      * 查询指定状态数量
+     *
      * @param map
      * @param request
      * @return
      */
     @PostMapping("countOrderByStatus")
-    public JsonStructure countOrderByStatus(@RequestBody Map<String,List<String>> map, HttpServletRequest request) {
+    public JsonStructure countOrderByStatus(@RequestBody Map<String, List<String>> map, HttpServletRequest request) {
         Integer userId = Integer.valueOf(userService.getUserIdByCookie(request.getCookies()));
-        List<String> list = map.get("types");
-        if (list != null && list.size() > 0) {
-            List<OrderStatus> orderStatuses = new ArrayList<>();
-            for (String orderStatus: list){
-                orderStatuses.add(OrderStatus.valueOf(orderStatus));
+        List<OrderStatus> orderStatuses = parseOrderStatus(map.get("types"));
+        if (orderStatuses != null) {
+            int count = orderService.countOrderByStatus(userId, orderStatuses);
+            return new JsonStructure("ok", "query success", count);
+        }
+        return new JsonStructure("fail", "请求内容为空");
+    }
+
+    /**
+     * 查找指定状态的订单
+     *
+     * @return
+     */
+    @PostMapping("selectOrderByStatus")
+    public JsonStructure selectOrderByStatus(@RequestBody Map<String, List<String>> map) {
+        List<OrderStatus> orderStatusList = parseOrderStatus(map.get("types"));
+        if (orderStatusList != null) {
+            List<UserOrder> orderList = orderService.selectOrderByStatus(orderStatusList);
+            //清除不需要的信息
+            for (UserOrder order : orderList) {
+                order.setName(null);
+                order.setExpressNumber(null);
+                order.setExpressCompany(null);
+                order.setExpressCode(null);
+                order.setPhoneNumber(null);
+                order.setPayId(null);
+                order.setOrderStatus(null);
+                order.setRemark(null);
             }
-            int count = orderService.countOrderByStatus(userId,orderStatuses);
-            return new JsonStructure("ok","query success",count);
+            return new JsonStructure("ok", "query success", orderList);
         }
         return new JsonStructure("fail", "请求内容为空");
     }
@@ -341,6 +365,22 @@ public class CommonController {
             return address;
         }
         return null;
+    }
+
+    /**
+     * 解析数组形式的订单状态为列表形式
+     *
+     * @param list
+     */
+    private List<OrderStatus> parseOrderStatus(List<String> list) {
+        List<OrderStatus> orderStatuses = null;
+        if (list != null && list.size() > 0) {
+            orderStatuses = new ArrayList<>();
+            for (String orderStatus : list) {
+                orderStatuses.add(OrderStatus.valueOf(orderStatus));
+            }
+        }
+        return orderStatuses;
     }
 
 }

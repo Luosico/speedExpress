@@ -2,12 +2,15 @@ package com.luosico.service;
 
 import com.luosico.config.ExpressType;
 import com.luosico.config.OrderStatus;
+import com.luosico.config.schedule.OrderSchedule;
 import com.luosico.domain.Express;
 import com.luosico.domain.Order;
 import com.luosico.domain.UserOrder;
 import com.luosico.order.OrderUtil;
 import org.apache.dubbo.config.annotation.DubboReference;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
@@ -24,6 +27,11 @@ public class OrderService {
     @DubboReference
     OrderUtil orderUtil;
 
+    @Autowired
+    UserService userService;
+
+    @Autowired
+    OrderSchedule orderSchedule;
 
     /**
      * 创建订单
@@ -77,5 +85,63 @@ public class OrderService {
      */
     public int countOrderByStatus(Integer userId, List<OrderStatus> orderStatusList){
         return orderUtil.countOrderByStatus(userId, orderStatusList);
+    }
+
+    /**
+     * 通过订单状态查找订单
+     * @param orderStatusList 订单状态
+     */
+    public List<UserOrder> selectOrderByStatus(List<OrderStatus> orderStatusList){
+        List<UserOrder> userOrders = orderUtil.selectOrderByStatus(orderStatusList);
+        for (UserOrder userOrder: userOrders){
+            userOrder.setFee(userOrder.getRealFee());
+        }
+        return userOrders;
+    }
+
+    /**
+     * 接单
+     * @param userId
+     * @param orderId
+     */
+    @Transactional
+    public boolean tryAcceptOrder(Integer userId, Integer orderId){
+        Integer courierId = userService.selectCourierIdByUserId(userId);
+        Order order = new Order();
+        order.setOrderId(orderId);
+        order.setCourierId(courierId);
+        order.setOrderStatus(OrderStatus.ACCEPTED_ORDER);
+
+        if(orderSchedule.orderCanAccept(orderId)){
+            return updateOrder(order);
+        }
+        return false;
+    }
+
+    /**
+     * 更新订单状态
+     * @param orderId
+     * @param orderStatus
+     * @return
+     */
+    public boolean updateOrderStatus(Integer orderId, OrderStatus orderStatus){
+        return orderUtil.updateOrderStatus(orderId, orderStatus);
+    }
+
+    /**
+     * 更新订单信息
+     * @param order
+     * @return
+     */
+    public boolean updateOrder(Order order){
+        return orderUtil.updateOrder(order);
+    }
+
+    /**
+     * 获取未被接单的订单信息
+     * @return
+     */
+    public List<UserOrder> getUnAcceptOrder(){
+        return orderSchedule.getUnAcceptOrder();
     }
 }

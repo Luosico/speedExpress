@@ -140,4 +140,11 @@ public interface UserUtil {
      */
     int updateAuthority(Integer userId);
 
+    /**
+     * 获取快取员编号
+     * @param userId
+     * @return
+     */
+    Integer selectCourierIdByUserId(Integer userId);
+
 }

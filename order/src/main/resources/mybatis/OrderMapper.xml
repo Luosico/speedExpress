@@ -21,6 +21,20 @@
         set order_status = #{orderStatus}
         where order_id = #{orderId}
     </update>
+
+    <update id="updateOrder">
+        update express_order
+        <set>
+            <if test="courierId != null">
+                courier_id = #{courierId},
+            </if>
+            <if test="orderStatus != null">
+                order_status = #{orderStatus},
+            </if>
+        </set>
+        where order_id = #{orderId}
+    </update>
+
     <select id="selectOrder" resultType="com.luosico.domain.Order">
         select (1)
         from express_order
@@ -59,7 +73,8 @@
                e.fee             fee,
                p.pay_id          payId,
                o.create_time     createTime,
-               o.order_status    orderStatus
+               o.order_status    orderStatus,
+               e.remark          remark
         from express_order o
                  inner join express e on o.express_id = e.express_id
                  inner join address a on a.address_id = e.address_id
@@ -70,13 +85,47 @@
             from user
                      inner join courier c on user.id = c.user_id
         ) c on o.courier_id = c.courier_id
-        where o.user_id = #{userId};
+        where o.user_id = #{userId}
     </select>
     <select id="countOrderByStatus" resultType="java.lang.Integer">
         select count(order_id)
         from express_order
         where user_id = #{userId}
         and order_status in
+        <foreach collection="list" open="(" close=")" separator="," item="orderType" index="i">
+            #{orderType}
+        </foreach>
+    </select>
+    <select id="selectOrderByStatus" resultType="com.luosico.domain.UserOrder">
+        select o.order_id orderId,
+        region_name regionName,
+        a.pick_up_address pickUpAddress,
+        a.receive_address receiveAddress,
+        e.name name,
+        e.express_number expressNumber,
+        e.express_company expressCompany,
+        e.express_code expressCode,
+        e.phone_number phoneNumber,
+        e.express_type expressType,
+        c.courier_id courierId,
+        c.name courierName,
+        c.phone_number courierPhoneNumber,
+        e.fee fee,
+        p.pay_id payId,
+        o.create_time createTime,
+        o.order_status orderStatus,
+        e.remark remark
+        from express_order o
+        inner join express e on o.express_id = e.express_id
+        inner join address a on a.address_id = e.address_id
+        inner join region on a.region_id = region.region_id
+        inner join pay p on p.pay_id = o.pay_id
+        left join (
+        select c.courier_id, user.name, user.phone_number
+        from user
+        inner join courier c on user.id = c.user_id
+        ) c on o.courier_id = c.courier_id
+        where o.order_status in
         <foreach collection="list" open="(" close=")" separator="," item="orderType" index="i">
             #{orderType}
         </foreach>

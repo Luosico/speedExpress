@@ -45,5 +45,24 @@ public interface OrderMapper {
      */
     int updateOrderStatus(@Param("orderId") Integer orderId, @Param("orderStatus") OrderStatus orderStatus);
 
-    public int countOrderByStatus(@Param("userId") Integer userId, @Param("list") List<OrderStatus> orderStatusList);
+    /**
+     * 通过订单状态统计订单数量
+     * @param userId
+     * @param orderStatusList
+     * @return
+     */
+    int countOrderByStatus(@Param("userId") Integer userId, @Param("list") List<OrderStatus> orderStatusList);
+
+    /**
+     * 通过订单状态查找订单
+     * @param orderStatusList 订单状态
+     */
+    List<UserOrder> selectOrderByStatus(List<OrderStatus> orderStatusList);
+
+    /**
+     * 更新订单信息
+     * @param order
+     * @return
+     */
+    int updateOrder(Order order);
 }
