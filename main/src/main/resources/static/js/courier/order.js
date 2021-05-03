@@ -137,7 +137,7 @@ const Order = {
             }
         })
         //配送完成
-        selectCourierOrder(['FINISHED_ORDER'], this, (vue, response) => {
+        selectCourierOrder(['FINISHED_ORDER','CONFIRMED_ORDER'], this, (vue, response) => {
             if (response.status === 'ok') {
                 vue.finishedOrder = response.data;
             } else {
