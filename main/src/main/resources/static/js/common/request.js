@@ -495,3 +495,43 @@ function updateOrderStatus(data, vue) {
         }
     })
 }
+
+/**
+ * 获取所有订单金额的总和
+ * @param vue
+ */
+function getTotalBalance(vue) {
+    axios({
+        url: "/courier/selectTotalBalance",
+        method: "GET",
+    }).then((response) => {
+        if(response.data.status === 'ok'){
+            vue.totalBalance = response.data.data;
+        }else{
+            vue.$message({
+                type: 'error',
+                message: response.data.message,
+            })
+        }
+    })
+}
+
+/**
+ * 获取当前的余额
+ * @param vue
+ */
+function getBalance(vue) {
+    axios({
+        url: "/courier/selectBalance",
+        method: "GET",
+    }).then((response) => {
+        if(response.data.status === 'ok'){
+            vue.balance = response.data.data;
+        }else{
+            vue.$message({
+                type: 'error',
+                message: response.data.message,
+            })
+        }
+    })
+}

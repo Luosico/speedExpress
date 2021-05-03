@@ -23,9 +23,17 @@
                 #{user.accountNonLocked},
                 #{user.enabled})
     </insert>
-    <insert id="addCourier">
+    <insert id="addCourier" useGeneratedKeys="true" keyProperty="courierId">
         insert into courier(user_id, identity_id)
         values (#{userId}, #{identityId})
+    </insert>
+    <insert id="createWallet">
+        insert into wallet(courier_id, balance)
+        VALUES (#{courierId}, #{balance})
+    </insert>
+    <insert id="addBalanceRecord">
+        insert into balance_record(order_id, courier_id, amount, remark)
+        VALUES (#{orderId}, #{courierId}, #{amount}, #{remark})
     </insert>
 
     <select id="SelectUserByPhoneNumber" resultType="com.luosico.domain.User">
@@ -139,6 +147,19 @@
         from courier
         where user_id = #{userId}
     </select>
+    <select id="selectWalletBalance" resultType="java.lang.Integer">
+        select balance
+        from wallet
+        where courier_id = #{courierId}
+    </select>
+
+    <select id="selectTotalBalance" resultType="java.lang.Integer">
+        select sum(e.fee)
+        from express_order o
+                 inner join express e on o.express_id = e.express_id
+        where o.order_status = 'CONFIRMED_ORDER'
+          and o.courier_id = #{courierId}
+    </select>
 
     <update id="updateUser">
         update
@@ -224,6 +245,11 @@
         update user
         set authorities = #{authority}
         where id = #{userId}
+    </update>
+    <update id="updateWallet">
+        update wallet
+        set balance = #{balance}
+        where courier_id = #{courierId}
     </update>
 
 </mapper>

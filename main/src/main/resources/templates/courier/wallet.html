@@ -39,7 +39,8 @@
                     </el-menu-item>
                     <el-menu-item index="3">
                         <i class="el-icon-service"></i>
-                        <span slot="title"><el-link href="/courier/publishedOrder" :underline="false">接单大厅</el-link></span>
+                        <span slot="title"><el-link href="/courier/publishedOrder"
+                                                    :underline="false">接单大厅</el-link></span>
                     </el-menu-item>
                     <el-menu-item index="4">
                         <i class="el-icon-edit"></i>
@@ -69,24 +70,46 @@
                         <el-row>
                             <el-col :span="4">
                                 <div>
-                                    <span style="color: #2ed573">￥{{balance}}</span>
-                                    <p>可用余额</p>
-                                    <el-button type="primary" round style="margin-left: 12px">提现</el-button>
+                                    <span style="color: #2ed573">￥{{balance /100}}</span>
+                                    <p style="margin-top: 15px">
+                                        <span>可用余额</span>
+                                        <el-button type="primary" @click="dialogVisible=true" size="small" round style="margin-left: 12px;margin-top: 0">提现</el-button>
+                                    </p>
                                 </div>
                             </el-col>
                             <el-col :span="4" :offset="15">
                                 <div>
-                                    <span style="color: #70a1ff">￥{{total}}</span>
-                                    <p>总共获得</p>
-                                    <!--<el-button type="primary" round style="margin-left: 12px">提现</el-button>-->
+                                    <span style="color: #70a1ff">￥{{totalBalance /100}}</span>
+                                    <p style="padding-left: 15px;margin-top: 13px">总共获得</p>
                                 </div>
                             </el-col>
                         </el-row>
                     </div>
                 </div>
-                <div >
-
+                <div>
+                    <!--<div>余额变动记录</div>
+                    <div>
+                        <el-table :data="tableData" border style="width: 100%">
+                            <el-table-column type="index" label="序号" width="50"></el-table-column>
+                            <el-table-column prop="" label="" width=""></el-table-column>
+                            <el-table-column prop="" label="" width=""></el-table-column>
+                            <el-table-column prop="" label="" width=""></el-table-column>
+                        </el-table>
+                    </div>-->
                 </div>
+                <el-dialog title="提现" v-model="dialogVisible" :append-to-body="true">
+                    <el-form :model="form" label-width="80px">
+                        <el-form-item label="金额" label-width="100px">
+                            <el-input v-model="form.amount"></el-input>
+                        </el-form-item>
+                    </el-form>
+                    <template #footer>
+                        <span class="dialog-footer">
+                            <el-button @click="dialogVisible = false">取 消</el-button>
+                            <el-button type="primary" @click="getMoney()">确 定</el-button>
+                        </span>
+                    </template>
+                </el-dialog>
             </el-main>
         </el-container>
     </el-container>

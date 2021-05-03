@@ -81,8 +81,8 @@ create table express
 create table express_order
 (
     order_id     int auto_increment not null,
-    user_id      int                not null ,
-    pay_id       int                not null unique ,
+    user_id      int                not null,
+    pay_id       int                not null unique,
     courier_id   int,
     express_id   int                not null,
     order_status varchar(30)        not null,
@@ -94,6 +94,27 @@ create table express_order
     foreign key (express_id) references express (express_id),
     foreign key (courier_id) references courier (courier_id)
 );
+
+create table wallet
+(
+    wallet_id  int auto_increment not null,
+    courier_id int                not null unique ,
+    balance    int                not null,
+    primary key (wallet_id),
+    foreign key (courier_id) references courier (courier_id)
+);
+
+create table balance_record
+(
+    balance_id int auto_increment not null,
+    order_id   int                not null,
+    courier_id int                not null,
+    amount     int                not null,
+    remark     varchar(100),
+    primary key (balance_id),
+    foreign key (order_id) references express_order (order_id),
+    foreign key (courier_id) references courier (courier_id)
+)
 
 insert into user(username,
                  password,

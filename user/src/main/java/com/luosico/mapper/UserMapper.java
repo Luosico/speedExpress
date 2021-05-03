@@ -1,6 +1,7 @@
 package com.luosico.mapper;
 
 
+import com.luosico.domain.BalanceRecord;
 import com.luosico.domain.Courier;
 import com.luosico.domain.User;
 import org.apache.ibatis.annotations.Mapper;
@@ -105,4 +106,40 @@ public interface UserMapper {
      * @return
      */
     Integer selectCourierIdByUserId(Integer userId);
+
+    /**
+     * 快取员建立钱包
+     * @param courierId
+     * @return
+     */
+    int createWallet(@Param("courierId") Integer courierId, @Param("balance") Integer balance);
+
+    /**
+     * 更新钱包金额
+     * @param courierId
+     * @param balance
+     * @return
+     */
+    int updateWallet(@Param("courierId") Integer courierId, @Param("balance") Integer balance);
+
+    /**
+     * 查询账户余额
+     * @param courierId
+     * @return
+     */
+    Integer selectWalletBalance(Integer courierId);
+
+    /**
+     * 查询快取员所有订单金额的总和
+     * @param courierId
+     * @return
+     */
+    Integer selectTotalBalance(Integer courierId);
+
+    /**
+     * 添加余额变动记录
+     * @param record
+     * @return
+     */
+    int addBalanceRecord(BalanceRecord record);
 }

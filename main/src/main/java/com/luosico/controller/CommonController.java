@@ -13,6 +13,7 @@ import com.luosico.service.PayService;
 import com.luosico.service.UserService;
 import com.luosico.service.UtilService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.Cookie;
@@ -287,10 +288,13 @@ public class CommonController {
      * @return
      */
     @PutMapping("orderConfirmReceived")
+    @Transactional
     public JsonStructure confirmReceived(@RequestBody Map<String, Integer> map) {
         Integer orderId = map.get("orderId");
         if (orderId !=null ) {
             if (orderService.orderConfirmReceived(Integer.valueOf(orderId))) {
+                //将酬金付给快取员
+                userService.courierFinishedExpress(orderId);
                 return new JsonStructure();
             } else {
                 return new JsonStructure("fai", "提交失败，服务器出现错误");

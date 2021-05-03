@@ -63,4 +63,14 @@ public class OrderRpcService implements OrderUtil {
     public boolean updateOrder(Order order) {
         return orderService.updateOrder(order);
     }
+
+    @Override
+    public Order selectOrder(Order order) {
+        return orderService.selectOrder(order);
+    }
+
+    @Override
+    public Express selectExpress(Integer expressId) {
+        return orderService.selectExpress(expressId);
+    }
 }

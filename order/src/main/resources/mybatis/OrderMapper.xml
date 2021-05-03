@@ -36,22 +36,22 @@
     </update>
 
     <select id="selectOrder" resultType="com.luosico.domain.Order">
-        select (1)
+        select order_id,user_id, pay_id, courier_id, express_id, order_status, create_time
         from express_order
         <where>
-            <if test="order_id != null">
+            <if test="orderId != null">
                 and order_id = #{orderId}
             </if>
-            <if test="user_id != null ">
+            <if test="userId != null ">
                 and user_id = #{userId}
             </if>
-            <if test="pay_id != null ">
+            <if test="payId != null ">
                 and pay_id = #{payId}
             </if>
-            <if test="courier_id != null ">
+            <if test="courierId != null ">
                 and courier_id = #{courierId}
             </if>
-            <if test="express_id != null ">
+            <if test="expressId != null ">
                 and express_id = #{expressId}
             </if>
         </where>
@@ -170,6 +170,6 @@
         select count(order_id)
         from express_order
         where courier_id = #{courierId}
-        and order_status = #{orderStatus}
+          and order_status = #{orderStatus}
     </select>
 </mapper>

@@ -1,10 +1,7 @@
 package com.luosico.user;
 
 
-import com.luosico.domain.Address;
-import com.luosico.domain.Courier;
-import com.luosico.domain.Region;
-import com.luosico.domain.User;
+import com.luosico.domain.*;
 
 import java.util.List;
 
@@ -129,7 +126,7 @@ public interface UserUtil {
     /**
      * 成为快取员
      * @param courier
-     * @return
+     * @return courierId
      */
     int addCourier(Courier courier);
 
@@ -146,5 +143,41 @@ public interface UserUtil {
      * @return
      */
     Integer selectCourierIdByUserId(Integer userId);
+
+    /**
+     * 快取员建立钱包
+     * @param courierId
+     * @return
+     */
+    boolean createWallet(Integer courierId);
+
+    /**
+     * 更新钱包金额
+     * @param courierId
+     * @param amount
+     * @return
+     */
+    boolean updateWallet(Integer courierId, Integer amount);
+
+    /**
+     * 查找钱包余额
+     * @param courierId
+     * @return
+     */
+    Integer selectWalletBalance(Integer courierId);
+
+    /**
+     * 查询快取员所有订单金额的总和
+     * @param courierId
+     * @return
+     */
+    Integer selectTotalBalance(Integer courierId);
+
+    /**
+     * 添加余额变动记录
+     * @param record
+     * @return
+     */
+    boolean addBalanceRecord(BalanceRecord record);
 
 }

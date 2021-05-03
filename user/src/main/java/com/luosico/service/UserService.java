@@ -1,10 +1,7 @@
 package com.luosico.service;
 
 
-import com.luosico.domain.Address;
-import com.luosico.domain.Courier;
-import com.luosico.domain.Region;
-import com.luosico.domain.User;
+import com.luosico.domain.*;
 import com.luosico.mapper.AddressMapper;
 import com.luosico.mapper.UserMapper;
 import com.luosico.user.UserUtil;
@@ -106,7 +103,11 @@ public class UserService implements UserUtil {
 
     @Override
     public int addCourier(Courier courier) {
-        return userMapper.addCourier(courier);
+        if (userMapper.addCourier(courier) == 0) {
+            return 0;
+        } else {
+            return courier.getCourierId();
+        }
     }
 
     @Override
@@ -118,5 +119,39 @@ public class UserService implements UserUtil {
     @Override
     public Integer selectCourierIdByUserId(Integer userId) {
         return userMapper.selectCourierIdByUserId(userId);
+    }
+
+    @Override
+    public boolean createWallet(Integer courierId) {
+        Integer balance = 0;
+        userMapper.createWallet(courierId, balance);
+        return userMapper.createWallet(courierId, balance) == 1;
+    }
+
+    @Override
+    public boolean updateWallet(Integer courierId, Integer amount) {
+        //账户余额
+        int balance = selectWalletBalance(courierId);
+        //大于账户余额
+        if (-amount > balance) {
+            return false;
+        }
+        balance = balance + amount;
+        return userMapper.updateWallet(courierId, balance) == 1;
+    }
+
+    @Override
+    public Integer selectWalletBalance(Integer courierId) {
+        return userMapper.selectWalletBalance(courierId);
+    }
+
+    @Override
+    public Integer selectTotalBalance(Integer courierId) {
+        return userMapper.selectTotalBalance(courierId);
+    }
+
+    @Override
+    public boolean addBalanceRecord(BalanceRecord record) {
+        return userMapper.addBalanceRecord(record) == 1;
     }
 }

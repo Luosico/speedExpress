@@ -6,6 +6,7 @@ const App = {
             acceptedOrder: '',
             deliveryOrder: '',
             finishedOrder: '',
+            totalBalance: '',
         }
     },
     methods: {},
@@ -20,7 +21,7 @@ const App = {
             vue.deliveryOrder = response.data.deliveryOrder;
             vue.finishedOrder = response.data.finishedOrder;
         })
-
+        getTotalBalance(this);
     }
 }
 

@@ -72,4 +72,18 @@ public interface OrderUtil {
      * @return
      */
     boolean updateOrder(Order order);
+
+    /**
+     * 查询订单信息
+     * @param order
+     * @return
+     */
+    Order selectOrder(Order order);
+
+    /**
+     * 查询快递信息
+     * @param expressId
+     * @return
+     */
+    Express selectExpress(Integer expressId);
 }

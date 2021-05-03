@@ -111,4 +111,22 @@ public class OrderService {
     public Integer countCourierOrderByStatus(Integer courierId, OrderStatus orderStatus){
         return orderMapper.countCourierOrderByStatus(courierId, orderStatus);
     }
+
+    /**
+     * 查询订单信息
+     * @param order
+     * @return
+     */
+    public Order selectOrder(Order order){
+        return orderMapper.selectOrder(order);
+    }
+
+    /**
+     * 查询快递信息
+     * @param expressId
+     * @return
+     */
+    public Express selectExpress(Integer expressId){
+        return expressMapper.selectExpress(expressId);
+    }
 }

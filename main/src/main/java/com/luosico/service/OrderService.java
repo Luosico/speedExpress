@@ -170,4 +170,24 @@ public class OrderService {
     public Integer countCourierOrderByStatus(Integer courierId, OrderStatus orderStatus) {
         return orderUtil.countCourierOrderByStatus(courierId, orderStatus);
     }
+
+    /**
+     * 查询订单信息
+     * @param orderId
+     * @return
+     */
+    public Order selectOrder(Integer orderId){
+        Order order = new Order();
+        order.setOrderId(orderId);
+        return orderUtil.selectOrder(order);
+    }
+
+    /**
+     * 查询快递信息
+     * @param expressId
+     * @return
+     */
+    public Express selectExpress(Integer expressId){
+        return orderUtil.selectExpress(expressId);
+    }
 }

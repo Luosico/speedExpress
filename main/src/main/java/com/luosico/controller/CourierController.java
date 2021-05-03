@@ -129,8 +129,7 @@ public class CourierController {
     @PutMapping("selectCourierOrder")
     @ResponseBody
     public JsonStructure<List<UserOrder>> selectCourierOrder(@RequestBody Map<String, List<String>> map, HttpServletRequest request) {
-        Integer userId = Integer.valueOf(userService.getUserIdByCookie(request.getCookies()));
-        Integer courierId = userService.selectCourierIdByUserId(userId);
+        Integer courierId = userService.selectCourierIdByCookies(request.getCookies());
         List<OrderStatus> orderStatusList = utilService.parseOrderStatus(map.get("types"));
 
         if (orderStatusList != null && orderStatusList.size() > 0) {
@@ -161,14 +160,45 @@ public class CourierController {
     @GetMapping("countCourierOrder")
     @ResponseBody
     public JsonStructure<Map<String,Integer>> countCourierOrder(HttpServletRequest request){
-        Integer userId = Integer.valueOf(userService.getUserIdByCookie(request.getCookies()));
-        Integer courierId = userService.selectCourierIdByUserId(userId);
+        Integer courierId = userService.selectCourierIdByCookies(request.getCookies());
 
         Map<String, Integer> map = new HashMap<>();
         map.put("acceptedOrder", orderService.countCourierOrderByStatus(courierId, OrderStatus.ACCEPTED_ORDER));
         map.put("deliveryOrder", orderService.countCourierOrderByStatus(courierId, OrderStatus.DELIVERY_ORDER));
-        map.put("finishedOrder", orderService.countCourierOrderByStatus(courierId, OrderStatus.FINISHED_ORDER));
+        map.put("finishedOrder", orderService.countCourierOrderByStatus(courierId, OrderStatus.FINISHED_ORDER) + orderService.countCourierOrderByStatus(courierId, OrderStatus.CONFIRMED_ORDER));
 
         return new JsonStructure<>("ok", "query success", map);
     }
+
+    /**
+     * 提现
+     * @return
+     */
+    public JsonStructure getMoney(Map<String, Integer> map, HttpServletRequest request){
+        Integer courierId = userService.selectCourierIdByCookies(request.getCookies());
+        Integer amount = map.get("amount");
+
+        if(userService.updateWallet(courierId,-amount)){
+            return new JsonStructure();
+        }else{
+            return new JsonStructure("fail","提现失败，服务器出现错误");
+        }
+    }
+
+    @GetMapping("selectTotalBalance")
+    @ResponseBody
+    public JsonStructure<Integer> selectTotalBalance(HttpServletRequest request){
+        Integer courierId = userService.selectCourierIdByCookies(request.getCookies());
+        Integer total = userService.selectTotalBalance(courierId);
+        return new JsonStructure<>("ok","success", total);
+    }
+
+    @GetMapping("selectBalance")
+    @ResponseBody
+    public JsonStructure<Integer> getBalance(HttpServletRequest request){
+        Integer courierId = userService.selectCourierIdByCookies(request.getCookies());
+        Integer balance = userService.selectWalletBalance(courierId);
+        return new JsonStructure<>("ok","success", balance);
+    }
+
 }

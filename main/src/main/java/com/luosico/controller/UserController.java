@@ -63,6 +63,12 @@ public class UserController {
         return "user/becomeSender";
     }
 
+    /**
+     * 成为快取员
+     * @param map
+     * @param request
+     * @return
+     */
     @PostMapping("courier")
     @ResponseBody
     public JsonStructure becomeCourier(@RequestBody Map<String,String> map, HttpServletRequest request){

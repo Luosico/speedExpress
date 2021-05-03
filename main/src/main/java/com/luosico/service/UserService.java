@@ -1,8 +1,6 @@
 package com.luosico.service;
 
-import com.luosico.domain.Address;
-import com.luosico.domain.Courier;
-import com.luosico.domain.User;
+import com.luosico.domain.*;
 import com.luosico.user.UserUtil;
 import com.luosico.util.RedisUtils;
 import org.apache.dubbo.config.annotation.DubboReference;
@@ -34,6 +32,9 @@ public class UserService {
 
     @Autowired
     UtilService utilService;
+
+    @Autowired
+    OrderService orderService;
 
     @DubboReference
     RedisUtils redisUtil;
@@ -475,9 +476,10 @@ public class UserService {
      */
     public boolean becomeCourier(Courier courier) {
         //成功成为快取员
-        if (userUtil.addCourier(courier) == 1) {
+        int courierId = userUtil.addCourier(courier);
+        if (courierId != 0) {
             //更新权限
-            if (userUtil.updateAuthority(courier.getUserId()) == 1) {
+            if (userUtil.updateAuthority(courier.getUserId()) == 1 && createWallet(courierId)) {
                 return true;
             }
         }
@@ -486,10 +488,92 @@ public class UserService {
 
     /**
      * 获取快取员编号
+     *
      * @param userId
      * @return
      */
-    public Integer selectCourierIdByUserId(Integer userId){
+    public Integer selectCourierIdByUserId(Integer userId) {
         return userUtil.selectCourierIdByUserId(userId);
+    }
+
+    /**
+     * 快取员建立钱包
+     *
+     * @param courierId
+     * @return
+     */
+    public boolean createWallet(Integer courierId) {
+        return userUtil.createWallet(courierId);
+    }
+
+    /**
+     * 更新账户余额
+     * 正数为增加
+     * 负数为减少
+     * @param courierId
+     * @param amount
+     * @return
+     */
+    public boolean updateWallet(Integer courierId, Integer amount){
+        return userUtil.updateWallet(courierId, amount);
+    }
+
+    /**
+     * 快取员完成派送，用户且确认收货
+     * @param orderId
+     * @return
+     */
+    public boolean courierFinishedExpress(Integer orderId){
+        Order order = orderService.selectOrder(orderId);
+        Integer courierId = order.getCourierId();
+        Integer expressId = order.getExpressId();
+        Express express = orderService.selectExpress(expressId);
+
+        if(updateWallet(courierId, express.getFee().intValue()) && addBalanceRecord(orderId, courierId, "用户确认收货")){
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * 查询余额
+     * @param courierId
+     * @return
+     */
+    public Integer selectWalletBalance(Integer courierId){
+        return userUtil.selectWalletBalance(courierId);
+    }
+
+    /**
+     * 查询快取员所有订单金额的总和
+     * @param courierId
+     * @return
+     */
+    public Integer selectTotalBalance(Integer courierId){
+        return userUtil.selectTotalBalance(courierId);
+    }
+
+    /**
+     * 查询 courierId
+     * @param cookies
+     * @return
+     */
+    public Integer selectCourierIdByCookies(Cookie[] cookies){
+        Integer userId = Integer.valueOf(getUserIdByCookie(cookies));
+        return selectCourierIdByUserId(userId);
+    }
+
+    /**
+     * 钱包余额变动记录
+     *
+     * @param courierId
+     * @return
+     */
+    public boolean addBalanceRecord(Integer orderId, Integer courierId, String remark){
+        Order order = orderService.selectOrder(orderId);
+        Integer amount = orderService.selectExpress(order.getExpressId()).getFee().intValue();
+        BalanceRecord record = new BalanceRecord(orderId,courierId,amount,remark);
+
+        return userUtil.addBalanceRecord(record);
     }
 }

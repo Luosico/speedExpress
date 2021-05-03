@@ -25,7 +25,17 @@
                 #{remark})
     </insert>
     <select id="selectExpress" resultType="com.luosico.domain.Express">
-        select (1)
+        select express_id,
+               address_id,
+               name,
+               express_number,
+               express_company,
+               express_code,
+               phone_number,
+               express_type,
+               create_time,
+               fee,
+               remark
         from express
         where express_id = #{expressId}
     </select>
