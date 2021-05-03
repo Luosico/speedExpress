@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
  */
 public class User implements Serializable {
 
-    private long id;
+    private Integer id;
     private String username;
     private String name;
     private String password;
@@ -126,7 +126,7 @@ public class User implements Serializable {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

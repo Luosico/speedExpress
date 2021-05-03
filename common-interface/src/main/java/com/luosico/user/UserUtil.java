@@ -34,7 +34,7 @@ public interface UserUtil {
      * @param username 用户名
      * @return
      */
-    String selectUserIdByUsername(String username);
+    Integer selectUserIdByUsername(String username);
 
     /**
      * 新增用户

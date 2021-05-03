@@ -76,9 +76,9 @@ public class UserController {
         String smsCode = map.get("smsCode");
         if (!utilService.isEmpty(identityId, smsCode)){
             if(userService.validateSmsCode(request.getCookies(), smsCode)){
-                String userId = userService.getUserIdByCookie(request.getCookies());
+                Integer userId = userService.getUserIdByCookie(request.getCookies());
                 Courier courier = new Courier();
-                courier.setUserId(Integer.valueOf(userId));
+                courier.setUserId(userId);
                 courier.setIdentityId(identityId);
 
                 //成功成为快取员

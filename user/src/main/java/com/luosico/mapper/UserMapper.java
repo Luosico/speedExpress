@@ -29,7 +29,7 @@ public interface UserMapper {
      * @param username 用户名
      * @return
      */
-    String selectUserIdByUsername(@Param("username") String username);
+    Integer selectUserIdByUsername(@Param("username") String username);
 
     /**
      * 新增用户

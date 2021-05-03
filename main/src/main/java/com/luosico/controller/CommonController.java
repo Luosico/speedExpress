@@ -126,8 +126,8 @@ public class CommonController {
      */
     @GetMapping("address")
     public JsonStructure<List<Address>> selectAddressesByUserId(HttpServletRequest request) {
-        String userId = userService.getUserIdByCookie(request.getCookies());
-        List<Address> addressList = userService.selectAddressesByUserId(Integer.valueOf(userId));
+        Integer userId = userService.getUserIdByCookie(request.getCookies());
+        List<Address> addressList = userService.selectAddressesByUserId(userId);
         return new JsonStructure<List<Address>>("ok", addressList);
     }
 
@@ -248,13 +248,13 @@ public class CommonController {
      */
     @PostMapping("order")
     public JsonStructure addOrder(@RequestBody Map map, HttpServletRequest request) {
-        String userId = userService.getUserIdByCookie(request.getCookies());
+        Integer userId = userService.getUserIdByCookie(request.getCookies());
         Map payResult = payService.processPay(map);
         //支付成功
         if (payResult.get("result") == PayStatus.ALREADY_PAY) {
             Integer payId = (Integer) payResult.get("payId");
             map.put("payId", payId);
-            map.put("userId", Integer.valueOf(userId));
+            map.put("userId", userId);
             if (orderService.addOrder(map)) {
                 return new JsonStructure();
             } else {
@@ -273,8 +273,8 @@ public class CommonController {
      */
     @GetMapping("order")
     public JsonStructure<List<UserOrder>> selectOrder(HttpServletRequest request) {
-        String userId = userService.getUserIdByCookie(request.getCookies());
-        List<UserOrder> userOrder = orderService.selectUserOrder(Integer.valueOf(userId));
+        Integer userId = userService.getUserIdByCookie(request.getCookies());
+        List<UserOrder> userOrder = orderService.selectUserOrder(userId);
         if (userOrder != null) {
             return new JsonStructure<>("ok", "查询成功", userOrder);
         }
@@ -312,7 +312,7 @@ public class CommonController {
      */
     @PostMapping("countOrderByStatus")
     public JsonStructure countOrderByStatus(@RequestBody Map<String, List<String>> map, HttpServletRequest request) {
-        Integer userId = Integer.valueOf(userService.getUserIdByCookie(request.getCookies()));
+        Integer userId = userService.getUserIdByCookie(request.getCookies());
         List<OrderStatus> orderStatuses = utilService.parseOrderStatus(map.get("types"));
         if (orderStatuses != null) {
             int count = orderService.countOrderByStatus(userId, orderStatuses);
@@ -361,8 +361,8 @@ public class CommonController {
         String pickUpAddress = map.get("pickUpAddress");
         String receiveAddress = map.get("receiveAddress");
         if (!utilService.isEmpty(username, regionId, pickUpAddress, receiveAddress)) {
-            String userId = userService.selectUserIdByUsername(username);
-            Address address = new Address(Integer.valueOf(userId), Integer.valueOf(regionId), pickUpAddress, receiveAddress);
+            Integer userId = userService.selectUserIdByUsername(username);
+            Address address = new Address(userId, Integer.valueOf(regionId), pickUpAddress, receiveAddress);
             if (!utilService.isEmpty(addressId)) {
                 address.setAddressId(Integer.valueOf(addressId));
             }

@@ -63,7 +63,7 @@
             and phone_number = #{val}
         </if>
     </select>
-    <select id="selectUserIdByUsername" resultType="java.lang.String">
+    <select id="selectUserIdByUsername" resultType="java.lang.Integer">
         select id
         from user
         where

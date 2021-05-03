@@ -37,7 +37,7 @@ public class UserService implements UserUtil {
     }
 
     @Override
-    public String selectUserIdByUsername(String username) {
+    public Integer selectUserIdByUsername(String username) {
         return userMapper.selectUserIdByUsername(username);
     }
 

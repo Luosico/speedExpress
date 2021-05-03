@@ -105,7 +105,7 @@ public class CourierController {
     @PutMapping("tryAcceptOrder")
     @ResponseBody
     public JsonStructure<String> tryAcceptOrder(@RequestBody Map<String, Integer> map, HttpServletRequest request) {
-        Integer userId = Integer.valueOf(userService.getUserIdByCookie(request.getCookies()));
+        Integer userId = userService.getUserIdByCookie(request.getCookies());
         Integer orderId = map.get("orderId");
         if (orderId != null) {
             //抢单成功

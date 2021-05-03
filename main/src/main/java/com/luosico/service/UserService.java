@@ -210,9 +210,9 @@ public class UserService {
      * @param cookies
      * @return userId
      */
-    public String getUserIdByCookie(Cookie[] cookies) {
+    public Integer getUserIdByCookie(Cookie[] cookies) {
         String username = getUsernameByCookie(cookies);
-        return selectUserIdByUsername(username);
+        return getUserIdByUsername(username);
     }
 
     /**
@@ -233,8 +233,7 @@ public class UserService {
      * @return
      */
     public String getUidByUsername(String username) {
-        String userId = (String) redisUtil.hget(username, "userId");
-        return userId;
+        return (String) redisUtil.hget(username, "uid");
     }
 
     /**
@@ -243,7 +242,7 @@ public class UserService {
      * @param username 用户名
      * @return userId
      */
-    public String selectUserIdByUsername(String username) {
+    public Integer selectUserIdByUsername(String username) {
         return userUtil.selectUserIdByUsername(username);
     }
 
@@ -253,8 +252,8 @@ public class UserService {
      * @param username 用户名
      * @return userId
      */
-    public String getUserIdByUsername(String username) {
-        return (String) redisUtil.hget(username, "uerId");
+    public Integer getUserIdByUsername(String username) {
+        return (Integer) redisUtil.hget(username, "userId");
     }
 
     /**
@@ -350,8 +349,8 @@ public class UserService {
      * @param userId
      * @return
      */
-    public String selectPhoneNumberByUserId(String userId) {
-        return userUtil.selectPhoneNumber(Integer.valueOf(userId));
+    public String selectPhoneNumberByUserId(Integer userId) {
+        return userUtil.selectPhoneNumber(userId);
     }
 
     /**
@@ -361,7 +360,7 @@ public class UserService {
      * @return
      */
     public String selectPhoneNumberByUsername(String username) {
-        String userId = selectUserIdByUsername(username);
+        Integer userId = selectUserIdByUsername(username);
         return selectPhoneNumberByUserId(userId);
     }
 
@@ -395,7 +394,7 @@ public class UserService {
     public boolean updateUserName(String username, String newUsername, String name) {
         if (userUtil.updateUserName(username, newUsername, name) == 1) {
             String uid = getUidByUsername(username);
-            String userId = selectUserIdByUsername(username);
+            Integer userId = selectUserIdByUsername(username);
             String phoneNumber = getPhoneNumberByUsername(username);
             //更新Redis信息
             redisUtil.set(uid, newUsername, 60 * 30);
@@ -559,7 +558,7 @@ public class UserService {
      * @return
      */
     public Integer selectCourierIdByCookies(Cookie[] cookies){
-        Integer userId = Integer.valueOf(getUserIdByCookie(cookies));
+        Integer userId = getUserIdByCookie(cookies);
         return selectCourierIdByUserId(userId);
     }
 
