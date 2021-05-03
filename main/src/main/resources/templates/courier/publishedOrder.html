@@ -74,7 +74,11 @@
                         <el-table-column prop="receiveAddress" width="250" label="收件地址"></el-table-column>
                         <el-table-column prop="expressType" width="120" label="快递类型"></el-table-column>
                         <el-table-column prop="createTimeString" sortable width="180" label="下单时间"></el-table-column>
-                        <el-table-column prop="fee" sortable width="100" label="酬金/元"></el-table-column>
+                        <el-table-column prop="fee" sortable width="100" label="酬金/元">
+                            <template #default="scope">
+                                {{scope.row.fee / 100}}
+                            </template>
+                        </el-table-column>
                         <el-table-column prop="remark" label="备注"></el-table-column>
                         <el-table-column width="120" label="操作">
                             <template #default="scope">

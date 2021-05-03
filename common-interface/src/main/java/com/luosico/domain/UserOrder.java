@@ -4,6 +4,7 @@ import com.luosico.config.ExpressType;
 import com.luosico.config.OrderStatus;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.sql.Timestamp;
 
@@ -35,15 +36,6 @@ public class UserOrder implements Serializable {
     private String createTimeString;
     private OrderStatus orderStatus;
     private String remark;
-
-    /**
-     * 获取真实的金额
-     * @return
-     */
-    public Long getRealFee(){
-        BigInteger multiply = BigInteger.valueOf(100L);
-        return BigInteger.valueOf(getFee()).divide(multiply).longValue();
-    }
 
     public Integer getOrderId() {
         return orderId;

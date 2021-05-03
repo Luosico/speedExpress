@@ -3,6 +3,7 @@ package com.luosico.domain;
 import com.luosico.config.ExpressType;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 
 /**

@@ -33,7 +33,7 @@ public class PayRpcService implements PayUtil {
      */
     @Override
     public Map processPay(Map map) {
-        Long fee = Long.valueOf((String) map.get("fee"));
+        Long fee = Long.valueOf((Integer) map.get("fee"));
 
         Integer payId = payService.createPayOrder(fee);
         /* ...... */

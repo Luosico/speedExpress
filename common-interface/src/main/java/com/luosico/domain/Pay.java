@@ -21,7 +21,7 @@ public class Pay implements Serializable {
 
     public Pay(Long fee) {
         this.payStatus = PayStatus.WAIT_PAY;
-        this.fee = 100 * fee;
+        this.fee = fee;
     }
 
     public Integer getPayId() {

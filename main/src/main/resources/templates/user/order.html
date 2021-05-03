@@ -112,7 +112,7 @@
                                     <span>{{ props.row.payId }}</span>
                                 </el-form-item>
                                 <el-form-item label="费用" style="width: 50%;margin-right: 0;margin-bottom: 0;">
-                                    <span>{{ props.row.fee }}</span>
+                                    <span>{{ props.row.fee / 100 }}</span>
                                 </el-form-item>
                                 <el-form-item label="备注" style="width: 50%;margin-right: 0;margin-bottom: 0;">
                                     <span>{{ props.row.remark }}</span>
@@ -130,7 +130,11 @@
                     <el-table-column prop="courierName" sortable width="90" label="快取员"></el-table-column>
                     <el-table-column prop="courierPhoneNumber" width="110" label="快取员电话"></el-table-column>
                     <el-table-column prop="createTimeString" sortable width="180" label="下单时间"></el-table-column>
-                    <el-table-column prop="fee" width="70" label="费用/元"></el-table-column>
+                    <el-table-column prop="fee" width="70" label="费用/元">
+                        <template #default="scope">
+                            {{scope.row.fee / 100}}
+                        </template>
+                    </el-table-column>
                     <el-table-column prop="orderStatus" width="110" sortable label="状态">
                         <template #default="scope">
                             <el-tag style="width: 80px" effect="dark" :type="this.getStatusType(scope.row.orderStatus)">
@@ -140,7 +144,10 @@
                     </el-table-column>
                     <el-table-column label="操作">
                         <template #default="scope">
-                            <el-button size="small" v-if="scope.row.orderStatus != 'CONFIRMED_ORDER' " @click="confirmReceived(scope.row)" style="background-color: #8e44ad; color: white">确认收货</el-button>
+                            <el-button size="small" v-if="scope.row.orderStatus != 'CONFIRMED_ORDER' "
+                                       @click="confirmReceived(scope.row)"
+                                       style="background-color: #8e44ad; color: white">确认收货
+                            </el-button>
                         </template>
                     </el-table-column>
                 </el-table>

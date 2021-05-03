@@ -154,7 +154,7 @@ const AddOrder = {
                 expressCompany: this.form.expressCompany,
                 expressCode: this.form.expressCode,
                 expressType: this.form.expressType,
-                fee: this.form.fee,
+                fee: this.form.fee * 100,
                 remark: this.form.remark
             }
             let data = form;

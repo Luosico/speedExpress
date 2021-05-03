@@ -48,7 +48,7 @@ public class OrderService {
         express.setExpressCode((String) map.get("expressCode"));
         express.setPhoneNumber((String) map.get("phoneNumber"));
         express.setExpressType(ExpressType.valueOf((String) map.get("expressType")));
-        express.setFee(Long.valueOf((String) map.get("fee")));
+        express.setFee(Long.valueOf((Integer) map.get("fee")));
         express.setRemark((String) map.get("remark"));
 
         Order order = new Order();
@@ -66,9 +66,6 @@ public class OrderService {
      */
     public List<UserOrder> selectUserOrder(Integer userId) {
         List<UserOrder> userOrders = orderUtil.selectUserOrder(userId);
-        for (UserOrder userOrder : userOrders) {
-            userOrder.setFee(userOrder.getRealFee());
-        }
         return userOrders;
     }
 
@@ -97,7 +94,6 @@ public class OrderService {
      */
     public List<UserOrder> selectOrderByStatus(List<OrderStatus> orderStatusList) {
         List<UserOrder> userOrders = orderUtil.selectOrderByStatus(orderStatusList);
-        transformFee(userOrders);
         return userOrders;
     }
 
@@ -110,7 +106,6 @@ public class OrderService {
      */
     public List<UserOrder> selectCourierOrder(Integer courierId, List<OrderStatus> orderStatusList) {
         List<UserOrder> userOrderList = orderUtil.selectCourierOrder(courierId, orderStatusList);
-        transformFee(userOrderList);
         return userOrderList;
     }
 
@@ -164,16 +159,6 @@ public class OrderService {
         return orderSchedule.getUnAcceptOrder();
     }
 
-    /**
-     * 将 fee 转换成正确值
-     *
-     * @param userOrderList
-     */
-    private void transformFee(List<UserOrder> userOrderList) {
-        for (UserOrder userOrder : userOrderList) {
-            userOrder.setFee(userOrder.getRealFee());
-        }
-    }
 
     /**
      * 通过订单状态统计快取员订单数量
