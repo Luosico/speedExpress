@@ -34,6 +34,7 @@ public class PayRpcService implements PayUtil {
     @Override
     public Map processPay(Map map) {
         Long fee = Long.valueOf((String) map.get("fee"));
+
         Integer payId = payService.createPayOrder(fee);
         /* ...... */
         //调用外部支付接口，返回支付成功结果

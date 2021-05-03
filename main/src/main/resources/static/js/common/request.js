@@ -350,7 +350,7 @@ function becomeCourier(vue, data, func) {
 function orderConfirmReceived(orderId, vue, func) {
     axios({
         url: "/common/orderConfirmReceived",
-        method: "POST",
+        method: "PUT",
         data: {
             orderId: orderId
         }
@@ -410,6 +410,38 @@ function selectOrder(data, vue, func) {
 }
 
 /**
+ * 查找快取员的订单
+ * @param data
+ * @param vue
+ * @param func
+ */
+function selectCourierOrder(data, vue, func) {
+    axios({
+        url: "/courier/selectCourierOrder",
+        method: "PUT",
+        data: {
+            types: data
+        }
+    }).then((response) => {
+        func(vue, response.data)
+    })
+}
+
+/**
+ * 统计快取员的订单
+ * @param vue
+ * @param func
+ */
+function countCourierOrder( vue, func) {
+    axios({
+        url: "/courier/countCourierOrder",
+        method: "GET",
+    }).then((response) => {
+        func(vue, response.data)
+    })
+}
+
+/**
  * 获取未被接单的订单信息
  * @param vue
  * @param func
@@ -438,5 +470,28 @@ function tryAcceptOrder(orderId, vue, func) {
         }
     }).then((response) => {
         func(vue, response.data)
+    })
+}
+
+/**
+ * 更新订单状态
+ */
+function updateOrderStatus(data, vue) {
+    axios({
+        url: "/courier/order",
+        method: "PUT",
+        data: data
+    }).then((response) => {
+        if(response.data.status === 'ok'){
+            vue.$message({
+                type: 'success',
+                message: response.data.message,
+            })
+        }else{
+            vue.$message({
+                type: 'error',
+                message: response.data.message,
+            })
+        }
     })
 }

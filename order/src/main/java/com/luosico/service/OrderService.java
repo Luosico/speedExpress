@@ -26,61 +26,89 @@ public class OrderService {
 
     /**
      * 添加订单
+     *
      * @param order
      * @return
      */
-    public int addOrder(Order order){
+    public int addOrder(Order order) {
         return orderMapper.addOrder(order);
     }
 
     /**
      * 添加快递信息
+     *
      * @param express
      * @return 主键
      */
-    public Integer addExpress(Express express){
-        if(expressMapper.addExpress(express)==0){
+    public Integer addExpress(Express express) {
+        if (expressMapper.addExpress(express) == 0) {
             return 0;
-        }else{
+        } else {
             return express.getExpressId();
         }
     }
 
     /**
      * 查询用户所有快递订单信息
+     *
      * @param userId
      */
-    public List<UserOrder>  selectUserOrder(Integer userId){
+    public List<UserOrder> selectUserOrder(Integer userId) {
         return orderMapper.selectUserOrder(userId);
     }
 
     /**
      * 更新订单状态
+     *
      * @param orderId
      * @param orderStatus
      * @return
      */
-    public boolean updateOrderStatus(Integer orderId, OrderStatus orderStatus){
-        return orderMapper.updateOrderStatus(orderId,orderStatus) == 1;
+    public boolean updateOrderStatus(Integer orderId, OrderStatus orderStatus) {
+        return orderMapper.updateOrderStatus(orderId, orderStatus) == 1;
     }
 
     /**
      * 统计指定状态的订单数量
+     *
      * @return
      */
-    public int countOrderByStatus(Integer userId, List<OrderStatus> orderStatusList){
+    public int countOrderByStatus(Integer userId, List<OrderStatus> orderStatusList) {
         return orderMapper.countOrderByStatus(userId, orderStatusList);
     }
 
     /**
      * 通过订单状态查找订单
+     *
      * @param orderStatusList 订单状态
      */
-    public List<UserOrder> selectOrderByStatus(List<OrderStatus> orderStatusList){
+    public List<UserOrder> selectOrderByStatus(List<OrderStatus> orderStatusList) {
         return orderMapper.selectOrderByStatus(orderStatusList);
     }
 
-    public boolean updateOrder(Order order){
+    /**
+     * 查找快取员的订单
+     *
+     * @param courierId
+     * @param orderStatusList
+     * @return
+     */
+    public List<UserOrder> selectCourierOrder(Integer courierId, List<OrderStatus> orderStatusList) {
+        return orderMapper.selectCourierOrder(courierId, orderStatusList);
+    }
+
+    public boolean updateOrder(Order order) {
         return orderMapper.updateOrder(order) == 1;
+    }
+
+    /**
+     * 通过订单状态统计快取员订单数量
+     *
+     * @param courierId
+     * @param orderStatus
+     * @return
+     */
+    public Integer countCourierOrderByStatus(Integer courierId, OrderStatus orderStatus){
+        return orderMapper.countCourierOrderByStatus(courierId, orderStatus);
     }
 }

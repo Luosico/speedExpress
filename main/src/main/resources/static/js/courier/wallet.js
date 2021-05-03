@@ -1,14 +1,21 @@
 const App = {
     data() {
         return {
-            username: 'lootalker',
+            username: '',
             balance: '0.00',
+            total: '0.00'
         }
     },
     methods: {
 
     },
-    computed: {}
+    created(){
+        getUsername(this, (vue, response) => {
+            if (response.status === 'ok') {
+                vue.username = response.data;
+            }
+        })
+    }
 }
 
 let app = Vue.createApp(App);

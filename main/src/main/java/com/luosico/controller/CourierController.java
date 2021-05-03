@@ -1,5 +1,6 @@
 package com.luosico.controller;
 
+import com.luosico.config.OrderStatus;
 import com.luosico.domain.JsonStructure;
 import com.luosico.domain.UserOrder;
 import com.luosico.service.OrderService;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -89,11 +91,17 @@ public class CourierController {
                 order.setOrderStatus(null);
                 //order.setRemark(null);
             }
-            return new JsonStructure("ok","query success", orderList);
+            return new JsonStructure("ok", "query success", orderList);
         }
-        return new JsonStructure("fail","查询失败，服务器出现问题");
+        return new JsonStructure("fail", "查询失败，服务器出现问题");
     }
 
+    /**
+     * 接单
+     * @param map
+     * @param request
+     * @return
+     */
     @PutMapping("tryAcceptOrder")
     @ResponseBody
     public JsonStructure<String> tryAcceptOrder(@RequestBody Map<String, Integer> map, HttpServletRequest request) {
@@ -107,8 +115,60 @@ public class CourierController {
                 //抢单失败
                 return new JsonStructure<>("fail", "该订单已被接单了", "");
             }
-        }else{
+        } else {
             return new JsonStructure<>("fail", "内容不能为空", "");
         }
+    }
+
+    /**
+     * 查询快取员的快取订单
+     * @param map
+     * @param request
+     * @return
+     */
+    @PutMapping("selectCourierOrder")
+    @ResponseBody
+    public JsonStructure<List<UserOrder>> selectCourierOrder(@RequestBody Map<String, List<String>> map, HttpServletRequest request) {
+        Integer userId = Integer.valueOf(userService.getUserIdByCookie(request.getCookies()));
+        Integer courierId = userService.selectCourierIdByUserId(userId);
+        List<OrderStatus> orderStatusList = utilService.parseOrderStatus(map.get("types"));
+
+        if (orderStatusList != null && orderStatusList.size() > 0) {
+            List<UserOrder> userOrderList = orderService.selectCourierOrder(courierId, orderStatusList);
+            return new JsonStructure<>("ok", "query success", userOrderList);
+        }
+        return new JsonStructure<>("fail", "服务器出现错误");
+    }
+
+    /**
+     * 快取员更新订单状态
+     * @param map
+     * @param httpServletRequest
+     * @return
+     */
+    @PutMapping("order")
+    @ResponseBody
+    public JsonStructure updateOrderStatus(@RequestBody Map<String, String> map , HttpServletRequest httpServletRequest){
+        Integer orderId = Integer.valueOf(map.get("orderId"));
+        OrderStatus orderStatus = OrderStatus.valueOf(map.get("orderStatus"));
+        if(orderService.updateOrderStatus(orderId, orderStatus)){
+            return new JsonStructure("ok","更新订单状态成功");
+        }else{
+            return new JsonStructure("fail","更新订单状态失败，服务器出现错误");
+        }
+    }
+
+    @GetMapping("countCourierOrder")
+    @ResponseBody
+    public JsonStructure<Map<String,Integer>> countCourierOrder(HttpServletRequest request){
+        Integer userId = Integer.valueOf(userService.getUserIdByCookie(request.getCookies()));
+        Integer courierId = userService.selectCourierIdByUserId(userId);
+
+        Map<String, Integer> map = new HashMap<>();
+        map.put("acceptedOrder", orderService.countCourierOrderByStatus(courierId, OrderStatus.ACCEPTED_ORDER));
+        map.put("deliveryOrder", orderService.countCourierOrderByStatus(courierId, OrderStatus.DELIVERY_ORDER));
+        map.put("finishedOrder", orderService.countCourierOrderByStatus(courierId, OrderStatus.FINISHED_ORDER));
+
+        return new JsonStructure<>("ok", "query success", map);
     }
 }

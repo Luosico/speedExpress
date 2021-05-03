@@ -1,11 +1,13 @@
 package com.luosico.service;
 
+import com.luosico.config.OrderStatus;
 import com.luosico.domain.Region;
 import com.luosico.user.UserUtil;
 import com.luosico.util.RedisUtils;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -86,5 +88,21 @@ public class UtilService {
             }
         }
         return false;
+    }
+
+    /**
+     * 解析数组形式的订单状态为列表形式
+     *
+     * @param list
+     */
+    public List<OrderStatus> parseOrderStatus(List<String> list) {
+        List<OrderStatus> orderStatuses = null;
+        if (list != null && list.size() > 0) {
+            orderStatuses = new ArrayList<>();
+            for (String orderStatus : list) {
+                orderStatuses.add(OrderStatus.valueOf(orderStatus));
+            }
+        }
+        return orderStatuses;
     }
 }

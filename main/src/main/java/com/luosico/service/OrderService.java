@@ -61,11 +61,12 @@ public class OrderService {
 
     /**
      * 查询用户所有快递订单信息
+     *
      * @param userId
      */
-    public List<UserOrder> selectUserOrder(Integer userId){
+    public List<UserOrder> selectUserOrder(Integer userId) {
         List<UserOrder> userOrders = orderUtil.selectUserOrder(userId);
-        for (UserOrder userOrder: userOrders){
+        for (UserOrder userOrder : userOrders) {
             userOrder.setFee(userOrder.getRealFee());
         }
         return userOrders;
@@ -73,46 +74,61 @@ public class OrderService {
 
     /**
      * 确认收到快递
+     *
      * @return
      */
-    public boolean orderConfirmReceived(Integer orderId){
+    public boolean orderConfirmReceived(Integer orderId) {
         return orderUtil.updateOrderStatus(orderId, OrderStatus.CONFIRMED_ORDER);
     }
 
     /**
      * 统计指定状态的订单数量
+     *
      * @return
      */
-    public int countOrderByStatus(Integer userId, List<OrderStatus> orderStatusList){
+    public int countOrderByStatus(Integer userId, List<OrderStatus> orderStatusList) {
         return orderUtil.countOrderByStatus(userId, orderStatusList);
     }
 
     /**
      * 通过订单状态查找订单
+     *
      * @param orderStatusList 订单状态
      */
-    public List<UserOrder> selectOrderByStatus(List<OrderStatus> orderStatusList){
+    public List<UserOrder> selectOrderByStatus(List<OrderStatus> orderStatusList) {
         List<UserOrder> userOrders = orderUtil.selectOrderByStatus(orderStatusList);
-        for (UserOrder userOrder: userOrders){
-            userOrder.setFee(userOrder.getRealFee());
-        }
+        transformFee(userOrders);
         return userOrders;
     }
 
     /**
+     * 查找快取员的订单
+     *
+     * @param courierId
+     * @param orderStatusList
+     * @return
+     */
+    public List<UserOrder> selectCourierOrder(Integer courierId, List<OrderStatus> orderStatusList) {
+        List<UserOrder> userOrderList = orderUtil.selectCourierOrder(courierId, orderStatusList);
+        transformFee(userOrderList);
+        return userOrderList;
+    }
+
+    /**
      * 接单
+     *
      * @param userId
      * @param orderId
      */
     @Transactional
-    public boolean tryAcceptOrder(Integer userId, Integer orderId){
+    public boolean tryAcceptOrder(Integer userId, Integer orderId) {
         Integer courierId = userService.selectCourierIdByUserId(userId);
         Order order = new Order();
         order.setOrderId(orderId);
         order.setCourierId(courierId);
         order.setOrderStatus(OrderStatus.ACCEPTED_ORDER);
 
-        if(orderSchedule.orderCanAccept(orderId)){
+        if (orderSchedule.orderCanAccept(orderId)) {
             return updateOrder(order);
         }
         return false;
@@ -120,28 +136,53 @@ public class OrderService {
 
     /**
      * 更新订单状态
+     *
      * @param orderId
      * @param orderStatus
      * @return
      */
-    public boolean updateOrderStatus(Integer orderId, OrderStatus orderStatus){
+    public boolean updateOrderStatus(Integer orderId, OrderStatus orderStatus) {
         return orderUtil.updateOrderStatus(orderId, orderStatus);
     }
 
     /**
      * 更新订单信息
+     *
      * @param order
      * @return
      */
-    public boolean updateOrder(Order order){
+    public boolean updateOrder(Order order) {
         return orderUtil.updateOrder(order);
     }
 
     /**
      * 获取未被接单的订单信息
+     *
      * @return
      */
-    public List<UserOrder> getUnAcceptOrder(){
+    public List<UserOrder> getUnAcceptOrder() {
         return orderSchedule.getUnAcceptOrder();
+    }
+
+    /**
+     * 将 fee 转换成正确值
+     *
+     * @param userOrderList
+     */
+    private void transformFee(List<UserOrder> userOrderList) {
+        for (UserOrder userOrder : userOrderList) {
+            userOrder.setFee(userOrder.getRealFee());
+        }
+    }
+
+    /**
+     * 通过订单状态统计快取员订单数量
+     *
+     * @param courierId
+     * @param orderStatus
+     * @return
+     */
+    public Integer countCourierOrderByStatus(Integer courierId, OrderStatus orderStatus) {
+        return orderUtil.countCourierOrderByStatus(courierId, orderStatus);
     }
 }

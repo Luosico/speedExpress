@@ -1,22 +1,26 @@
 const App = {
-    data(){
+    data() {
 
-        return{
+        return {
             username: 'luosico',
-            acceptedOrder: '1',
-            deliveryOrder: '1',
-            finishedOrder: '1',
+            acceptedOrder: '',
+            deliveryOrder: '',
+            finishedOrder: '',
         }
     },
-    methods: {
-
-    },
-    created(){
+    methods: {},
+    created() {
         getUsername(this, (vue, response) => {
             if (response.status === 'ok') {
                 vue.username = response.data;
             }
         });
+        countCourierOrder(this, (vue, response) => {
+            vue.acceptedOrder = response.data.acceptedOrder;
+            vue.deliveryOrder = response.data.deliveryOrder;
+            vue.finishedOrder = response.data.finishedOrder;
+        })
+
     }
 }
 

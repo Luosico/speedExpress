@@ -60,9 +60,27 @@ public interface OrderMapper {
     List<UserOrder> selectOrderByStatus(List<OrderStatus> orderStatusList);
 
     /**
+     * 查找快取员的订单
+     *
+     * @param courierId
+     * @param orderStatusList
+     * @return
+     */
+    List<UserOrder> selectCourierOrder(@Param("courierId") Integer courierId, @Param("list") List<OrderStatus> orderStatusList);
+
+    /**
      * 更新订单信息
      * @param order
      * @return
      */
     int updateOrder(Order order);
+
+    /**
+     * 通过订单状态统计快取员订单数量
+     *
+     * @param courierId
+     * @param orderStatus
+     * @return
+     */
+    Integer countCourierOrderByStatus(@Param("courierId") Integer courierId, @Param("orderStatus") OrderStatus orderStatus);
 }

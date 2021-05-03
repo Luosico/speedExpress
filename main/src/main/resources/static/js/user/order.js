@@ -75,7 +75,14 @@ const Order = {
             }
         })
         getUserOrders(this, (vue, response) => {
-            vue.tableData = response.data;
+            if(response.status === 'ok'){
+                vue.tableData = response.data;
+            }else{
+                vue.$message({
+                    type: 'error',
+                    message: response.message
+                })
+            }
         })
     }
 }

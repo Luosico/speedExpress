@@ -287,9 +287,9 @@ public class CommonController {
      * @return
      */
     @PutMapping("orderConfirmReceived")
-    public JsonStructure confirmReceived(@RequestBody Map map) {
-        String orderId = (String) map.get("orderId");
-        if (!utilService.isEmpty(orderId)) {
+    public JsonStructure confirmReceived(@RequestBody Map<String, Integer> map) {
+        Integer orderId = map.get("orderId");
+        if (orderId !=null ) {
             if (orderService.orderConfirmReceived(Integer.valueOf(orderId))) {
                 return new JsonStructure();
             } else {
@@ -309,7 +309,7 @@ public class CommonController {
     @PostMapping("countOrderByStatus")
     public JsonStructure countOrderByStatus(@RequestBody Map<String, List<String>> map, HttpServletRequest request) {
         Integer userId = Integer.valueOf(userService.getUserIdByCookie(request.getCookies()));
-        List<OrderStatus> orderStatuses = parseOrderStatus(map.get("types"));
+        List<OrderStatus> orderStatuses = utilService.parseOrderStatus(map.get("types"));
         if (orderStatuses != null) {
             int count = orderService.countOrderByStatus(userId, orderStatuses);
             return new JsonStructure("ok", "query success", count);
@@ -324,8 +324,8 @@ public class CommonController {
      */
     @PostMapping("selectOrderByStatus")
     public JsonStructure selectOrderByStatus(@RequestBody Map<String, List<String>> map) {
-        List<OrderStatus> orderStatusList = parseOrderStatus(map.get("types"));
-        if (orderStatusList != null) {
+        List<OrderStatus> orderStatusList = utilService.parseOrderStatus(map.get("types"));
+        if (orderStatusList != null && orderStatusList.size() > 0) {
             List<UserOrder> orderList = orderService.selectOrderByStatus(orderStatusList);
             //清除不需要的信息
             for (UserOrder order : orderList) {
@@ -365,22 +365,6 @@ public class CommonController {
             return address;
         }
         return null;
-    }
-
-    /**
-     * 解析数组形式的订单状态为列表形式
-     *
-     * @param list
-     */
-    private List<OrderStatus> parseOrderStatus(List<String> list) {
-        List<OrderStatus> orderStatuses = null;
-        if (list != null && list.size() > 0) {
-            orderStatuses = new ArrayList<>();
-            for (String orderStatus : list) {
-                orderStatuses.add(OrderStatus.valueOf(orderStatus));
-            }
-        }
-        return orderStatuses;
     }
 
 }

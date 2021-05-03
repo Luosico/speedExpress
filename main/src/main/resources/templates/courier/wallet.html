@@ -66,10 +66,26 @@
             <el-main>
                 <div class="wallet">
                     <div class="balance">
-                        <span>￥{{balance}}</span>
-                        <p>可用余额</p>
-                        <el-button type="primary" round style="margin-left: 12px">提现</el-button>
+                        <el-row>
+                            <el-col :span="4">
+                                <div>
+                                    <span style="color: #2ed573">￥{{balance}}</span>
+                                    <p>可用余额</p>
+                                    <el-button type="primary" round style="margin-left: 12px">提现</el-button>
+                                </div>
+                            </el-col>
+                            <el-col :span="4" :offset="15">
+                                <div>
+                                    <span style="color: #70a1ff">￥{{total}}</span>
+                                    <p>总共获得</p>
+                                    <!--<el-button type="primary" round style="margin-left: 12px">提现</el-button>-->
+                                </div>
+                            </el-col>
+                        </el-row>
                     </div>
+                </div>
+                <div >
+
                 </div>
             </el-main>
         </el-container>
@@ -79,5 +95,6 @@
 <script src="/js/tool/vue3.js"></script>
 <script src="/js/tool/elementPlus.js"></script>
 <script src="/js/tool/axios.min.js"></script>
+<script src="/js/common/request.js"></script>
 <script src="/js/courier/wallet.js"></script>
 </html>

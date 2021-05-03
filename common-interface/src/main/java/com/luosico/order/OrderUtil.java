@@ -43,10 +43,28 @@ public interface OrderUtil {
     int countOrderByStatus(Integer userId, List<OrderStatus> orderStatusList);
 
     /**
+     * 通过订单状态统计快取员订单数量
+     *
+     * @param courierId
+     * @param orderStatus
+     * @return
+     */
+    Integer countCourierOrderByStatus(Integer courierId, OrderStatus orderStatus);
+
+    /**
      * 通过订单状态查找订单
      * @param orderStatusList 订单状态
      */
     List<UserOrder> selectOrderByStatus(List<OrderStatus> orderStatusList);
+
+    /**
+     * 查找快取员的订单
+     *
+     * @param courierId
+     * @param orderStatusList
+     * @return
+     */
+    List<UserOrder> selectCourierOrder(Integer courierId, List<OrderStatus> orderStatusList);
 
     /**
      * 更新订单信息

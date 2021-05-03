@@ -45,8 +45,18 @@ public class OrderRpcService implements OrderUtil {
     }
 
     @Override
+    public Integer countCourierOrderByStatus(Integer courierId, OrderStatus orderStatus) {
+        return orderService.countCourierOrderByStatus(courierId, orderStatus);
+    }
+
+    @Override
     public List<UserOrder> selectOrderByStatus(List<OrderStatus> orderStatusList) {
         return orderService.selectOrderByStatus(orderStatusList);
+    }
+
+    @Override
+    public List<UserOrder> selectCourierOrder(Integer courierId, List<OrderStatus> orderStatusList) {
+        return orderService.selectCourierOrder(courierId, orderStatusList);
     }
 
     @Override
