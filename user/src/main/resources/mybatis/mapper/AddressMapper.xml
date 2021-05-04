@@ -14,6 +14,10 @@
             </otherwise>
         </choose>
     </delete>
+    <delete id="deleteRegion">
+        delete from region
+        where region_id = #{regionId}
+    </delete>
 
     <select id="selectAllRegion" resultType="com.luosico.domain.Region">
         select region_id,
@@ -39,7 +43,7 @@
         </choose>
     </select>
 
-    <insert id="addRegion" useGeneratedKeys="true" keyProperty="regionId">
+    <insert id="addRegion">
         insert into region(region_name)
         values (#{regionName})
     </insert>
@@ -78,5 +82,10 @@
                 </otherwise>
             </choose>
         </where>
+    </update>
+    <update id="updateRegion">
+        update region
+        set region_name = #{regionName}
+        where region_id = #{regionId}
     </update>
 </mapper>

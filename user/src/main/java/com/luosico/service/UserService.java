@@ -62,6 +62,16 @@ public class UserService implements UserUtil {
     }
 
     @Override
+    public int updateRegion(Region region) {
+        return addressMapper.updateRegion(region);
+    }
+
+    @Override
+    public int deleteRegion(Integer regionId) {
+        return addressMapper.deleteRegion(regionId);
+    }
+
+    @Override
     public List<Region> selectAllRegion() {
         return addressMapper.selectAllRegion();
     }

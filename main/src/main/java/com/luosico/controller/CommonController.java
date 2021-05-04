@@ -76,19 +76,6 @@ public class CommonController {
     }
 
     /**
-     * 增加区域
-     *
-     * @param regionName 区域名字
-     */
-    @PostMapping("region")
-    public String addRegion(@RequestBody String regionName) {
-        if (utilService.addRegion(regionName)) {
-            return "ok";
-        }
-        return "false";
-    }
-
-    /**
      * 添加地址
      */
     @PostMapping("address")

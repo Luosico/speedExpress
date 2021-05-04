@@ -77,6 +77,26 @@ public class UtilService {
     }
 
     /**
+     * 更新区域
+     *
+     * @param region
+     * @return
+     */
+    public boolean updateRegion(Region region) {
+        return userUtil.updateRegion(region) == 1;
+    }
+
+    /**
+     * 删除区域
+     *
+     * @param regionId
+     * @return
+     */
+    public boolean deleteRegion(Integer regionId) {
+        return userUtil.deleteRegion(regionId) == 1;
+    }
+
+    /**
      * 若全为 null或 "" 返回true
      *
      * @param strs String数组

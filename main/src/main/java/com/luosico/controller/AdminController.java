@@ -2,8 +2,10 @@ package com.luosico.controller;
 
 import com.luosico.config.OrderStatus;
 import com.luosico.domain.JsonStructure;
+import com.luosico.domain.Region;
 import com.luosico.service.OrderService;
 import com.luosico.service.UserService;
+import com.luosico.service.UtilService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -25,6 +27,9 @@ public class AdminController {
 
     @Autowired
     OrderService orderService;
+
+    @Autowired
+    UtilService utilService;
 
     @GetMapping("main")
     public String toMain() {
@@ -61,6 +66,11 @@ public class AdminController {
         return "admin/finishedOrder";
     }
 
+    @GetMapping("region")
+    public String region() {
+        return "admin/region";
+    }
+
     /**
      * 查询所有快递订单的金额总和
      *
@@ -93,13 +103,66 @@ public class AdminController {
     public JsonStructure deleteOrder(@RequestBody Map<String, Integer> map) {
         Integer orderId = map.get("orderId");
         if (orderId != null) {
-            if(orderService.deleteOrder(orderId)){
+            if (orderService.deleteOrder(orderId)) {
                 return new JsonStructure();
-            }else{
-                return new JsonStructure("fail","删除失败，服务器出现错误");
+            } else {
+                return new JsonStructure("fail", "删除失败，服务器出现错误");
             }
         } else {
             return new JsonStructure("fail", "内容不能为空");
         }
     }
+
+    /**
+     * 增加区域
+     */
+    @PostMapping("region")
+    @ResponseBody
+    public JsonStructure addRegion(@RequestBody Map<String, String> map) {
+        String regionName = map.get("regionName");
+        if (regionName != null && !"".equals(regionName)) {
+            if (utilService.addRegion(regionName)) {
+                return new JsonStructure();
+            }
+            return new JsonStructure("fail", "地址保存失败，服务器出现错误");
+        } else {
+            return new JsonStructure("fail", "内容不能为空");
+        }
+    }
+
+    /**
+     * 增加区域
+     */
+    @PutMapping("region")
+    @ResponseBody
+    public JsonStructure updateRegion(@RequestBody Map map) {
+        Integer regionId = (Integer) map.get("regionId");
+        String regionName = (String) map.get("regionName");
+        if (regionId != null && !utilService.isEmpty(regionName)) {
+            Region region = new Region();
+            region.setRegionId(regionId);
+            region.setRegionName(regionName);
+            if (utilService.updateRegion(region)) {
+                return new JsonStructure();
+            }
+            return new JsonStructure("fail", "地址更新失败，服务器出现错误");
+        } else {
+            return new JsonStructure("fail", "内容不能为空");
+        }
+    }
+
+    @DeleteMapping("region")
+    @ResponseBody
+    public JsonStructure deleteRegion(@RequestBody Map<String, Integer> map) {
+        Integer regionId = map.get("regionId");
+        if (regionId != null) {
+            if (utilService.deleteRegion(regionId)) {
+                return new JsonStructure();
+            }
+            return new JsonStructure("fail", "地址更新失败，服务器出现错误");
+        } else {
+            return new JsonStructure("fail", "内容不能为空");
+        }
+    }
+
 }

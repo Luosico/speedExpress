@@ -22,6 +22,22 @@ public interface AddressMapper {
     int addRegion(@Param("regionName") String regionName);
 
     /**
+     * 更新区域
+     *
+     * @param region
+     * @return
+     */
+    int updateRegion(Region region);
+
+    /**
+     * 删除区域
+     *
+     * @param regionId
+     * @return
+     */
+    int deleteRegion(Integer regionId);
+
+    /**
      * 查询所有区域
      * @return
      */

@@ -67,6 +67,21 @@ public interface UserUtil {
     int addRegion(String regionName);
 
     /**
+     * 更新区域
+     * @param region 区域
+     * @return
+     */
+    int updateRegion(Region region);
+
+    /**
+     * 删除区域
+     *
+     * @param regionId
+     * @return
+     */
+    int deleteRegion(Integer regionId);
+
+    /**
      * 查询所有区域
      * @return
      */

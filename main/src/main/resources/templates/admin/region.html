@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>快取 - 管理员</title>
-    <link rel="stylesheet" href="/css/admin/main.css">
+    <title>快取 - 区域管理</title>
+    <link rel="stylesheet" href="/css/admin/region.css">
     <link rel="stylesheet" href="https://unpkg.com/element-plus/lib/theme-chalk/index.css">
 </head>
 <body>
@@ -28,7 +28,7 @@
         </el-header>
         <el-container>
             <el-aside width="200px">
-                <el-menu default-openeds="4">
+                <el-menu :default-openeds="['4']">
                     <el-menu-item index="1" style="margin-top: 10px">
                         <i class="el-icon-pie-chart"></i>
                         <span slot="title"><el-link href="/admin/main" :underline="false">总览</el-link></span>
@@ -61,50 +61,43 @@
                 </el-menu>
             </el-aside>
             <el-main>
-                <div class="main_info">
-                    <div class="cumulativeAmount">
-                        <div class="balance">
-                            <span>￥{{totalBalance /100}}</span>
-                            <p>累计交易金额</p>
-                        </div>
+                <div>
+                    <div>
+                        <el-form :model="form" :inline="true" label-width="70px">
+                            <el-form-item label="区域名称">
+                                <el-input v-model="form.regionName"></el-input>
+                            </el-form-item>
+                            <el-form-item>
+                                <el-button type="primary" @click="addRegion()" style="margin-left: 10px">增加</el-button>
+                            </el-form-item>
+                        </el-form>
                     </div>
-                    <div class="main_warp">
-                        <el-row :gutter="30" type="flex" justify="space-around" style="height: 100%; width: 100%">
-                            <el-col :span="6">
-                                <div class="main_warp_inner">
-                                    <el-link href="/admin/order" :underline="false" class="inner_link">
-                                        <p class="inner_number" style="color: #E6A23C">{{unAcceptOrder}}</p>
-                                        <p class="inner_font">等待接单</p>
-                                    </el-link>
-                                </div>
-                            </el-col>
-                            <el-col :span="6">
-                                <div class="main_warp_inner">
-                                    <el-link href="/admin/order" :underline="false" class="inner_link">
-                                        <p class="inner_number" style="color: #67C23A">{{acceptOrder}}</p>
-                                        <p class="inner_font">已接单</p>
-                                    </el-link>
-                                </div>
-                            </el-col>
-                            <el-col :span="6">
-                                <div class="main_warp_inner">
-                                    <el-link href="/admin/order" :underline="false" class="inner_link">
-                                        <p class="inner_number" style="color: #67C23A">{{deliveryOrder}}</p>
-                                        <p class="inner_font">派送中</p>
-                                    </el-link>
-                                </div>
-                            </el-col>
-                            <el-col :span="6">
-                                <div class="main_warp_inner">
-                                    <el-link href="/admin/order" :underline="false" class="inner_link">
-                                        <p class="inner_number" style="color: #F56C6C">{{finishedOrder}}</p>
-                                        <p class="inner_font">派送完成</p>
-                                    </el-link>
-                                </div>
-                            </el-col>
-                        </el-row>
+                    <div>
+                        <el-table :data="regionData" border style="width: 100%">
+                            <el-table-column prop="regionId" label="区域编号"></el-table-column>
+                            <el-table-column prop="regionName" label="区域名称"></el-table-column>
+                            <el-table-column label="操作" width="200">
+                                <template #default="scope">
+                                    <el-button size="mini" type="primary" @click="dialogShow(scope.row)">编辑</el-button>
+                                    <el-button size="mini" type="danger" @click="handleDelete(scope.row)">删除</el-button>
+                                </template>
+                            </el-table-column>
+                        </el-table>
                     </div>
                 </div>
+                <el-dialog title="编辑区域" v-model="dialogVisible" :append-to-body="true">
+                    <el-form :model="dialog" label-width="80px">
+                        <el-form-item label="区域名称" label-width="100px">
+                            <el-input v-model="dialog.regionName"></el-input>
+                        </el-form-item>
+                    </el-form>
+                    <template #footer>
+                        <span class="dialog-footer">
+                            <el-button @click="dialogVisible = false">取 消</el-button>
+                            <el-button type="primary" @click="handleEdit()">确 定</el-button>
+                        </span>
+                    </template>
+                </el-dialog>
             </el-main>
         </el-container>
     </el-container>
@@ -114,5 +107,5 @@
 <script src="/js/tool/elementPlus.js"></script>
 <script src="/js/tool/axios.min.js"></script>
 <script src="/js/common/request.js"></script>
-<script src="/js/admin/main.js"></script>
+<script src="/js/admin/region.js"></script>
 </html>
