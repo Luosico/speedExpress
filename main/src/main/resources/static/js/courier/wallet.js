@@ -44,7 +44,7 @@ const App = {
                 vue.username = response.data;
             }
         })
-        getTotalBalance(this);
+        getCourierTotalBalance(this);
         getBalance(this);
     }
 }

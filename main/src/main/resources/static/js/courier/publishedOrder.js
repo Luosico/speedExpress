@@ -45,16 +45,6 @@ const App = {
                 })
             }
         })
-        /*selectOrder(['UN_ACCEPT_ORDER'], this, (vue, response) => {
-            if (response.status === 'ok') {
-                vue.tableData = response.data;
-            } else {
-                vue.$message({
-                    type: 'error',
-                    message: response.message
-                })
-            }
-        })*/
     }
 }
 

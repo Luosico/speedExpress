@@ -134,7 +134,13 @@ public interface UserMapper {
      * @param courierId
      * @return
      */
-    Integer selectTotalBalance(Integer courierId);
+    Integer selectCourierTotalBalance(Integer courierId);
+
+    /**
+     *查询所有快递订单的金额总和
+     * @return
+     */
+    Integer selectTotalBalance();
 
     /**
      * 添加余额变动记录

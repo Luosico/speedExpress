@@ -147,7 +147,12 @@ public class UserService implements UserUtil {
 
     @Override
     public Integer selectTotalBalance(Integer courierId) {
-        return userMapper.selectTotalBalance(courierId);
+        return userMapper.selectCourierTotalBalance(courierId);
+    }
+
+    @Override
+    public Integer selectTotalBalance() {
+        return userMapper.selectTotalBalance();
     }
 
     @Override

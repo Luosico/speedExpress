@@ -432,7 +432,7 @@ function selectCourierOrder(data, vue, func) {
  * @param vue
  * @param func
  */
-function countCourierOrder( vue, func) {
+function countCourierOrder(vue, func) {
     axios({
         url: "/courier/countCourierOrder",
         method: "GET",
@@ -482,12 +482,12 @@ function updateOrderStatus(data, vue) {
         method: "PUT",
         data: data
     }).then((response) => {
-        if(response.data.status === 'ok'){
+        if (response.data.status === 'ok') {
             vue.$message({
                 type: 'success',
                 message: response.data.message,
             })
-        }else{
+        } else {
             vue.$message({
                 type: 'error',
                 message: response.data.message,
@@ -500,14 +500,14 @@ function updateOrderStatus(data, vue) {
  * 获取所有订单金额的总和
  * @param vue
  */
-function getTotalBalance(vue) {
+function getCourierTotalBalance(vue) {
     axios({
         url: "/courier/selectTotalBalance",
         method: "GET",
     }).then((response) => {
-        if(response.data.status === 'ok'){
+        if (response.data.status === 'ok') {
             vue.totalBalance = response.data.data;
-        }else{
+        } else {
             vue.$message({
                 type: 'error',
                 message: response.data.message,
@@ -525,13 +525,54 @@ function getBalance(vue) {
         url: "/courier/selectBalance",
         method: "GET",
     }).then((response) => {
-        if(response.data.status === 'ok'){
+        if (response.data.status === 'ok') {
             vue.balance = response.data.data;
-        }else{
+        } else {
             vue.$message({
                 type: 'error',
                 message: response.data.message,
             })
         }
+    })
+}
+
+/**
+ * 累计的快递酬金金额
+ * @param vue
+ * @param func
+ */
+function getTotalBalance(vue, func) {
+    axios({
+        url: "/admin/selectTotalBalance",
+        method: "GET"
+    }).then((response) => {
+        func(vue, response.data);
+    })
+}
+
+/**
+ * 统计当前所有订单
+ * @param vue
+ * @param func
+ */
+function countTotalOrder(vue, func) {
+    axios({
+        url: "/admin/countTotalOrder",
+        method: "GET"
+    }).then((response) => {
+        func(vue, response.data);
+    })
+}
+
+
+function deleteOrder(orderId, vue, func) {
+    axios({
+        url: "/admin/order",
+        method: "DELETE",
+        data:{
+            orderId: orderId
+        }
+    }).then((response) => {
+        func(vue, response.data);
     })
 }

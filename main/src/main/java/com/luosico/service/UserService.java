@@ -553,6 +553,14 @@ public class UserService {
     }
 
     /**
+     *查询所有快递订单的金额总和
+     * @return
+     */
+    public Integer selectTotalBalance(){
+        return userUtil.selectTotalBalance();
+    }
+
+    /**
      * 查询 courierId
      * @param cookies
      * @return

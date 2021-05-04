@@ -332,7 +332,7 @@ public class CommonController {
         if (orderStatusList != null && orderStatusList.size() > 0) {
             List<UserOrder> orderList = orderService.selectOrderByStatus(orderStatusList);
             //清除不需要的信息
-            for (UserOrder order : orderList) {
+            /*for (UserOrder order : orderList) {
                 order.setName(null);
                 order.setExpressNumber(null);
                 order.setExpressCompany(null);
@@ -341,7 +341,7 @@ public class CommonController {
                 order.setPayId(null);
                 order.setOrderStatus(null);
                 order.setRemark(null);
-            }
+            }*/
             return new JsonStructure("ok", "query success", orderList);
         }
         return new JsonStructure("fail", "请求内容为空");

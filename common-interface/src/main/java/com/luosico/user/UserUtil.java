@@ -174,6 +174,12 @@ public interface UserUtil {
     Integer selectTotalBalance(Integer courierId);
 
     /**
+     *查询所有快递订单的金额总和
+     * @return
+     */
+    Integer selectTotalBalance();
+
+    /**
      * 添加余额变动记录
      * @param record
      * @return

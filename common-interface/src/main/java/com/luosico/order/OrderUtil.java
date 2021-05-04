@@ -43,6 +43,12 @@ public interface OrderUtil {
     int countOrderByStatus(Integer userId, List<OrderStatus> orderStatusList);
 
     /**
+     * 统计指定状态的订单数量
+     * @return
+     */
+    Integer countOrderByStatus(List<OrderStatus> orderStatusList);
+
+    /**
      * 通过订单状态统计快取员订单数量
      *
      * @param courierId
@@ -86,4 +92,11 @@ public interface OrderUtil {
      * @return
      */
     Express selectExpress(Integer expressId);
+
+    /**
+     * 删除订单
+     * @param orderId
+     * @return
+     */
+    boolean deleteOrder(Integer orderId);
 }

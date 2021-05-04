@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -172,11 +173,26 @@ public class OrderService {
     }
 
     /**
+     * 统计指定状态的订单数量
+     *
+     * @param orderStatuses
+     * @return
+     */
+    public Integer countOrderByStatus(OrderStatus... orderStatuses) {
+        List<OrderStatus> list = new ArrayList<>();
+        for (OrderStatus orderStatus : orderStatuses) {
+            list.add(orderStatus);
+        }
+        return orderUtil.countOrderByStatus(list);
+    }
+
+    /**
      * 查询订单信息
+     *
      * @param orderId
      * @return
      */
-    public Order selectOrder(Integer orderId){
+    public Order selectOrder(Integer orderId) {
         Order order = new Order();
         order.setOrderId(orderId);
         return orderUtil.selectOrder(order);
@@ -184,10 +200,20 @@ public class OrderService {
 
     /**
      * 查询快递信息
+     *
      * @param expressId
      * @return
      */
-    public Express selectExpress(Integer expressId){
+    public Express selectExpress(Integer expressId) {
         return orderUtil.selectExpress(expressId);
+    }
+
+    /**
+     * 删除订单
+     * @param orderId
+     * @return
+     */
+    public boolean deleteOrder(Integer orderId){
+        return orderUtil.deleteOrder(orderId);
     }
 }

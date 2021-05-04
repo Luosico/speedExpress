@@ -45,6 +45,11 @@ public class OrderRpcService implements OrderUtil {
     }
 
     @Override
+    public Integer countOrderByStatus(List<OrderStatus> orderStatusList) {
+        return orderService.countOrderByStatus(orderStatusList);
+    }
+
+    @Override
     public Integer countCourierOrderByStatus(Integer courierId, OrderStatus orderStatus) {
         return orderService.countCourierOrderByStatus(courierId, orderStatus);
     }
@@ -72,5 +77,10 @@ public class OrderRpcService implements OrderUtil {
     @Override
     public Express selectExpress(Integer expressId) {
         return orderService.selectExpress(expressId);
+    }
+
+    @Override
+    public boolean deleteOrder(Integer orderId) {
+        return orderService.deleteOrder(orderId);
     }
 }

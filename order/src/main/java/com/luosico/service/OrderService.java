@@ -78,6 +78,14 @@ public class OrderService {
     }
 
     /**
+     * 统计指定状态的订单数量
+     * @return
+     */
+    Integer countOrderByStatus(List<OrderStatus> orderStatusList){
+        return orderMapper.countAllOrderByStatus(orderStatusList);
+    }
+
+    /**
      * 通过订单状态查找订单
      *
      * @param orderStatusList 订单状态
@@ -128,5 +136,14 @@ public class OrderService {
      */
     public Express selectExpress(Integer expressId){
         return expressMapper.selectExpress(expressId);
+    }
+
+    /**
+     * 删除订单
+     * @param orderId
+     * @return
+     */
+    public boolean deleteOrder(Integer orderId){
+        return orderMapper.deleteOrder(orderId) == 1;
     }
 }

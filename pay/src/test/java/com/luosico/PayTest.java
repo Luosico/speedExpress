@@ -1,8 +1,5 @@
 package com.luosico;
 
-import com.luosico.config.PayStatus;
-import com.luosico.domain.Pay;
-import com.luosico.mapper.PayMapper;
 import com.luosico.service.MapperService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

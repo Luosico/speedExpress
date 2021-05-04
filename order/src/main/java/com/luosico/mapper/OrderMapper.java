@@ -54,6 +54,12 @@ public interface OrderMapper {
     int countOrderByStatus(@Param("userId") Integer userId, @Param("list") List<OrderStatus> orderStatusList);
 
     /**
+     * 统计指定状态的订单数量
+     * @return
+     */
+    Integer countAllOrderByStatus(List<OrderStatus> orderStatusList);
+
+    /**
      * 通过订单状态查找订单
      * @param orderStatusList 订单状态
      */
@@ -83,4 +89,11 @@ public interface OrderMapper {
      * @return
      */
     Integer countCourierOrderByStatus(@Param("courierId") Integer courierId, @Param("orderStatus") OrderStatus orderStatus);
+
+    /**
+     * 删除订单
+     * @param orderId
+     * @return
+     */
+    int deleteOrder(Integer orderId);
 }

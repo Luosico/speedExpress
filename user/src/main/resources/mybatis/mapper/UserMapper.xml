@@ -153,12 +153,18 @@
         where courier_id = #{courierId}
     </select>
 
-    <select id="selectTotalBalance" resultType="java.lang.Integer">
+    <select id="selectCourierTotalBalance" resultType="java.lang.Integer">
         select sum(e.fee)
         from express_order o
                  inner join express e on o.express_id = e.express_id
         where o.order_status = 'CONFIRMED_ORDER'
           and o.courier_id = #{courierId}
+    </select>
+    <select id="selectTotalBalance" resultType="java.lang.Integer">
+        select sum(e.fee)
+        from express_order o
+                 inner join express e on o.express_id = e.express_id
+        where o.order_status = 'CONFIRMED_ORDER'
     </select>
 
     <update id="updateUser">

@@ -1,51 +1,51 @@
 const App = {
     data() {
         return {
-            username: 'admin',
-            tableData: [{
-                orderId: '202104171417531',
-                regionName: '湖南科技大学',
-                detailedAddress: '南校图书馆旁小堕落街口京东派',
-                destination: '7区10栋101',
-                courierNumber: '162758631105',
-                name:'张三',
-                courierCompany: '京东',
-                courierType: '一类',
-                courierCode: '41-103',
-                phoneNumber: '15200010002',
-                courierName: '张三',
-                courierPhoneNumber: '1520001002',
-                createTime: '2021-04-17 14:21',
-                payId: '202104171417531',
-                money: 2,
-                status: '等待接单',
-
-            }, {
-                orderId: '202104171417532',
-                regionName: '湖南科技大学',
-                detailedAddress: '南校图书馆旁小堕落街口京东派',
-                destination: '7区10栋101',
-                courierNumber: '162758631105',
-                name:'张三',
-                courierCompany: '京东',
-                courierType: '一类',
-                courierCode: '41-103',
-                phoneNumber: '15200010002',
-                courierName: '张三',
-                courierPhoneNumber: '1520001002',
-                createTime: '2021-04-18 14:21',
-                payId: '202104171417531',
-                money: 1,
-                status: '已确认收货',
-            }]
+            username: '',
+            tableData: ''
         }
     },
     methods: {
-        handleEdit(index, row){
-
+        deleteOrder(row) {
+            let orderId = row.orderId;
+            this.$confirm('此操作将永久删除该订单, 是否继续?', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+            }).then(() => {
+                deleteOrder(orderId, this, (vue, response)=>{
+                    if(response.status === 'ok'){
+                        vue.$message({
+                            type: 'success',
+                            message: '删除成功'
+                        })
+                    }else{
+                        vue.$message({
+                            type: 'error',
+                            message: response.message
+                        })
+                    }
+                })
+            })
         }
     },
-    computed: {}
+    created() {
+        getUsername(this, (vue, response) => {
+            if (response.status === 'ok') {
+                vue.username = response.data;
+            }
+        });
+        selectOrder(['UN_ACCEPT_ORDER'], this, (vue, response) => {
+            if (response.status === 'ok'){
+                vue.tableData = response.data;
+            }else{
+                vue.$message({
+                    type: 'error',
+                    message: '页面异常，服务器出现错误'
+                })
+            }
+        })
+    }
 }
 
 let app = Vue.createApp(App);

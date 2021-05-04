@@ -16,7 +16,7 @@ const App = {
                 vue.username = response.data;
             }
         });
-        selectOrder(['ACCEPTED_ORDER'], this, (vue, response) => {
+        selectOrder(['CONFIRMED_ORDER'], this, (vue, response) => {
             if (response.status === 'ok'){
                 vue.tableData = response.data;
             }else{

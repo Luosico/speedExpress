@@ -27,8 +27,8 @@
             </span>
         </el-header>
         <el-container>
-            <el-aside width="180px">
-                <el-menu>
+            <el-aside width="200px">
+                <el-menu default-openeds="3">
                     <el-menu-item index="1" style="margin-top: 10px">
                         <i class="el-icon-pie-chart"></i>
                         <span slot="title"><el-link href="/admin/main" :underline="false">总览</el-link></span>
@@ -44,9 +44,10 @@
                         </template>
                         <el-menu-item-group>
                             <el-menu-item index="3-1"><el-link href="/admin/unAcceptOrder" :underline="false">等待接单</el-link></el-menu-item>
-                            <el-menu-item index="3-2"><el-link href="/admin/acceptOrder" :underline="false">派送中</el-link></el-menu-item>
-                            <el-menu-item index="3-3"><el-link href="/admin/deliveryOrder" :underline="false">待确认收货</el-link></el-menu-item>
-                            <el-menu-item index="3-4"><el-link href="/admin/finishedOrder" :underline="false">配送完成</el-link></el-menu-item>
+                            <el-menu-item index="3-2"><el-link href="/admin/acceptOrder" :underline="false">已接单</el-link></el-menu-item>
+                            <el-menu-item index="3-3"><el-link href="/admin/deliveryOrder" :underline="false">派送中</el-link></el-menu-item>
+                            <el-menu-item index="3-4"><el-link href="/admin/finishedOrder" :underline="false">派送完成</el-link></el-menu-item>
+                            <el-menu-item index="3-4"><el-link href="/admin/confirmOrder" :underline="false">确认收货</el-link></el-menu-item>
                         </el-menu-item-group>
                     </el-submenu>
                     <el-menu-item index="4">
@@ -59,7 +60,7 @@
                 <div class="main_info">
                     <div class="cumulativeAmount">
                         <div class="balance">
-                            <span>￥{{cumulativeAmount}}</span>
+                            <span>￥{{totalBalance /100}}</span>
                             <p>累计交易金额</p>
                         </div>
                     </div>
@@ -108,5 +109,6 @@
 <script src="/js/tool/vue3.js"></script>
 <script src="/js/tool/elementPlus.js"></script>
 <script src="/js/tool/axios.min.js"></script>
+<script src="/js/common/request.js"></script>
 <script src="/js/admin/main.js"></script>
 </html>
