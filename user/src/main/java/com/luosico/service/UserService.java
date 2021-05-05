@@ -134,7 +134,6 @@ public class UserService implements UserUtil {
     @Override
     public boolean createWallet(Integer courierId) {
         Integer balance = 0;
-        userMapper.createWallet(courierId, balance);
         return userMapper.createWallet(courierId, balance) == 1;
     }
 
