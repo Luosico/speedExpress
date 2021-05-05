@@ -59,13 +59,21 @@
             <el-main>
                 <div class="main_info">
                     <!--滚动栏-->
-                    <div>
+                    <div style="height: 300px;width: 100%">
                         <el-carousel :interval="3000" arrow="hover">
-                            <el-carousel-item style="background-color: #D3DCE6">
-                                <h3>1</h3>
+                            <el-carousel-item>
+                                <el-image
+                                        style="width: 100%; height: 100%"
+                                        src="/asset/bg1.jpg"
+                                        fit="fill">
+                                </el-image>
                             </el-carousel-item>
-                            <el-carousel-item style="background-color: #D3EDE6">
-                                <h3>2</h3>
+                            <el-carousel-item>
+                                <el-image
+                                        style="width: 100%; height: 100%"
+                                        src="/asset/bg2.jpg"
+                                        fit="fill">
+                                </el-image>
                             </el-carousel-item>
                         </el-carousel>
                     </div>
@@ -99,7 +107,6 @@
                         </el-row>
                     </div>
                 </div>
-
             </el-main>
         </el-container>
     </el-container>
