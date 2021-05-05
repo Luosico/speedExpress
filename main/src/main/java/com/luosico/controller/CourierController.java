@@ -1,6 +1,7 @@
 package com.luosico.controller;
 
 import com.luosico.config.OrderStatus;
+import com.luosico.domain.BalanceRecord;
 import com.luosico.domain.JsonStructure;
 import com.luosico.domain.UserOrder;
 import com.luosico.service.OrderService;
@@ -174,11 +175,14 @@ public class CourierController {
      * 提现
      * @return
      */
-    public JsonStructure getMoney(Map<String, Integer> map, HttpServletRequest request){
+    @PostMapping("getMoney")
+    @ResponseBody
+    public JsonStructure getMoney(@RequestBody Map<String, String> map, HttpServletRequest request){
         Integer courierId = userService.selectCourierIdByCookies(request.getCookies());
-        Integer amount = map.get("amount");
+        Integer amount = Integer.valueOf(map.get("amount"));
 
-        if(userService.updateWallet(courierId,-amount)){
+        //提现
+        if(userService.drawMoney(courierId, amount)){
             return new JsonStructure();
         }else{
             return new JsonStructure("fail","提现失败，服务器出现错误");
@@ -199,6 +203,15 @@ public class CourierController {
         Integer courierId = userService.selectCourierIdByCookies(request.getCookies());
         Integer balance = userService.selectWalletBalance(courierId);
         return new JsonStructure<>("ok","success", balance);
+    }
+
+    @GetMapping("selectBalanceRecord")
+    @ResponseBody
+    public JsonStructure<List<BalanceRecord>> selectBalanceRecord(HttpServletRequest request){
+        Integer courierId = userService.selectCourierIdByCookies(request.getCookies());
+        List<BalanceRecord> balanceRecordList = userService.selectBalanceRecord(courierId);
+
+        return new JsonStructure<>("ok","query success", balanceRecordList);
     }
 
 }

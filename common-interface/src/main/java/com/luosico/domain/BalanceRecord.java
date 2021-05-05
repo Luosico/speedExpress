@@ -1,6 +1,7 @@
 package com.luosico.domain;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 /**
  * 余额变动记录
@@ -9,37 +10,20 @@ import java.io.Serializable;
  * @Date: 2021/5/3
  */
 public class BalanceRecord implements Serializable {
-    private Integer balanceId;
-    private Integer orderId;
+    private Integer recordId;
     private Integer courierId;
+    private String referenceKey;
+    private String referenceValue;
     private Integer amount;
+    private LocalDateTime time;
     private String remark;
 
-    public BalanceRecord(){
-
+    public Integer getRecordId() {
+        return recordId;
     }
 
-    public BalanceRecord(Integer orderId, Integer courierId, Integer amount, String remark) {
-        this.orderId = orderId;
-        this.courierId = courierId;
-        this.amount = amount;
-        this.remark = remark;
-    }
-
-    public Integer getBalanceId() {
-        return balanceId;
-    }
-
-    public void setBalanceId(Integer balanceId) {
-        this.balanceId = balanceId;
-    }
-
-    public Integer getOrderId() {
-        return orderId;
-    }
-
-    public void setOrderId(Integer orderId) {
-        this.orderId = orderId;
+    public void setRecordId(Integer recordId) {
+        this.recordId = recordId;
     }
 
     public Integer getCourierId() {
@@ -50,12 +34,36 @@ public class BalanceRecord implements Serializable {
         this.courierId = courierId;
     }
 
+    public String getReferenceKey() {
+        return referenceKey;
+    }
+
+    public void setReferenceKey(String referenceKey) {
+        this.referenceKey = referenceKey;
+    }
+
+    public String getReferenceValue() {
+        return referenceValue;
+    }
+
+    public void setReferenceValue(String referenceValue) {
+        this.referenceValue = referenceValue;
+    }
+
     public Integer getAmount() {
         return amount;
     }
 
     public void setAmount(Integer amount) {
         this.amount = amount;
+    }
+
+    public LocalDateTime getTime() {
+        return time;
+    }
+
+    public void setTime(LocalDateTime time) {
+        this.time = time;
     }
 
     public String getRemark() {

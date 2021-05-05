@@ -279,7 +279,7 @@ public class CommonController {
     public JsonStructure confirmReceived(@RequestBody Map<String, Integer> map) {
         Integer orderId = map.get("orderId");
         if (orderId !=null ) {
-            if (orderService.orderConfirmReceived(Integer.valueOf(orderId))) {
+            if (orderService.orderConfirmReceived(orderId)) {
                 //将酬金付给快取员
                 userService.courierFinishedExpress(orderId);
                 return new JsonStructure();

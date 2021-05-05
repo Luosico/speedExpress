@@ -6,6 +6,7 @@ import com.luosico.util.RedisUtils;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
@@ -534,6 +535,23 @@ public class UserService {
         return false;
     }
 
+
+    /**
+     * 提现
+     * @return
+     */
+    @Transactional
+    public boolean drawMoney(Integer courierId, Integer amount){
+        BalanceRecord record = new BalanceRecord();
+        record.setCourierId(courierId);
+        record.setReferenceKey("提现id");
+        record.setReferenceValue("提现value");
+        record.setAmount(amount);
+        record.setRemark("您发起提现");
+
+        return updateWallet(courierId, -amount) && userUtil.addBalanceRecord(record);
+    }
+
     /**
      * 查询余额
      * @param courierId
@@ -579,8 +597,22 @@ public class UserService {
     public boolean addBalanceRecord(Integer orderId, Integer courierId, String remark){
         Order order = orderService.selectOrder(orderId);
         Integer amount = orderService.selectExpress(order.getExpressId()).getFee().intValue();
-        BalanceRecord record = new BalanceRecord(orderId,courierId,amount,remark);
+        BalanceRecord record = new BalanceRecord();
+        record.setCourierId(courierId);
+        record.setReferenceKey("orderId");
+        record.setReferenceValue(orderId.toString());
+        record.setAmount(amount);
+        record.setRemark("用户确认收到快递到账金额");
 
         return userUtil.addBalanceRecord(record);
+    }
+
+    /**
+     * 查询余额变动记录
+     * @param courierId
+     * @return
+     */
+    public List<BalanceRecord> selectBalanceRecord(Integer courierId){
+        return userUtil.selectBalanceRecord(courierId);
     }
 }

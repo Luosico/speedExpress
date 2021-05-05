@@ -7,7 +7,8 @@ const App = {
             dialogVisible: false,
             form: {
                 amount: '',
-            }
+            },
+            tableData: ''
         }
     },
     methods: {
@@ -21,9 +22,10 @@ const App = {
                 url: '/courier/getMoney',
                 method: 'POST',
                 data: {
-                    amount: amount
+                    amount: amount*100
                 }
             }).then((response) => {
+                vue.dialogVisible = false;
                 if(response.data.status === 'ok'){
                     vue.$message({
                         type: 'success',
@@ -46,6 +48,16 @@ const App = {
         })
         getCourierTotalBalance(this);
         getBalance(this);
+
+        let vue = this;
+        axios({
+            url: '/courier/selectBalanceRecord',
+            method: 'GET',
+        }).then((response) => {
+            if(response.data.status === 'ok'){
+                vue.tableData = response.data.data;
+            }
+        })
     }
 }
 

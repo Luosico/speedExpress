@@ -32,8 +32,8 @@
         VALUES (#{courierId}, #{balance})
     </insert>
     <insert id="addBalanceRecord">
-        insert into balance_record(order_id, courier_id, amount, remark)
-        VALUES (#{orderId}, #{courierId}, #{amount}, #{remark})
+        insert into balance_record(courier_id, reference_key, references_value, amount, remark)
+        VALUES (#{courierId}, #{referenceKey}, #{referenceValue}, #{amount}, #{remark})
     </insert>
 
     <select id="SelectUserByPhoneNumber" resultType="com.luosico.domain.User">
@@ -165,6 +165,11 @@
         from express_order o
                  inner join express e on o.express_id = e.express_id
         where o.order_status = 'CONFIRMED_ORDER'
+    </select>
+    <select id="selectBalanceRecord" resultType="com.luosico.domain.BalanceRecord">
+        select *
+        from balance_record
+        where courier_id = #{courierId}
     </select>
 
     <update id="updateUser">

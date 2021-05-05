@@ -31,6 +31,7 @@ public interface UserUtil {
 
     /**
      * 通过 username查找 userId
+     *
      * @param username 用户名
      * @return
      */
@@ -54,13 +55,15 @@ public interface UserUtil {
 
     /**
      * 更新用户信息
+     *
      * @param user 用户信息
      * @return
      */
     int updateUser(User user);
 
     /**
-     *  添加区域
+     * 添加区域
+     *
      * @param regionName 区域名称
      * @return 执行结果影响行数
      */
@@ -68,6 +71,7 @@ public interface UserUtil {
 
     /**
      * 更新区域
+     *
      * @param region 区域
      * @return
      */
@@ -83,12 +87,14 @@ public interface UserUtil {
 
     /**
      * 查询所有区域
+     *
      * @return
      */
     List<Region> selectAllRegion();
 
     /**
      * 添加地址
+     *
      * @param address
      * @return
      */
@@ -101,6 +107,7 @@ public interface UserUtil {
 
     /**
      * 获取用户所有地址
+     *
      * @param userId
      * @return
      */
@@ -108,6 +115,7 @@ public interface UserUtil {
 
     /**
      * 删除地址
+     *
      * @param addressId
      * @return
      */
@@ -116,6 +124,7 @@ public interface UserUtil {
     /**
      * 从数据库中
      * 根据 userId查找手机号码
+     *
      * @param userId
      * @return
      */
@@ -123,15 +132,17 @@ public interface UserUtil {
 
     /**
      * 更新用户信息
-     * @param username 当前用户名
+     *
+     * @param username    当前用户名
      * @param newUsername 新的用户名
-     * @param name  姓名
+     * @param name        姓名
      * @return 执行结果
      */
     int updateUserName(String username, String newUsername, String name);
 
     /**
      * 更新手机号码
+     *
      * @param username
      * @param phoneNumber
      * @return
@@ -140,6 +151,7 @@ public interface UserUtil {
 
     /**
      * 成为快取员
+     *
      * @param courier
      * @return courierId
      */
@@ -147,6 +159,7 @@ public interface UserUtil {
 
     /**
      * 成为快取员，更新权限
+     *
      * @param userId
      * @return
      */
@@ -154,6 +167,7 @@ public interface UserUtil {
 
     /**
      * 获取快取员编号
+     *
      * @param userId
      * @return
      */
@@ -161,6 +175,7 @@ public interface UserUtil {
 
     /**
      * 快取员建立钱包
+     *
      * @param courierId
      * @return
      */
@@ -168,6 +183,7 @@ public interface UserUtil {
 
     /**
      * 更新钱包金额
+     *
      * @param courierId
      * @param amount
      * @return
@@ -176,6 +192,7 @@ public interface UserUtil {
 
     /**
      * 查找钱包余额
+     *
      * @param courierId
      * @return
      */
@@ -183,22 +200,33 @@ public interface UserUtil {
 
     /**
      * 查询快取员所有订单金额的总和
+     *
      * @param courierId
      * @return
      */
     Integer selectTotalBalance(Integer courierId);
 
     /**
-     *查询所有快递订单的金额总和
+     * 查询所有快递订单的金额总和
+     *
      * @return
      */
     Integer selectTotalBalance();
 
     /**
      * 添加余额变动记录
+     *
      * @param record
      * @return
      */
     boolean addBalanceRecord(BalanceRecord record);
+
+    /**
+     * 查询余额变动记录
+     *
+     * @param courierId
+     * @return
+     */
+    List<BalanceRecord> selectBalanceRecord(Integer courierId);
 
 }

@@ -8,6 +8,8 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.security.core.parameters.P;
 
+import java.util.List;
+
 /**
  * @Author: luo kai fa
  * @Date: 2021/1/13
@@ -148,4 +150,11 @@ public interface UserMapper {
      * @return
      */
     int addBalanceRecord(BalanceRecord record);
+
+    /**
+     * 查询余额变动记录
+     * @param courierId
+     * @return
+     */
+    List<BalanceRecord> selectBalanceRecord(Integer courierId);
 }

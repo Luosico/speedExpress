@@ -169,4 +169,9 @@ public class UserService implements UserUtil {
     public boolean addBalanceRecord(BalanceRecord record) {
         return userMapper.addBalanceRecord(record) == 1;
     }
+
+    @Override
+    public List<BalanceRecord> selectBalanceRecord(Integer courierId) {
+        return userMapper.selectBalanceRecord(courierId);
+    }
 }
