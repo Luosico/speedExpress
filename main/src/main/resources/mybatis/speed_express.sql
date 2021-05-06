@@ -98,7 +98,7 @@ create table express_order
 create table wallet
 (
     wallet_id  int auto_increment not null,
-    courier_id int                not null unique ,
+    courier_id int                not null unique,
     balance    int                not null,
     primary key (wallet_id),
     foreign key (courier_id) references courier (courier_id)
@@ -106,15 +106,27 @@ create table wallet
 
 create table balance_record
 (
-    balance_id int auto_increment not null,
-    order_id   int                not null,
-    courier_id int                not null,
-    amount     int                not null,
-    remark     varchar(100),
-    primary key (balance_id),
-    foreign key (order_id) references express_order (order_id),
+    record_id        int auto_increment not null,
+    courier_id       int                not null,
+    reference_key    varchar(10) comment '相关联的键',
+    references_value varchar(50) comment '相关联的键的值',
+    amount           int                not null,
+    time             DATETIME default now(),
+    remark           varchar(200),
+    primary key (record_id),
     foreign key (courier_id) references courier (courier_id)
-)
+);
+
+create table draw_money
+(
+    draw_id    int auto_increment,
+    courier_id int not null,
+    amount     int not null,
+    time       datetime default now(),
+    remark     varchar(100),
+    primary key (draw_id),
+    foreign key (courier_id) references courier (courier_id)
+);
 
 insert into user(username,
                  password,
