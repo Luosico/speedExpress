@@ -4,8 +4,6 @@ import com.luosico.config.ExpressType;
 import com.luosico.config.OrderStatus;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.sql.Timestamp;
 
 /**

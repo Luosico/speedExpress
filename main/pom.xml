@@ -107,6 +107,7 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
                     <fork>true</fork><!-- 如果没有该配置，devtools不会生效 -->
+                    <mainClass>com.luosico.MainApplication</mainClass>
                 </configuration>
             </plugin>
         </plugins>

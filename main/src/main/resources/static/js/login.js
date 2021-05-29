@@ -207,11 +207,11 @@ let app = new Vue({
             if (data.status === "ok"){
                 let role = data.role;
                 if(role === "user"){
-                    window.location = "http://localhost:8080/user/main";
+                    window.location = "/user/main";
                 }else if (role === "courier"){
-                    window.location = "http://localhost:8080/courier/main";
+                    window.location = "/courier/main";
                 }else if(role === "admin"){
-                    window.location = "http://localhost:8080/admin/main";
+                    window.location = "/admin/main";
                 }
             }else{
                 if (way==='usernamePwd'){

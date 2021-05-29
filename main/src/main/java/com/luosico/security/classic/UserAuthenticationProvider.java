@@ -41,7 +41,7 @@ public class UserAuthenticationProvider implements AuthenticationProvider {
         //请求的用户名
         String username = authentication.getName();
         logger.info("username[ " + username + " ] try authenticate");
-
+        //从数据库中查找用户
         UserAuthority userAuthority = (UserAuthority) userServiceSecurity.loadUserByUsername(username);
 
         if (userAuthority == null) {

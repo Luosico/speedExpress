@@ -184,7 +184,7 @@ let Main = {
                                 data: data,
                             }).then(function (response) {
                                 if (response.data.status === "ok") {
-                                    window.location = "http://localhost:8080/user/main";
+                                    window.location = "/user/main";
                                 }
                             });
                         } else {

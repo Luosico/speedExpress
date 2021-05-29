@@ -40,6 +40,19 @@ public class SmsService {
     }
 
     /**
+     * 发送短信消息
+     * @param phoneNumber
+     * @param message
+     */
+    public void sendSmsMessage(String phoneNumber, String message){
+
+    }
+
+    public void sendSmsMessage(String phoneNumber, String message, Integer orderId){
+
+    }
+
+    /**
      * 获取短信验证码，默认我6位
      */
     public String getSmsCode() {

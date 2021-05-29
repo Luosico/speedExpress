@@ -1,5 +1,7 @@
 package com.luosico.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -15,6 +17,7 @@ public class BalanceRecord implements Serializable {
     private String referenceKey;
     private String referenceValue;
     private Integer amount;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime time;
     private String remark;
 

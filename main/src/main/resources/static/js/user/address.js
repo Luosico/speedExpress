@@ -6,7 +6,6 @@ let Address = {
             } else {
                 callback();
             }
-
         };
         let validatePickUpAddress = (rule, value, callback) => {
             if (!value || value === '') {
@@ -14,7 +13,6 @@ let Address = {
             } else {
                 callback();
             }
-
         };
         let validateReceiveAddress = (rule, value, callback) => {
             if (!value || value === '') {
@@ -22,7 +20,6 @@ let Address = {
             } else {
                 callback();
             }
-
         };
         return {
             loading: false,
