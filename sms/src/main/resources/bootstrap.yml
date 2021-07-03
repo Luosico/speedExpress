@@ -11,3 +11,16 @@ spring:
         server-addr: localhost:8848
         file-extension: yml
         group: DEFAULT_GROUP
+#
+##Dubbo
+#dubbo:
+#  registry:
+#    address: spring-cloud://127.0.0.1
+#  protocol:
+#    name: dubbo
+#    id: dubbo
+#    port: 50002
+#  scan:
+#    base-packages: com.luosico
+#  cloud:
+#    subscribed-services: redisApplication

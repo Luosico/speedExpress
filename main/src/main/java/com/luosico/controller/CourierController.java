@@ -1,9 +1,11 @@
 package com.luosico.controller;
 
+import com.alibaba.csp.sentinel.annotation.SentinelResource;
 import com.luosico.config.OrderStatus;
 import com.luosico.domain.BalanceRecord;
 import com.luosico.domain.JsonStructure;
 import com.luosico.domain.UserOrder;
+import com.luosico.handle.OrderHandle;
 import com.luosico.service.OrderService;
 import com.luosico.service.UserService;
 import com.luosico.service.UtilService;
@@ -105,6 +107,7 @@ public class CourierController {
      */
     @PutMapping("tryAcceptOrder")
     @ResponseBody
+    @SentinelResource(value = "tryAcceptOrder", blockHandler = "tryAcceptOrder", blockHandlerClass = OrderHandle.class)
     public JsonStructure<String> tryAcceptOrder(@RequestBody Map<String, Integer> map, HttpServletRequest request) {
         Integer userId = userService.getUserIdByCookie(request.getCookies());
         Integer orderId = map.get("orderId");

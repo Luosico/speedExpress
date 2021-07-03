@@ -1,5 +1,7 @@
 package com.luosico.controller;
 
+import com.alibaba.csp.sentinel.annotation.SentinelResource;
+import com.luosico.handle.SmsHandle;
 import com.luosico.service.SmsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,6 +23,7 @@ public class SmsController {
      * @param phoneNumber 手机号码
      */
     @GetMapping("/smsCode")
+    @SentinelResource(value = "smsCode")
     public void getSmsCode(@RequestParam String phoneNumber){
         smsService.sendSmsCode(phoneNumber);
     }

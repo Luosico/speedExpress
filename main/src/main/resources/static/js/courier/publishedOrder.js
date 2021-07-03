@@ -27,6 +27,16 @@ const App = {
                     })
                 }
             })
+        },
+        expressType(type){
+            switch (type) {
+                case 'SMALL':
+                    return '小';
+                case 'MEDIUM':
+                    return '中';
+                case 'LARGE':
+                    return '大';
+            }
         }
     },
     created() {

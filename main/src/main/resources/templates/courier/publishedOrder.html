@@ -68,7 +68,11 @@
                         <el-table-column prop="regionName" width="120" label="区域"></el-table-column>
                         <el-table-column prop="pickUpAddress" width="250" label="取件地址"></el-table-column>
                         <el-table-column prop="receiveAddress" width="250" label="收件地址"></el-table-column>
-                        <el-table-column prop="expressType" width="120" label="快递类型"></el-table-column>
+                        <el-table-column prop="expressType" width="120" label="快递类型">
+                            <template #default="scope">
+                                {{expressType(scope.row.expressType)}}
+                            </template>
+                        </el-table-column>
                         <el-table-column prop="createTimeString" sortable width="180" label="下单时间"></el-table-column>
                         <el-table-column prop="fee" sortable width="100" label="酬金/元">
                             <template #default="scope">

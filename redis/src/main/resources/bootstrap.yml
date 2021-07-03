@@ -11,3 +11,30 @@ spring:
         server-addr: localhost:8848
         file-extension: yml
         group: DEFAULT_GROUP
+#
+#dubbo:
+#  scan:
+#    base-packages: com.luosico
+#  registry:
+#    address: spring-cloud://127.0.0.1
+#  protocol:
+#    name: dubbo
+#    id: dubbo
+#    port: 50001
+#
+#spring:
+#  redis:
+#    database: 0
+#    host: localhost
+#    port: 6379
+#    timeout: 60000
+#    lettuce:
+#      pool:
+#        #连接池最大连接数，默认为8（若为负值，则表示不限制）
+#        max-active: 8
+#        #连接池最大阻塞等待时间，默认为-1（若为负值，则表示不限制）
+#        max-wait: -1ms
+#        #连接池最大空闲连接数，默认为8
+#        max-idle: 8
+#        #连接池最小空闲连接数，默认为0
+#        min-idle: 0
